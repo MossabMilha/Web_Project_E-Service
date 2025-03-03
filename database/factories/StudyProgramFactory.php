@@ -20,7 +20,7 @@ class StudyProgramFactory extends Factory
         return [
             'department_id' => Department::inRandomOrder()->first()->id,
             'program_name' => $this->faker->name(),
-            'program_description' => $this->faker->realText(100),
+            'program_description' => $this->faker->paragraph(),
         ];
     }
 }

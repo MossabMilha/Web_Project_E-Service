@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\StudyProgram;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +18,9 @@ class ModuleFactory extends Factory
     {
         return [
             'module_name' => $this->faker->word(),
-            'module_description' => $this->faker->sentence(),
+            'module_description' => $this->faker->paragraph(),
             'study_program_id' => StudyProgram::inRandomOrder()->first()->id,
-            'duration_hours ' => $this->faker->randomDigit(),
+            'duration_hours ' => $this->faker->numberBetween(20, 100),
         ];
     }
 }

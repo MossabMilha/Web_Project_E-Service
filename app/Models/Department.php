@@ -9,8 +9,19 @@ class Department extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
+
     protected $fillable = [
         'department_name',
         'department_description',
     ];
+
+    public function teachers()
+    {
+        return $this->hasMany(Teacher::class);
+    }
+
+    public function studyPrograms()
+    {
+        return $this->hasMany(StudyProgram::class);
+    }
 }
