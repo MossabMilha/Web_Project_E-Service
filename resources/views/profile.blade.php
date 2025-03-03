@@ -14,28 +14,10 @@
     </style>
     <div>
         @foreach($information as $key)
-            <br><br>
-            <table>
-                <tr>
-                    <th colspan="2">${{$key['title']}}</th>
-                </tr>
-                @foreach($key['data'] as $key_1 => $value_1)
-                    <tr>
-                        <td>{{ucfirst(str_replace('_', ' ', $key_1)) }}</td>
-                        <td>{{$value_1}}</td>
-                    </tr>
-
-                @endforeach
-            </table>
+            <br>
+            <x-info-card :title="$key['title']" :data="$key['data']"/>
             <br>
         @endforeach
     </div>
-
-
-
-
-
-
-
 @endsection
 
