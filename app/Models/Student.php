@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'id',
         'contact_info_id',
         'birth_info_id',
         'bac_info_id',
+        'promotion_id',
         'first_name',
         'last_name',
         'CNE',
         'CIN',
     ];
-    protected $primaryKey = 'id';
 }
+

@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class contact extends Model
+class Contact extends Model
 {
+    protected $primaryKey = 'id';
     protected $fillable = [
-        'id',
         'phone',
         'email',
         'institutional_email',
     ];
-    protected $primaryKey = 'id';
+
 }

@@ -16,7 +16,6 @@ Route::get('/home', function () {
 
 Route::get('/profile', [profileController::class, 'index']);
 
-
 Route::get('/courses', function () {
     return view('courses');
 });
