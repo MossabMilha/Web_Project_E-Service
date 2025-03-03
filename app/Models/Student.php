@@ -7,15 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
-        'id',
-        'contact_info_id',
-        'birth_info_id',
-        'bac_info_id',
-        'first_name',
-        'last_name',
-        'CNE',
-        'CIN',
+        'contact_info_id', 'birth_info_id', 'bac_info_id',
+        'promotion_id', 'first_name', 'last_name', 'CNE', 'CIN'
     ];
-    protected $primaryKey = 'id';
+
+    public function contactInfo()
+    {
+        return $this->belongsTo(StudentContact::class, 'contact_info_id');
+    }
+
+    public function birthInfo()
+    {
+        return $this->belongsTo(StudentBirthInfo::class, 'birth_info_id');
+    }
+
+    public function bacInfo()
+    {
+        return $this->belongsTo(StudentBaccalaureate::class, 'bac_info_id');
+    }
+
+    public function promotion()
+    {
+        return $this->belongsTo(StudentPromotion::class);
+    }
+
+    public function parents()
+    {
+        return $this->hasOne(StudentParentInfo::class);
+    }
 }
