@@ -10,3 +10,188 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+:root{
+    --color-gray-light: #eeeeeb;
+    --color-gray: #a6a6a6;
+
+    --color-primary-light: #eff6ff;
+    --color-primary: #51a2ff;
+    --color-primary-dark: #155dfc;
+    --color-primary-darker: #193cb8;
+
+    /*--color-primary: #2a54ffff;*/
+    --color-secondary: #FFCCF2FF;
+    --color-tirnary : #997DFFFF;
+
+    --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
+
+    --border-radius-larger: 32px;
+    --border-radius-large: 16px;
+    --border-radius-medium: 12px;
+    --border-radius-small: 8px;
+
+    --font-size-xs: 16px;
+    --font-size-sm: 20px;
+    --font-size-md: 24px;
+    --font-size-lg: 32px;
+    --font-size-xl: 48px;
+    --font-size-2xl: 64px;
+
+    --card-width: 480px;
+    --card-height: 360px;
+    --container-width: 320px;
+    --gap : 16px;
+    --gap-x : 16px;
+    --gap-y : 8px;
+
+    --identity-container-height: 350px;
+}
+
+body{
+    /*background-color: #0a0a0a;*/
+}
+
+nav{
+   background-color: var(--color-primary-light);
+}
+
+/*===============*/
+/*card*/
+/*===============*/
+
+.info-card{
+    border: 1px solid var(--color-primary-light);
+    border-radius: var(--border-radius-medium);
+    background-color: var(--color-primary-light);
+    /*background: var(--bg-gradient);*/
+    /*flex-grow: 1;*/
+    box-sizing: border-box;
+    width: var(--card-width);
+    padding: 12px;
+    /*min-height: var(--card-height);*/
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card .title{
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 20px;
+    /*background-color: var(--color-primary);*/
+    border-bottom: 1px solid var(--color-primary);
+    /*border-radius: var(--border-radius-small);*/
+}
+
+.info-card .table-container{
+    flex-grow: 1;
+    /*background-color: var(--color-primary);*/
+}
+
+.info-card table{
+    width: 100%;
+}
+
+.info-card table .row{
+    border: 1px solid var(--color-primary-darker);
+}
+
+.info-card table th ,
+.info-card table td{
+    padding: 4px 6px ;
+}
+
+.info-card table th{
+    font-weight: normal;
+    color: var(--color-gray);
+}
+/*===============*/
+/*profile section*/
+/*===============*/
+
+.info-section,
+.identity-section {
+    gap: var(--gap);
+    display: flex;
+    box-sizing: border-box;
+    max-width: var(--container-width);
+    margin-inline: auto;
+}
+
+.identity-section {
+    border-radius: var(--border-radius-medium);
+    background-color: var(--color-primary-light);
+    min-height: var(--identity-container-height);
+    margin-block: 16px;
+    padding: 8px;
+}
+
+.identity-section .img-container{
+    height: var(--identity-container-height);
+    width: auto;
+    aspect-ratio: 1;
+    background: url('/public/png/profile-img.jpg') no-repeat center;
+    background-size: cover;
+    border-radius: var(--border-radius-large);
+    overflow: hidden;
+}
+
+.identity-section :nth-child(2) {
+    flex-grow: 1;
+}
+
+.identity-section .profile-img{
+}
+
+.info-section{
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/*===============*/
+/*media queries*/
+/*===============*/
+
+/* Small devices (sm - ≥640px) */
+@media (min-width: 640px) {
+    :root {
+        --container-width: 540px;
+        --card-width: calc((var(--container-width) - var(--gap)) / 2);
+    }
+}
+
+/* Medium devices (md - ≥768px) */
+@media (min-width: 768px) {
+    :root {
+        --container-width: 720px;
+        --card-width: calc((var(--container-width) - var(--gap)) / 2);
+    }
+}
+
+/* Large devices (lg - ≥1024px) */
+@media (min-width: 1024px) {
+    :root {
+        --container-width: 960px;
+        --card-width: calc((var(--container-width) - var(--gap)) / 2);
+    }
+}
+
+/* Extra Large devices (xl - ≥1280px) */
+@media (min-width: 1280px) {
+    :root {
+        --container-width: 1140px;
+        --card-width: calc((var(--container-width) - var(--gap)) / 2);
+    }
+}
+
+/* 2XL devices (xxl - ≥1536px) */
+@media (min-width: 1536px) {
+    :root {
+        --container-width: 1320px;
+        --card-width: calc((var(--container-width) - var(--gap)) / 2);
+    }
+}

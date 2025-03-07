@@ -3,21 +3,15 @@
 @section('title', 'Profile')
 
 @section('content')
-    <style>
-        div{
-            margin-left: 10%;
-        }
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-        }
-    </style>
-    <div>
+    <section class="identity-section">
+        <div class="img-container">
+{{--            <img class="profile-img" src="{{asset('png/profile-img.jpg')}}" alt="profile image">--}}
+        </div>
+        <x-info-card :title="$information['student']['title']" :data="$information['student']['data']"/>
+    </section>
+    <section class="info-section">
         @foreach($information as $key)
-            <br>
             <x-info-card :title="$key['title']" :data="$key['data']"/>
-            <br>
         @endforeach
-    </div>
+    </section>
 @endsection
-

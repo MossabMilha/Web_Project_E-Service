@@ -14,10 +14,10 @@ class profileController extends Controller
             'contact_info_id' => 1,
             'birth_info_id' => 1,
             'bac_info_id' => 1,
+            'CIN' => 'G123456',
+            'CNE' => 'G123456',
             'first_name' => 'Mossab',
             'last_name' => 'Milha',
-            'CNE' => 'G123456',
-            'CIN' => 'G123456',
         ];
         $birth_info = [
             'id' => 1,
