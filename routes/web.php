@@ -1,12 +1,22 @@
 <?php
 
-use App\Http\Controllers\profileController;
+
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/login', function () {
+    return view('loginPage');
+});
+
+
+
+
+
+
 Route::get('/user/{id?}', function ($id ="0") {
     return view('user', ['id' => $id]);
 });
@@ -14,7 +24,6 @@ Route::get('/home', function () {
     return view('home');
 });
 
-Route::get('/profile', [profileController::class, 'index']);
 
 Route::get('/courses', function () {
     return view('courses');
