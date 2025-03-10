@@ -1,17 +1,17 @@
 <?php
 
 
+use App\Http\Controllers\LoginProcesse;
 use Illuminate\Support\Facades\Route;
+
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', function () {
-    return view('loginPage');
-});
-
+Route::get('/login', [LoginProcesse::class, 'showLoginForm'])->name('login.form');  // Show the login page
+Route::post('/login', [LoginProcesse::class, 'login'])->name('login');  // Handle login
 
 
 
