@@ -22,7 +22,7 @@ Route::get('/user/{id?}', function ($id ="0") {
 });
 Route::get('/home', function () {
     return view('home');
-});
+})->name('home');
 
 
 Route::get('/courses', function () {
