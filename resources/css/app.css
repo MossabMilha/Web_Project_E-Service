@@ -24,9 +24,10 @@
     --color-primary-dark: #155dfc;
     --color-primary-darker: #193cb8;
 
-    /*--color-primary: #2a54ffff;*/
     --color-secondary: #FFCCF2FF;
+    --color-tirnary-lighter : #ebe7ff;
     --color-tirnary : #997DFFFF;
+    --color-tirnary-darker : #3516a1;
 
     --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
 
@@ -35,21 +36,26 @@
     --border-radius-medium: 12px;
     --border-radius-small: 8px;
 
-    --font-size-xs: 16px;
-    --font-size-sm: 20px;
-    --font-size-md: 24px;
-    --font-size-lg: 32px;
-    --font-size-xl: 48px;
-    --font-size-2xl: 64px;
+    --font-size-2xs: 8px;
+    --font-size-xs: 12px;
+    --font-size-sm: 16px;
+    --font-size-md: 20px;
+    --font-size-lg: 24px;
+    --font-size-xl: 32px;
+    --font-size-2xl: 48px;
 
     --card-width: 480px;
     --card-height: 360px;
+    --card-title-font-size: var(--font-size-sm);
+    --card-date-font-size: var(--font-size-xs);
     --container-width: 320px;
     --gap : 16px;
     --gap-x : 16px;
     --gap-y : 8px;
 
     --identity-container-height: 350px;
+    --profile-image-height: 250px;
+
 }
 
 body{
@@ -80,11 +86,11 @@ nav{
 
 .info-card .title{
     padding: 8px;
+    font-size: var(--card-title-font-size);
     margin-bottom: 8px;
-    font-size: 20px;
-    /*background-color: var(--color-primary);*/
     border-bottom: 1px solid var(--color-primary);
-    /*border-radius: var(--border-radius-small);*/
+    color: var(--color-primary);
+
 }
 
 .info-card .table-container{
@@ -102,12 +108,17 @@ nav{
 
 .info-card table th ,
 .info-card table td{
+    font-size: var(--card-date-font-size);
     padding: 4px 6px ;
 }
 
 .info-card table th{
     font-weight: normal;
     color: var(--color-gray);
+}
+
+.info-card table td{
+    text-align: right;
 }
 /*===============*/
 /*profile section*/
@@ -123,6 +134,7 @@ nav{
 }
 
 .identity-section {
+    align-items: center;
     border-radius: var(--border-radius-medium);
     background-color: var(--color-primary-light);
     min-height: var(--identity-container-height);
@@ -131,17 +143,18 @@ nav{
 }
 
 .identity-section .img-container{
-    height: var(--identity-container-height);
+    margin: 8px;
+    height: var(--profile-image-height);
     width: auto;
     aspect-ratio: 1;
     background: url('/public/png/profile-img.jpg') no-repeat center;
     background-size: cover;
     border-radius: var(--border-radius-large);
-    overflow: hidden;
+    flex-grow: .3;
 }
 
 .identity-section :nth-child(2) {
-    flex-grow: 1;
+    flex-grow: .7;
 }
 
 .identity-section .profile-img{
@@ -161,6 +174,12 @@ nav{
     :root {
         --container-width: 540px;
         --card-width: calc((var(--container-width) - var(--gap)) / 2);
+        --card-title-font-size: var(--font-size-xs);
+        --card-date-font-size: var(--font-size-xs);
+        --identity-container-height: 180px;
+    }
+    .info-card:last-child{
+        width: 100%;
     }
 }
 
@@ -169,7 +188,10 @@ nav{
     :root {
         --container-width: 720px;
         --card-width: calc((var(--container-width) - var(--gap)) / 2);
+        --card-title-font-size: var(--font-size-sm);
+        --card-date-font-size: var(--font-size-sm);
     }
+
 }
 
 /* Large devices (lg - ≥1024px) */
@@ -177,6 +199,10 @@ nav{
     :root {
         --container-width: 960px;
         --card-width: calc((var(--container-width) - var(--gap)) / 2);
+        --card-title-font-size: var(--font-size-sm);
+    }
+    .info-card table td{
+        text-align: left;
     }
 }
 
