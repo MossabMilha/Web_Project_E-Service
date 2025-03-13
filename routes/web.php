@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\LoginProcesse;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,8 +11,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [LoginProcesse::class, 'showLoginForm'])->name('login.form');  // Show the login page
-Route::post('/login', [LoginProcesse::class, 'login'])->name('login');  // Handle login
+Route::get('/login', [LoginProcesse::class, 'showLoginForm'])->name('login.form');
+Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
+
+
+
+Route::get('/Admin/UserManagement', [AdminController::class, 'UserManagement'])->name('UserManagement');
+Route::get('/Admin/UserManagement', [AdminController::class, 'search'])->name('UserManagement.search');
+Route::get('/Admin/UserManagement/user/{id}', [AdminController::class, 'UserInformation'])->name('UserManagement.user');
+Route::get('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUser'])->name('UserManagement.adduser');
+
 
 
 
