@@ -3,11 +3,12 @@ window.toggleDropdown = function () {
 }
 
 window.selectOption=function(option) {
-    console.log("hello")
     let button = document.getElementById("OptionButton");
-    console.log(button)
+    let hiddenInput = document.getElementById("selectedOption");
+
     button.innerText = option;
     button.value = option;
+    hiddenInput.value = option;
     document.querySelector('.dropdown-content').classList.remove('active'); // Close dropdown
 }
 

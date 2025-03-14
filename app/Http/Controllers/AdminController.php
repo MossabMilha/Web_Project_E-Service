@@ -21,6 +21,15 @@ class  AdminController extends Controller
     public function search(Request $request){
         $searchTerm = $request->input('search');
         $searchOption = $request->input('option', 'id'); // Default is 'id'
+        $columnMap = [
+            'id' => 'id',
+            'full name' => 'name',  // Map "full name" to "name"
+            'email' => 'email',
+            'role' => 'role',
+            'specialization' => 'specialization',
+        ];
+        $searchOption = $columnMap[$searchOption];
+
         if ($searchTerm) {
             if ($searchOption === 'id') {
                 $users = User::whereRaw("CAST(id AS CHAR) LIKE ?", ['%' . $searchTerm . '%'])->get();

@@ -69,7 +69,7 @@
                 <a href="#" onclick="selectOption('specialization')">specialization</a>
             </div>
         </div>
-        <input type="hidden" name="option" value="{{ request('option', 'id') }}">
+        <input type="hidden" id="selectedOption" name="option" value="{{ request('option', 'id') }}">
         <button type="submit">Search</button>
     </form>
 </div>
