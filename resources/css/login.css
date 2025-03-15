@@ -29,7 +29,7 @@ body{
 
 .info-container{
     width: 50%;
-    background: linear-gradient(45deg, var(--color-primary-light) 0%, #fff 50%, var(--color-primary-light) 100%);
+    background: var(--color-white);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -80,7 +80,7 @@ body{
 
 .info-container input{
     margin-bottom: var(--gap);
-    background-color: var(--color-primary-light);
+    background-color: var(--color-white);
     border: 1px solid var(--color-primary-darker);
     padding: var(--gap-y) var(--gap-x);
 }

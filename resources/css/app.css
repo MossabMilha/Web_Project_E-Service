@@ -20,23 +20,33 @@
     --color-gray-light: #eeeeeb;
     --color-gray: #a6a6a6;
 
-    --color-primary-light: #fafafa;
-    --color-primary: #51a2ff;
-    --color-primary-dark: #155dfc;
-    --color-primary-darker: #193cb8;
+    --color-white: #f9f9f9;
 
+    --color-primary-lighter: #abcdff;
+    --color-primary-light: #84afff;
+    --color-primary: #2A54FFFF;
+    --color-primary-dark: #183dd5;
+    --color-primary-darker: #042abb;
+
+    --color-secondary-light: #ffe3f7;
     --color-secondary: #FFCCF2FF;
+    --color-secondary-dark: #ff96e4;
+    --color-secondary-darker: #e865c8;
+
     --color-tirnary-lighter : #ebe7ff;
     --color-tirnary-light : #cbc4fa;
     --color-tirnary : #997DFFFF;
+
     --color-tirnary-darker : #3516a1;
 
     --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
+    --bg-gradient-light: linear-gradient(-45deg, #adcaff 0%, rgb(201, 187, 255) 50%, rgb(255, 215, 245) 100%);
 
     --border-radius-larger: 32px;
     --border-radius-large: 16px;
     --border-radius-medium: 12px;
     --border-radius-small: 8px;
+    --border-radius-smaller: 4px;
 
     --font-size-2xs: 8px;
     --font-size-xs: 12px;

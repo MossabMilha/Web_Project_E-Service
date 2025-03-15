@@ -2,7 +2,7 @@
 
 body{
     justify-content: center;
-    align-content: center;
+    align-content: start;
     height: 100vh;
     background-color: var(--color-tirnary-lighter);
 }
@@ -11,30 +11,37 @@ body{
     max-width: var(--container-width);
     border-radius: var(--border-radius-small);
     margin-inline: auto;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
 }
 
 .search-wrapper{
+    /*background-color: var(--color-white);*/
+    border-radius: var(--border-radius-small);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-bottom: 20px;
+    /*padding: 12px;*/
 }
 
 .search-wrapper form{
-    background-color: var(--color-primary);
     display: flex;
-    justify-content: center;
+    justify-content: start;
     gap: var(--gap);
-    padding: var(--gap);
     width: 100%;
 }
 
 .search-wrapper form input{
-    background-color: var(--color-primary-light);
-    border: 1px solid var(--color-primary-darker);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-secondary);
     padding: var(--gap-y) var(--gap-x);
-    border-radius: var(--border-radius-small);
+    border-radius: var(--border-radius-smaller);
+}
+
+.search-wrapper form input:focus{
+    outline: 2px solid var(--color-secondary);
 }
 
 .search-wrapper form .dropdown{
@@ -43,46 +50,77 @@ body{
     align-items: center;
     justify-content: center;
     min-width: 150px;
-    background-color: var(--color-primary-light);
-    border-radius: var(--border-radius-small);
+    color: var(--color-white);
+    background-color: var(--color-tirnary);
+    border-radius: var(--border-radius-smaller);
+}
+
+.search-wrapper form .dropdown:hover{
+    border-radius: var(--border-radius-smaller) var(--border-radius-smaller) 0 0 ;
+}
+
+.search-wrapper form .dropdown:hover .dropdown-content{
+    /*border-top: 2px solid var(--color-secondary);*/
 }
 
 .search-wrapper form .dropdown-content{
     display: none;
     position: absolute;
-    background-color: var(--color-primary-light);
+    overflow: hidden;
+    background-color: var(--color-tirnary-light);
+    border-radius: 0 0 var(--border-radius-smaller) var(--border-radius-smaller);
     min-width: 150px;
     top: 20px;
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: black;
+    color: var(--color-tirnary-darker);
     text-decoration: none;
     display: block;
-    padding: 4px 8px;
+    padding: 6px 8px;
 }
 
 .dropdown-content a:hover {
-    background-color: var(--color-primary-light);
+    background-color: var(--color-tirnary-lighter);
 }
 
-.search-wrapper form button{
+.search-wrapper form .submit-btn{
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius-smaller);
+    padding: 12px;
+}
 
+.search-wrapper form .submit-btn:hover{
+    background-color: var(--color-primary-dark);
+}
+
+.search-wrapper .add-btn{
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius-smaller);
+    color: var(--color-white);
+    min-width: 150px;
+    padding: 12px;
+}
+
+.search-wrapper .add-btn:hover{
+    background-color: var(--color-primary-dark);
 }
 
 /*table section*/
 .table-container table{
+    border-radius: var(--border-radius-small);
+    overflow: hidden;
     width: 100%;
 }
 
 .table-container table tr{
-    background-color: var(--color-primary-light);
+    background-color: var(--color-white);
     border-bottom: 1px solid var(--color-gray-lighter);
 }
 
 .table-container table tr th{
-    background-color: var(--color-primary-light);
+    background-color: var(--color-white);
     color: var(--color-gray);
     font-weight: 500;
 
@@ -90,11 +128,18 @@ body{
 
 .table-container table tr > *{
     text-align: left;
-    padding: 8px;
+    padding: 8px 8px;
     /*padding: .5em .25em;*/
 }
 
 .table-container table tr td:first-child{
+    text-align: center;
+}
+
+.table-container table tr td .role{
+    border-radius: 1rem;
+    padding: 2px 4px;
+    font-size: 12px;
     text-align: center;
 }
 
@@ -104,6 +149,12 @@ body{
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
+    padding: 12px;
+}
+
+.pagination .prev-btn.disabled,
+.pagination .next-btn.disabled{
+    color: var(--color-gray);
 }
 
 

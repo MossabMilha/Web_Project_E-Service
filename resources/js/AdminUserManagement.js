@@ -1,7 +1,3 @@
-window.toggleDropdown = function () {
-    document.querySelector('.dropdown-content').classList.toggle('active');
-}
-
 window.selectOption=function(option) {
     let button = document.getElementById("OptionButton");
     let hiddenInput = document.getElementById("selectedOption");
@@ -12,13 +8,9 @@ window.selectOption=function(option) {
     document.querySelector('.dropdown-content').classList.remove('active'); // Close dropdown
 }
 
-// Close dropdown when clicking outside
-window.document.addEventListener("click", function(event) {
-    if (!event.target.closest(".dropdown")) {
-        document.querySelector('.dropdown-content').classList.remove('active');
-    }
-});
 
+// dropdown
+//------------------------------------------------------------------
 var dropdown = document.querySelector('.dropdown');
 var dropdownContent = document.querySelector('.dropdown-content');
 
@@ -35,3 +27,38 @@ dropdown.addEventListener('mouseenter', function() {
 dropdown.addEventListener('mouseleave', function() {
     dropdownContent.style.display = 'none';
 });
+
+dropdown.addEventListener('click', function() {
+    dropdownContent.style.display = 'none';
+});
+
+// roles customization
+//------------------------------------------------------------------
+
+const roles = document.querySelectorAll('.role');
+
+for (const role of roles) {
+    switch (role.textContent.trim().toLowerCase()) {
+        case 'admin':
+            role.style.background = 'var(--bg-gradient-light)';
+            role.style.color = 'var(--color-primary-darker)';
+            break;
+        case 'professor':
+            role.style.backgroundColor = 'var(--color-secondary-light)';
+            role.style.color = 'var(--color-secondary-darker)';
+            break;
+        case 'department_head':
+            role.style.backgroundColor = 'var(--color-tirnary-light)';
+            role.style.color = 'var(--color-tirnary-darker)';
+            break;
+        case 'vacataire':
+            role.style.backgroundColor = 'var(--color-gray-light)';
+            role.style.color = 'var(--color-gray)';
+            break;
+        case 'coordinator':
+            role.style.backgroundColor = 'var(--color-primary-lighter)';
+            role.style.color = 'var(--color-primary-darker)';
+            break;
+    }
+}
+

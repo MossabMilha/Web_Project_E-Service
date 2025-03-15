@@ -23,8 +23,9 @@
                 </div>
             </div>
             <input type="hidden" id="selectedOption" name="option" value="{{ request('option', 'id') }}">
-            <button type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
+            <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
         </form>
+        <button class="add-btn">+ Add New User</button>
     </div>
     <div class="table-container">
         <table>
@@ -43,7 +44,7 @@
                     <td>{{ $user->id }}</td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role }}</td>
+                    <td><div class="role">{{$user->role}}</div></td>
                     <td>{{ $user->specialization }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>
@@ -56,13 +57,11 @@
     </div>
     @if ($users->hasPages())
         <div class="pagination">
-            <a href="{{ $users->previousPageUrl() }}" class="prev-btn {{ $users->onFirstPage() ? 'disabled' : '' }}">←</a>
-            <span class="page-info">{{ $users->currentPage() }} / {{ $users->lastPage() }}</span>
-            <a href="{{ $users->nextPageUrl() }}" class="next-btn {{ $users->hasMorePages() ? '' : 'disabled' }}">→</a>
+            <a href="{{ $users->previousPageUrl() }}" class="prev-btn {{ $users->onFirstPage() ? 'disabled' : '' }}">< previous</a>
+            <span class="page-info">{{ $users->currentPage() }} | {{ $users->lastPage() }}</span>
+            <a href="{{ $users->nextPageUrl() }}" class="next-btn {{ $users->hasMorePages() ? '' : 'disabled' }}">next ></a>
         </div>
     @endif
-
-    <button>Add New User </button>
 </div>
 </body>
 </html>
