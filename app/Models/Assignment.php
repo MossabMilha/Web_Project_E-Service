@@ -22,8 +22,7 @@ class Assignment extends Model
     }
 
     // Relationship with teaching unit
-    public function teachingUnit()
-    {
+    public function teachingUnit(){
         return $this->belongsTo(TeachingUnit::class, 'unit_id');
     }
 }

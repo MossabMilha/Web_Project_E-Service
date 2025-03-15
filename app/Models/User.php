@@ -42,9 +42,9 @@ class User extends Model{
 
         return null; // Return null instead of false
     }
-    public static function getAllUsers()
+    public function assignments()
     {
-        return self::all();
+        return $this->hasMany(Assignment::class, 'professor_id'); // foreign key
     }
 
 

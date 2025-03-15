@@ -106,6 +106,22 @@
 
         @if($user->role == "professor" || $user->role == "vacataire" )
 
+                <table>
+                    <tr>
+                        <th>name</th>
+                        <th>Description</th>
+                        <th>Departement id</th>
+                        <th>hours</th>
+                        <th>credits</th>
+                        <th>semester</th>
+                        <th>status</th>
+                    </tr>
+
+
+                </table>
+
+
+
         @else
             <h1>Bye</h1>
         @endif
