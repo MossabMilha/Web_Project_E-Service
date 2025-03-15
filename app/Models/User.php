@@ -44,7 +44,7 @@ class User extends Model{
     }
     public function assignments()
     {
-        return $this->hasMany(Assignment::class, 'professor_id'); // foreign key
+        return $this->hasMany(Assignment::class, 'professor_id');
     }
 
 

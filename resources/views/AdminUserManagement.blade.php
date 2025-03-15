@@ -25,7 +25,9 @@
             <input type="hidden" id="selectedOption" name="option" value="{{ request('option', 'id') }}">
             <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
         </form>
-        <button class="add-btn">+ Add New User</button>
+        <form method="GET" action="{{ route('UserManagement.adduser') }}">
+            <button class="add-btn" type="submit">+ Add New User</button>
+        </form>
     </div>
     <div class="table-container">
         <table>

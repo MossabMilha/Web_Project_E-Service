@@ -29,4 +29,8 @@ class Department extends Model
     {
         return $this->hasMany(TeachingUnit::class);
     }
+    public function find($id)
+    {
+        return $this->where('id', $id)->first();
+    }
 }

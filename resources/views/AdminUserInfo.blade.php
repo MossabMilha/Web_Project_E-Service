@@ -1,3 +1,4 @@
+@php use App\Models\Department; @endphp
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,14 +8,14 @@
     <title>Document</title>
 </head>
     <body>
+
     <style>
         body{
             background: grey;
         }
     </style>
-
+    <h1>Personnal Information</h1>
         <div class="user-details-section">
-            <h3>User Details</h3>
 
             <!-- Button to trigger edit mode -->
             <button id="edit-user-btn" onclick="toggleEditMode()">Edit</button>
@@ -103,22 +104,47 @@
 
             }
         </script>
-
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <h1>Teching Unit Information</h1>
         @if($user->role == "professor" || $user->role == "vacataire" )
+            @php
+                $assigenedCourses = $user->assignments ?? [];
+            @endphp
+                @if(!empty($assigenedCourses))
+                    <table>
+                        <tr>
+                            <th>name</th>
+                            <th>Description</th>
+                            <th>Departement id</th>
+                            <th>hours</th>
+                            <th>credits</th>
+                            <th>semester</th>
+                            <th>status</th>
+                        </tr>
+                        @foreach($assigenedCourses as $course)
+                            @php
+                                $information = $course->teachingUnit;
+                                $department = $information->department;
+                            @endphp
 
-                <table>
-                    <tr>
-                        <th>name</th>
-                        <th>Description</th>
-                        <th>Departement id</th>
-                        <th>hours</th>
-                        <th>credits</th>
-                        <th>semester</th>
-                        <th>status</th>
-                    </tr>
+                            <tr>
+                                <td>{{$information->name}}</td>
+                                <td>{{$information->description}}</td>
+                                <td>{{$department->name}}</td>
+                                <td>{{$information->hours}}</td>
+                                <td>{{$information->credits}}</td>
+                                <td>{{$information->semester}}</td>
+                                <td>{{$course->status}}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @else
+                @endif
 
-
-                </table>
 
 
 
