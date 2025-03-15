@@ -1,0 +1,152 @@
+@import url(app.css);
+
+body{
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+    background-color: var(--color-tirnary-lighter);
+}
+
+.main-container{
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-wrapper{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-wrapper form{
+    background-color: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    gap: var(--gap);
+    padding: var(--gap);
+    width: 100%;
+}
+
+.search-wrapper form input{
+    background-color: var(--color-primary-light);
+    border: 1px solid var(--color-primary-darker);
+    padding: var(--gap-y) var(--gap-x);
+    border-radius: var(--border-radius-small);
+}
+
+.search-wrapper form .dropdown{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    background-color: var(--color-primary-light);
+    border-radius: var(--border-radius-small);
+}
+
+.search-wrapper form .dropdown-content{
+    display: none;
+    position: absolute;
+    background-color: var(--color-primary-light);
+    min-width: 150px;
+    top: 20px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 4px 8px;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--color-primary-light);
+}
+
+.search-wrapper form button{
+
+}
+
+/*table section*/
+.table-container table{
+    width: 100%;
+}
+
+.table-container table tr{
+    background-color: var(--color-primary-light);
+    border-bottom: 1px solid var(--color-gray-lighter);
+}
+
+.table-container table tr th{
+    background-color: var(--color-primary-light);
+    color: var(--color-gray);
+    font-weight: 500;
+
+}
+
+.table-container table tr > *{
+    text-align: left;
+    padding: 8px;
+    /*padding: .5em .25em;*/
+}
+
+.table-container table tr td:first-child{
+    text-align: center;
+}
+
+/*pagination*/
+
+.pagination{
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Extra Small (Phones) */
+@media (max-width: 575px) {
+    .login-container {
+        width: 80%;
+    }
+
+    .info-container {
+        width: 100%;
+    }
+
+    .img-container{
+        display: none;
+    }
+}
+
+@media (min-width: 576px) {
+    .login-container {
+        width: 80%;
+        height: 360px;
+    }
+}
+/* Small Devices (Tablets) */
+@media (min-width: 768px){
+    .login-container {
+        width: 640px;
+        height: 420px;
+    }
+}
+
+/* Medium Devices (Small Laptops) */
+@media (min-width: 1024px) {
+    .login-container {
+        width: 820px;
+        height: 480px;
+    }
+}
+
+/* Large Screens */
+@media (min-width: 1200px) {
+    .login-container {
+        width: 960px;
+    }
+}

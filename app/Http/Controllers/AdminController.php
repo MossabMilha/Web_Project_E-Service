@@ -18,27 +18,33 @@ class  AdminController extends Controller
     public function AddUser(){
         return view('AdminAddUser');
     }
-    public function search(Request $request){
+    public function search(Request $request) {
         $searchTerm = $request->input('search');
-        $searchOption = $request->input('option', 'id'); // Default is 'id'
+        $searchOption = $request->input('option', 'id');
+
+        // Map frontend search options to database columns
         $columnMap = [
             'id' => 'id',
-            'full name' => 'name',  // Map "full name" to "name"
+            'full name' => 'name',
             'email' => 'email',
             'role' => 'role',
             'specialization' => 'specialization',
         ];
-        $searchOption = $columnMap[$searchOption];
+
+        $searchOption = $columnMap[$searchOption] ?? 'id';
+
+        $query = User::query();
 
         if ($searchTerm) {
             if ($searchOption === 'id') {
-                $users = User::whereRaw("CAST(id AS CHAR) LIKE ?", ['%' . $searchTerm . '%'])->get();
+                $query->whereRaw("CAST(id AS CHAR) LIKE ?", ['%' . $searchTerm . '%']);
             } else {
-                $users = User::where($searchOption, 'like', '%' . $searchTerm . '%')->get();
+                $query->where($searchOption, 'like', '%' . $searchTerm . '%');
             }
-        } else {
-            $users = User::all();
         }
+
+        $users = $query->paginate(10)->appends(request()->query());;
+
         return view('AdminUserManagement', compact('users'));
     }
 }

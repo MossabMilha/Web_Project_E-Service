@@ -33,7 +33,6 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-
 Route::get('/courses', function () {
     return view('courses');
 });

@@ -18,3 +18,20 @@ window.document.addEventListener("click", function(event) {
         document.querySelector('.dropdown-content').classList.remove('active');
     }
 });
+
+var dropdown = document.querySelector('.dropdown');
+var dropdownContent = document.querySelector('.dropdown-content');
+
+dropdown.addEventListener('mouseenter', function() {
+    // Ensure dropdown is positioned correctly
+    var dropdownPosition = dropdown.getBoundingClientRect();
+
+    dropdownContent.style.display = 'block';
+    dropdownContent.style.position = 'absolute';
+    dropdownContent.style.top = dropdownPosition.height + 'px';
+    dropdownContent.style.left = '0px';
+});
+
+dropdown.addEventListener('mouseleave', function() {
+    dropdownContent.style.display = 'none';
+});

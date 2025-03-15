@@ -16,16 +16,18 @@
 }
 
 :root{
+    --color-gray-lighter:#ececec ;
     --color-gray-light: #eeeeeb;
     --color-gray: #a6a6a6;
 
-    --color-primary-light: #eff6ff;
+    --color-primary-light: #fafafa;
     --color-primary: #51a2ff;
     --color-primary-dark: #155dfc;
     --color-primary-darker: #193cb8;
 
     --color-secondary: #FFCCF2FF;
     --color-tirnary-lighter : #ebe7ff;
+    --color-tirnary-light : #cbc4fa;
     --color-tirnary : #997DFFFF;
     --color-tirnary-darker : #3516a1;
 
