@@ -1,3 +1,6 @@
+// User Info functions
+// --------------------------------
+
 window.toggleEditMode = function() {
 
     const isEditing = document.getElementById('edit-name').style.display === 'inline';
@@ -44,6 +47,22 @@ window.saveUserDetails = function () {
 
     // Hide the Save button
     document.getElementById('save-changes').style.display = 'none';
+}
 
+// modal handler
+// --------------------------------
+window.openModal = function() {
+    document.getElementById("addAssignmentModal").style.display = "block";
+}
 
+window.closeModal = function() {
+    document.getElementById("addAssignmentModal").style.display = "none";
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    let modal = document.getElementById("addAssignmentModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
 }
