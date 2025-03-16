@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -47,4 +48,31 @@ class  AdminController extends Controller
 
         return view('AdminUserManagement', compact('users'));
     }
+    public function DeleteAssignment($id){
+        $assignment = Assignment::findOrFail($id);
+        $assignment->delete();
+        return redirect()->back()->with('succes', 'Assignment has been deleted');
+
+    }
+    public function AddAssignment(Request $request){
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+
+            'unit_id' => 'required|exists:teaching_units,id', // Teaching unit must exist
+        ]);
+
+        $professor_id = $request->professor_id;
+
+        $assignment = new Assignment();
+        $assignment->professor_id = $professor_id;
+        $assignment->unit_id = $validatedData['unit_id'];
+        $assignment->status = 'pending';
+        $assignment->created_at = now();
+        $assignment->updated_at = now();
+        $assignment->save();
+
+
+        return redirect()->back()->with('success', 'Assignment added successfully!');
+    }
+
 }

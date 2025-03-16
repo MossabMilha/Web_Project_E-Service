@@ -114,6 +114,7 @@
             @php
                 $assigenedCourses = $user->assignments ?? [];
             @endphp
+
                 @if(!empty($assigenedCourses))
                     <table>
                         <tr>
@@ -124,6 +125,7 @@
                             <th>credits</th>
                             <th>semester</th>
                             <th>status</th>
+                            <th>Edit</th>
                         </tr>
                         @foreach($assigenedCourses as $course)
                             @php
@@ -139,18 +141,91 @@
                                 <td>{{$information->credits}}</td>
                                 <td>{{$information->semester}}</td>
                                 <td>{{$course->status}}</td>
+                                <td>
+
+                                    <button class="add-btn" type="button" onclick="openModal()">+ Add Assignement</button>
+
+                                    <form method="POST" action="{{route('UserManagement.deleteAssignment', $course->id)}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="add-btn" type="submit">+ Delete Assignement</button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </table>
-                @else
                 @endif
-
-
-
-
-        @else
-            <h1>Bye</h1>
         @endif
+    <div id="addAssignmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add Assignment</h2>
+            <form method="POST" action="{{route('UserManagement.addAssignment')}}">
+                @csrf
+                <label for="units">Teaching units:</label>
+
+                <input type="hidden" name="professor_id" value="{{ $user->id }}">
+
+                <select id="units" name="unit_id" required>
+                    <option value="" disabled selected>Select Teaching Unit</option>
+                    @php $unassignedUnits = \App\Models\TeachingUnit::whereDoesntHave('assignments')->get();@endphp
+                    @foreach($unassignedUnits as $unit)
+                        <option value="{{$unit->id}}">{{$unit->name}}</option>
+                    @endforeach
+                </select>
+
+                <button type="submit">Add Assignment</button>
+            </form>
+        </div>
+    </div>
+    <style>
+        /* Modal background */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            text-align: center;
+        }
+
+        /* Close button */
+        .close {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+    </style>
+    <script>
+        function openModal() {
+            document.getElementById("addAssignmentModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("addAssignmentModal").style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            let modal = document.getElementById("addAssignmentModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 
 
 </body>
