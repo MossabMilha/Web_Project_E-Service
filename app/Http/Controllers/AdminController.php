@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class  AdminController extends Controller
 {
@@ -73,6 +75,32 @@ class  AdminController extends Controller
 
 
         return redirect()->back()->with('success', 'Assignment added successfully!');
+    }
+    public function AddUserDb(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'fname' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'role' => 'required|string',
+            'specialization' => 'nullable|string', // Specialization can be empty for some roles
+
+        ]);
+        $password = Str::random(10) . rand(0, 9) . '!@#$%^&*()'[rand(0, 9)];
+
+        // Create a new user
+        $user = new User();
+        $user->name = $request->input('fname');
+        $user->email = $request->input('email');
+        $user->role = $request->input('role');
+        $user->specialization = $request->input('specialization');
+        $user->password = Hash::make('test');
+
+        // Save the new user
+        $user->save();
+
+        // Redirect back or to another page with success message
+        return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully!');
     }
 
 }

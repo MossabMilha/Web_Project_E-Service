@@ -19,7 +19,10 @@ Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
 Route::get('/Admin/UserManagement', [AdminController::class, 'UserManagement'])->name('UserManagement');
 Route::get('/Admin/UserManagement', [AdminController::class, 'search'])->name('UserManagement.search');
 Route::get('/Admin/UserManagement/user/{id}', [AdminController::class, 'UserInformation'])->name('UserManagement.user');
+
 Route::get('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUser'])->name('UserManagement.adduser');
+Route::post('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUserDb'])->name('UserManagement.adduserDB');
+
 Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 Route::post('/Admin/UserManagement/assignment', [AdminController::class, 'AddAssignment'])->name('UserManagement.addAssignment');
 
