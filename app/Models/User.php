@@ -30,6 +30,28 @@ class User extends Model{
             'specialization' => $specialization,
         ]);
     }
+    public static function updateField($id, $field, $value)
+    {
+        $user = self::findOrFail($id);
+        $user->$field = $value;
+        $user->save();
+        return $user;
+    }
+    public static function validName($name)
+    {
+        return preg_match('/^[a-zA-Z\s\-]+$/', $name);
+    }
+
+    public static function validEmail($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+
+    public static function EmailIsUsed($email)
+    {
+        return self::where('email', $email)->exists();
+    }
+
 
 
     public static function checkEmailPassword($email, $password): ?User
