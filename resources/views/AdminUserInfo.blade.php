@@ -14,7 +14,7 @@
             background: grey;
         }
     </style>
-    <h1>Personnal Information</h1>
+    <h1>Personal Information</h1>
         <div class="user-details-section">
 
             <!-- Button to trigger edit mode -->

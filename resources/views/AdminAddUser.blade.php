@@ -3,30 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    @vite(['resources/js/AdminAddUser.js', 'resources/css/AdminAddUser.css'])
+    <title>Add User</title>
 </head>
 <body>
-    <form action="{{ route('UserManagement.adduserDB') }}" method="post">
+<div class="main-container">
+    <h1>Personal Information</h1>
+    <form class="add-user-form" action="{{ route('UserManagement.adduserDB') }}" method="post">
         @csrf
-        <h1>Personal Information</h1>
-        <label for="fname">Full Name: </label><input type="text" id="fname" name="fname" required><br><br>
-        <label for="email">Email: </label><input type="email" id="email" name="email" required><br><br>
+        <div class="fname-wrapper wrapper">
+            <label for="fname">Full Name: </label>
+            <input type="text" id="fname" name="fname" required>
+        </div>
 
-        <label for="role">Role:</label>
-        <select id="role" name="role" required>
-            <option value="" disabled selected>Select a role</option>
-            <option value="admin">Admin</option>
-            <option value="department_head">Department Head</option>
-            <option value="coordinator">Coordinator</option>
-            <option value="professor">Professor</option>
-            <option value="vacataire">Vacataire</option>
-        </select>
-        <br><br>
+        <div class="email-wrapper wrapper">
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-        <label for="specialization">Specialization: </label><input type="text" id="specialization" name="specialization"><br><br>
+        <div class="role-wrapper wrapper">
+            <label for="role">Role:</label>
+            <div class="role-dropdown">
+                <div class="selected">Select a role</div>
+                <div class="dropdown-options">
+                    <!-- options generated automatically-->
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="role" id="selectedRoleInput">
+
+        <div class="spec-wrapper wrapper">
+        <label for="specialization">Specialization: </label>
+        <input type="text" id="specialization" name="specialization">
+        </div>
 
         <input type="submit" value="Submit">
     </form>
-
+</div>
 </body>
 </html>

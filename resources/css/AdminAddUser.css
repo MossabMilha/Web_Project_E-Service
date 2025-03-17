@@ -1,0 +1,122 @@
+@import url(app.css);
+
+body{
+    justify-content: center;
+    align-content: start;
+    height: 100vh;
+    background-color: var(--color-secondary-light);
+}
+
+.main-container{
+    background-color: var(--color-white);
+    max-width: var(--container-width);
+    min-height: 80%;
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    margin-top: 24px;
+    padding: 1em 1.5em;
+    display: flex;
+    gap: 2.5em;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-container h1{
+    font-size: 2em;
+}
+
+.main-container .add-user-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1.5em;
+    width: 360px;
+}
+
+/*form elements section*/
+.add-user-form input{
+    border: 1px solid var(--color-gray);
+    border-radius: .25em;
+    padding: .25em .5em;
+    font-size: .9em;
+}
+
+.add-user-form input:focus{
+    outline: 2px solid var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+.add-user-form label{
+    font-size: .9em;
+}
+
+.add-user-form .wrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.add-user-form .role-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.role-wrapper label{
+    width: 15%;
+}
+
+.add-user-form .role-dropdown {
+    width: 85%;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid var(--color-gray);
+    border-radius: .25em;
+    color: var(--color-tirnary-darker);
+    background-color: var(--color-tirnary-light);
+}
+
+.role-dropdown .selected {
+    box-sizing: border-box;
+    padding: .25em .5em;
+    font-size: .9em;
+    border-radius: 1em;
+    text-align: center;
+}
+
+.dropdown-options {
+    display: none;
+    position: absolute;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--color-gray-light);
+}
+
+.option {
+    font-size: .9em;
+    padding: .5em;
+    color: var(--color-primary-dark);
+    cursor: pointer;
+    text-align: center;
+    transition: filter 0.2s ease;
+}
+
+.option:hover {
+    filter: brightness(1.05);
+}
+
+.role-dropdown.active .dropdown-options {
+    display: block;
+}
+.role-dropdown.active .selected{
+    border-radius: 1em 1em 0 0;
+}
+
+.add-user-form input[type="submit"] {
+    border: none;
+    background: var(--bg-gradient);
+    color: var(--color-white);
+}
+
