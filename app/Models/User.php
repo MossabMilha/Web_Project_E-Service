@@ -41,11 +41,14 @@ class User extends Model{
     {
         return preg_match('/^[a-zA-Z\s\-]+$/', $name);
     }
+
     public static function validEmail($email)
     {
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
-    public static function EmailIsUsed($email){
+
+    public static function EmailIsUsed($email)
+    {
         return self::where('email', $email)->exists();
     }
 

@@ -16,7 +16,6 @@
     </style>
     <h1>Personnal Information</h1>
     <div class="user-details-section">
-
         <!-- Button to trigger edit mode -->
         <button id="edit-user-btn" onclick="toggleEditMode()">Edit</button>
 
@@ -26,26 +25,27 @@
             @method('PUT')
 
             <span id="user-id" style="display: none;">{{$user->id}}</span>
+
             <div class="info-item">
                 <label for="name">Name:</label>
                 <span id="user-name">{{$user->name}}</span>
-                <input type="text" id="edit-name" value="{{$user->name}}" style="display:none;">
+                <input type="text" id="edit-name" name="name" value="{{$user->name}}" style="display:none;">
             </div>
 
             <div class="info-item">
                 <label for="email">Email:</label>
                 <span id="user-email">{{$user->email}}</span>
-                <input type="email" id="edit-email" value="{{$user->email}}" style="display:none;">
+                <input type="email" id="edit-email" name="email" value="{{$user->email}}" style="display:none;">
             </div>
 
             <div class="info-item">
                 <label for="specialization">Specialization:</label>
                 <span id="user-specialization">{{$user->specialization}}</span>
-                <input type="text" id="edit-specialization" value="{{$user->specialization}}" style="display:none;">
+                <input type="text" id="edit-specialization" name="specialization" value="{{$user->specialization}}" style="display:none;">
             </div>
 
             <div class="info-item">
-                <label for="role">role:</label>
+                <label for="role">Role:</label>
                 <span id="user-role">{{$user->role}}</span>
                 <select id="edit-role" name="role" style="display:none;" required>
                     <option value="{{$user->role}}" selected>{{$user->role}}</option>
@@ -58,10 +58,9 @@
                     @endforeach
                 </select>
             </div>
-            <button id="save-changes" style="display:none;" onclick="submit_function()" >Save Changes</button>
+
+            <button id="save-changes" style="display:none;" onclick="submit_function(event)">Save Changes</button>
         </form>
-
-
     </div>
 
 

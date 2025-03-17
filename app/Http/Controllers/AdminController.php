@@ -104,27 +104,33 @@ class  AdminController extends Controller
     }
     public function EditUser(Request $request, $id){
         $user = User::findOrFail($id);
-         $request->validate([
+
+        // Validate the data from the form
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'specialization' => 'nullable|string',
             'role' => 'required|string',
         ]);
-        if ($request->input('name') != $user->name && User::validName($request->input('name'))) {
 
+        // Update fields if different
+        if ($request->input('name') != $user->name) {
             User::updateField($id, 'name', $request->input('name'));
         }
+
         if ($request->input('email') != $user->email && User::validEmail($request->input('email')) && !User::EmailIsUsed($request->input('email'))) {
             User::updateField($id, 'email', $request->input('email'));
         }
+
         if ($request->input('specialization') != $user->specialization) {
             User::updateField($id, 'specialization', $request->input('specialization'));
         }
+
         if ($request->input('role') != $user->role) {
             User::updateField($id, 'role', $request->input('role'));
         }
-        return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
 
+        return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
     }
 
 }
