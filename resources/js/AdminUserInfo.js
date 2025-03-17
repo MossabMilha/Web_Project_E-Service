@@ -3,66 +3,41 @@
 
 window.toggleEditMode = function() {
 
+
     const isEditing = document.getElementById('edit-name').style.display === 'inline';
+    const fields = ['name', 'email', 'specialization','role'];
 
     if (isEditing) {
         // Save mode: Hide input fields, show text, hide Save button
-        document.getElementById('edit-name').style.display = 'none';
-        document.getElementById('edit-email').style.display = 'none';
-        document.getElementById('edit-specialization').style.display = 'none';
-        document.getElementById('user-name').style.display = 'inline';
-        document.getElementById('user-email').style.display = 'inline';
-        document.getElementById('user-specialization').style.display = 'inline';
+        document.getElementById('edit-user-btn').textContent= 'edit';
+        fields.forEach(field => {
+            document.getElementById(`edit-${field}`).style.display = 'none';
+            document.getElementById(`user-${field}`).style.display = 'inline';
+        });
         document.getElementById('save-changes').style.display = 'none';
     } else {
         // Edit mode: Show input fields, hide text, show Save button
-        document.getElementById('edit-name').style.display = 'inline';
-        document.getElementById('edit-email').style.display = 'inline';
-        document.getElementById('edit-specialization').style.display = 'inline';
-        document.getElementById('user-name').style.display = 'none';
-        document.getElementById('user-email').style.display = 'none';
-        document.getElementById('user-specialization').style.display = 'none';
+        document.getElementById('edit-user-btn').textContent= 'cancel';
+
+        fields.forEach(field => {
+
+            document.getElementById(`edit-${field}`).style.display = 'inline';
+            document.getElementById(`user-${field}`).style.display = 'none';
+        });
+
         document.getElementById('save-changes').style.display = 'inline';
     }
 }
+window.submit_function = function(){
+    event.preventDefault();
+    const fields = ['name', 'email', 'specialization', 'role'];
 
-window.saveUserDetails = function () {
-    // Get the new values from the input fields
-    let newName = document.getElementById('edit-name').value;
-    let newEmail = document.getElementById('edit-email').value;
-    let newSpecialization = document.getElementById('edit-specialization').value;
-
-    // Update the displayed values
-    document.getElementById('user-name').textContent = newName;
-    document.getElementById('user-email').textContent = newEmail;
-    document.getElementById('user-specialization').textContent = newSpecialization;
-
-    // Hide input fields and show the updated values
-    document.getElementById('edit-name').style.display = 'none';
-    document.getElementById('edit-email').style.display = 'none';
-    document.getElementById('edit-specialization').style.display = 'none';
-    document.getElementById('user-name').style.display = 'inline';
-    document.getElementById('user-email').style.display = 'inline';
-    document.getElementById('user-specialization').style.display = 'inline';
-
-    // Hide the Save button
-    document.getElementById('save-changes').style.display = 'none';
+    // Log current values before submitting
+    fields.forEach(field => {
+        console.log(`${field}: ${document.getElementById(`edit-${field}`).value}`);
+    });
+    document.getElementById('user-info-form').submit();
 }
 
-// modal handler
-// --------------------------------
-window.openModal = function() {
-    document.getElementById("addAssignmentModal").style.display = "block";
-}
 
-window.closeModal = function() {
-    document.getElementById("addAssignmentModal").style.display = "none";
-}
 
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    let modal = document.getElementById("addAssignmentModal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-}

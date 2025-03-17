@@ -19,6 +19,7 @@ Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
 Route::get('/Admin/UserManagement', [AdminController::class, 'UserManagement'])->name('UserManagement');
 Route::get('/Admin/UserManagement', [AdminController::class, 'search'])->name('UserManagement.search');
 Route::get('/Admin/UserManagement/user/{id}', [AdminController::class, 'UserInformation'])->name('UserManagement.user');
+Route::put('/Admin/UserManagement/user/{id}/edit', [AdminController::class, 'EditUser'])->name('UserManagement.editUser');
 
 Route::get('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUser'])->name('UserManagement.adduser');
 Route::post('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUserDb'])->name('UserManagement.adduserDB');
