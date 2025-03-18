@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="main-container">
-    <h1>Personal Information</h1>
+    <h1> Add User Information</h1>
     <form class="add-user-form" action="{{ route('UserManagement.adduserDB') }}" method="post">
         @csrf
         <div class="fname-wrapper wrapper">
@@ -37,7 +37,11 @@
         <input type="text" id="specialization" name="specialization">
         </div>
 
-        <input type="submit" value="Submit">
+        <div class="btns-wrapper">
+            <a class="back-btn" href="{{asset('/Admin/UserManagement')}}">back</a>
+            <input type="submit" value="Submit">
+        </div>
+
     </form>
 </div>
 </body>

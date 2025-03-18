@@ -53,7 +53,7 @@ class  AdminController extends Controller
     public function DeleteAssignment($id){
         $assignment = Assignment::findOrFail($id);
         $assignment->delete();
-        return redirect()->back()->with('succes', 'Assignment has been deleted');
+        return redirect()->back()->with('success', 'Assignment has been deleted');
 
     }
     public function AddAssignment(Request $request){

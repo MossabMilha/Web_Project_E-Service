@@ -1,22 +1,21 @@
 @import url(app.css);
 
 body{
+    display: flex;
     justify-content: center;
-    align-content: start;
+    align-items: center;
     height: 100vh;
     background-color: var(--color-secondary-light);
 }
 
 .main-container{
+    display: inline-flex;
     background-color: var(--color-white);
-    max-width: var(--container-width);
-    min-height: 80%;
+    /*max-width: var(--container-width);*/
     border-radius: var(--border-radius-small);
     margin-inline: auto;
-    margin-top: 24px;
     padding: 1em 1.5em;
-    display: flex;
-    gap: 2.5em;
+    gap: 3em;
     align-items: center;
     flex-direction: column;
 }
@@ -29,7 +28,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 1.5em;
+    gap: 2em;
     width: 360px;
 }
 
@@ -91,13 +90,15 @@ body{
     width: 100%;
     border-radius: 5px;
     overflow: hidden;
-    background-color: var(--color-gray-light);
+    border: 1px solid var(--color-tirnary-light);
 }
 
 .option {
     font-size: .9em;
     padding: .5em;
     color: var(--color-primary-dark);
+    background-color: var(--color-tirnary-lighter);
+    border-top: 1px solid var(--color-tirnary-light);
     cursor: pointer;
     text-align: center;
     transition: filter 0.2s ease;
@@ -115,8 +116,27 @@ body{
 }
 
 .add-user-form input[type="submit"] {
+    width: 50%;
     border: none;
     background: var(--bg-gradient);
     color: var(--color-white);
 }
+
+.add-user-form .btns-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.btns-wrapper .back-btn{
+    width: 50%;
+    font-size: .9em;
+    text-align: center;
+    background: var(--color-gray);
+    color: var(--color-gray-dark);
+    border-radius: .25em;
+    padding: .25em .5em;
+}
+
+
 

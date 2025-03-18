@@ -54,3 +54,6 @@ Route::get('/grades', function () {
 Route::get('/prof-details', function () {
     return view('prof-details');
 });
+
+
+
