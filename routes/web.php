@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\LoginProcesse;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TeachingStaffController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,12 +21,14 @@ Route::get('/Admin/UserManagement', [AdminController::class, 'UserManagement'])-
 Route::get('/Admin/UserManagement', [AdminController::class, 'search'])->name('UserManagement.search');
 Route::get('/Admin/UserManagement/user/{id}', [AdminController::class, 'UserInformation'])->name('UserManagement.user');
 Route::put('/Admin/UserManagement/user/{id}/edit', [AdminController::class, 'EditUser'])->name('UserManagement.editUser');
-
 Route::get('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUser'])->name('UserManagement.adduser');
 Route::post('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUserDb'])->name('UserManagement.adduserDB');
-
 Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 Route::post('/Admin/UserManagement/assignment', [AdminController::class, 'AddAssignment'])->name('UserManagement.addAssignment');
+
+
+
+Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 
 
 

@@ -7,6 +7,11 @@
     @vite(['resources/js/AdminUserInfo.js', 'resources/css/AdminUserInfo.css'])
     <title>Document</title>
 </head>
+<style>
+    body{
+        background: grey;
+    }
+</style>
     <body>
     <h1>Personal Information</h1>
     <div class="user-details-section">
@@ -61,79 +66,6 @@
 
 
     <!-- Display Teaching Unit Information -->
-    <div id="Teaching-Unit-Information">
-        <h1>Teching Unit Information</h1>
-        @if($user->role == "professor" || $user->role == "vacataire" )
-            @php
-                $assigenedCourses = $user->assignments ?? [];
-            @endphp
-            <button class="add-btn" onclick="openModal()">+ Add Assignment</button>
-            <table>
-                <tr>
-                    <th>name</th>
-                    <th>Description</th>
-                    <th>Departement id</th>
-                    <th>hours</th>
-                    <th>credits</th>
-                    <th>semester</th>
-                    <th>status</th>
-                    <th>Edit</th>
-                </tr>
-                @if($assigenedCourses->isNotEmpty())
 
-                    @foreach($assigenedCourses as $course)
-                        @php
-                            $information = $course->teachingUnit;
-                            $department = $information->department;
-                        @endphp
-
-                        <tr>
-                            <td>{{$information->name}}</td>
-                            <td>{{$information->description}}</td>
-                            <td>{{$department->name}}</td>
-                            <td>{{$information->hours}}</td>
-                            <td>{{$information->credits}}</td>
-                            <td>{{$information->semester}}</td>
-                            <td>{{$course->status}}</td>
-                            <td>
-
-                                <form method="POST" action="{{route('UserManagement.deleteAssignment', $course->id)}}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="add-btn" type="submit">+ Delete Assignement</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="8">No Assignments</td>
-                    </tr>
-                @endif
-            </table>
-        @endif
-        <div id="addAssignmentModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h2>Add Assignment</h2>
-                <form method="POST" action="{{route('UserManagement.addAssignment')}}">
-                    @csrf
-                    <label for="units">Teaching units:</label>
-
-                    <input type="hidden" name="professor_id" value="{{ $user->id }}">
-
-                    <select id="units" name="unit_id" required>
-                        <option value="" disabled selected>Select Teaching Unit</option>
-                        @php $unassignedUnits = \App\Models\TeachingUnit::whereDoesntHave('assignments')->get();@endphp
-                        @foreach($unassignedUnits as $unit)
-                            <option value="{{$unit->id}}">{{$unit->name}}</option>
-                        @endforeach
-                    </select>
-
-                    <button type="submit">Add Assignment</button>
-                </form>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
