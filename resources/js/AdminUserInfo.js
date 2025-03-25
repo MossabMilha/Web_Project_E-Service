@@ -3,7 +3,7 @@
 
 window.toggleEditMode = function() {
     const isEditing = document.getElementById('edit-name').style.display === 'inline';
-    const fields = ['name', 'email', 'specialization', 'role'];
+    const fields = ['name', 'phone','email', 'specialization', 'role'];
 
     if (isEditing) {
         // Save mode: Hide input fields, show text, hide Save button
@@ -28,7 +28,7 @@ window.toggleEditMode = function() {
 window.submit_function = function(event) {
     event.preventDefault(); // Prevent default form submission
 
-    const fields = ['name', 'email', 'specialization', 'role'];
+    const fields = ['name', 'phone','email', 'specialization', 'role'];
 
     // Log current values before submitting
     fields.forEach(field => {

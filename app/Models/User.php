@@ -51,6 +51,9 @@ class User extends Model{
     {
         return self::where('email', $email)->exists();
     }
+    public static function PhoneIsUsed($phone){
+        return self::where('phone', $phone)->exists();
+    }
 
 
 

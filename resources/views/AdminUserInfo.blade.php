@@ -32,6 +32,13 @@
             </div>
 
             <div class="info-item">
+                <label for="phoneNumber">Phone Number:</label>
+                <span id="user-phone">{{$user->phone}}</span>
+                <input type="text" id="edit-phone" name="phone" value="{{$user->phone}}" style="display:none;">
+            </div>
+
+
+            <div class="info-item">
                 <label for="email">Email:</label>
                 <span id="user-email">{{$user->email}}</span>
                 <input type="email" id="edit-email" name="email" value="{{$user->email}}" style="display:none;">
@@ -42,6 +49,7 @@
                 <span id="user-specialization">{{$user->specialization}}</span>
                 <input type="text" id="edit-specialization" name="specialization" value="{{$user->specialization}}" style="display:none;">
             </div>
+
 
             <div class="info-item">
                 <label for="role">Role:</label>

@@ -108,6 +108,7 @@ class  AdminController extends Controller
         // Validate the data from the form
         $request->validate([
             'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'specialization' => 'nullable|string',
             'role' => 'required|string',
@@ -116,6 +117,9 @@ class  AdminController extends Controller
         // Update fields if different
         if ($request->input('name') != $user->name) {
             User::updateField($id, 'name', $request->input('name'));
+        }
+        if($request->input('phone') != $user->phone && !User::PhoneIsUsed($request->input('phone'))){
+            User::updateField($id, 'phone', $request->input('phone'));
         }
 
         if ($request->input('email') != $user->email && User::validEmail($request->input('email')) && !User::EmailIsUsed($request->input('email'))) {
