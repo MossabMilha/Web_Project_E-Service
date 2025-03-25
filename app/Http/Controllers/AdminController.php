@@ -113,17 +113,34 @@ class  AdminController extends Controller
             'specialization' => 'nullable|string',
             'role' => 'required|string',
         ]);
+        $errors = [];
 
         // Update fields if different
+        $nameValidation = User::validName($request->input('name'));
         if ($request->input('name') != $user->name) {
-            User::updateField($id, 'name', $request->input('name'));
-        }
-        if($request->input('phone') != $user->phone && !User::PhoneIsUsed($request->input('phone'))){
-            User::updateField($id, 'phone', $request->input('phone'));
+            if ($nameValidation === true) {
+                User::updateField($id, 'name', $request->input('name'));
+            } else {
+                $errors['name'] = $nameValidation;
+            }
         }
 
-        if ($request->input('email') != $user->email && User::validEmail($request->input('email')) && !User::EmailIsUsed($request->input('email'))) {
-            User::updateField($id, 'email', $request->input('email'));
+        $phoneValidation = User::validPhoneNumber($request->input('phone'), $id);
+        if ($request->input('phone') != $user->phone) {
+            if ($phoneValidation === true) {
+                User::updateField($id, 'phone', $request->input('phone'));
+            } else {
+                $errors['phone'] = $phoneValidation;
+            }
+        }
+
+        $emailValidation = User::validEmail($request->input('email'), $id);
+        if ($request->input('email') != $user->email) {
+            if ($emailValidation === true) {
+                User::updateField($id, 'email', $request->input('email'));
+            } else {
+                $errors['email'] = $emailValidation;
+            }
         }
 
         if ($request->input('specialization') != $user->specialization) {
@@ -134,6 +151,9 @@ class  AdminController extends Controller
             User::updateField($id, 'role', $request->input('role'));
         }
 
+        if (!empty($errors)) {
+            return redirect()->back()->withErrors($errors)->withInput();
+        }
         return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
     }
 

@@ -37,23 +37,85 @@ class User extends Model{
         $user->save();
         return $user;
     }
+    public static function EmailIsUsed($email,$id = 0)
+    {
+        return self::where('email', $email)->where('id', '!=', $id)->exists();
+    }
+    public static function PhoneIsUsed($phone,$id =0){
+        return self::where('phone', $phone)->where('id', '!=', $id)->exists();
+    }
     public static function validName($name)
     {
-        return preg_match('/^[a-zA-Z\s\-]+$/', $name);
+        if (preg_match('/^[a-zA-Z\s\-]+$/', $name)) {
+            return true;  // Valid name
+        }
+        return 'Name must contain only letters, spaces, and hyphens.';
+    }
+    public static function validEmail($email, $id = 0)
+    {
+        $messages = [];
+
+        // Check if the email is valid
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $messages['email.valid'] = 'Email is invalid';
+        }
+
+        if (self::EmailIsUsed($email, $id)) {
+            $messages['email.unique'] = 'Email is already used';
+        }
+
+        return empty($messages) ? true : $messages;
     }
 
-    public static function validEmail($email)
+    public static function validPhoneNumber($phone, $id = 0)
     {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
+        $messages = [];
+
+        if (!preg_match('/^\+\d{1,3}\d{7,12}$/', $phone)) {
+            $messages['phone.valid'] = 'Invalid phone number format.';
+        }
+
+        if (self::PhoneIsUsed($phone, $id)) {
+            $messages['phone.unique'] = 'Phone number is already used.';
+        }
+
+        return empty($messages) ? true : $messages;
+    }
+    public static function validPassword($password,$id)
+    {
+        $messages = [];
+        $user = self::where('id', $id)->first();
+
+
+        $name = preg_replace('/\s+/', '', $user->name);
+
+
+        $nameParts = [];
+        $nameLength = strlen($name);
+        for ($i = 0; $i <= $nameLength - 8; $i++) {
+            $nameParts[] = substr($name, $i, 8);
+        }
+
+
+        foreach ($nameParts as $part) {
+            if (stripos($password, $part) !== false) {
+                $messages['password.name'] = 'Password Should not contain your name Or part of it';
+            }
+        }
+
+        // Validate password complexity
+        if (
+            !preg_match('/[A-Z]/', $password) ||
+            !preg_match('/[a-z]/', $password) ||
+            !preg_match('/\d/', $password) ||
+            !preg_match('/[\W_]/', $password)
+        ) {
+            $messages['password.valid'] = 'Password must contain at least one uppercase, one lowercase, one number, and one special character.';
+        }
+
+        return empty($messages) ? true : $messages;
     }
 
-    public static function EmailIsUsed($email)
-    {
-        return self::where('email', $email)->exists();
-    }
-    public static function PhoneIsUsed($phone){
-        return self::where('phone', $phone)->exists();
-    }
 
 
 
@@ -67,6 +129,8 @@ class User extends Model{
 
         return null; // Return null instead of false
     }
+
+
     public function assignments()
     {
         return $this->hasMany(Assignment::class, 'professor_id');

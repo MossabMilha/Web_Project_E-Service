@@ -1,4 +1,7 @@
 /* Modal background */
+body{
+    background: grey;
+}
 table, th, td {
     border: 1px solid black;
 }
@@ -28,4 +31,10 @@ table, th, td {
 .close {
     font-size: 24px;
     cursor: pointer;
+}
+.text-danger{
+    color: red;
+}
+.Personal-Information{
+    background: #0a53be;
 }
