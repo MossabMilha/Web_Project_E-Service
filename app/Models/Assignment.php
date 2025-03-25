@@ -11,7 +11,11 @@ class Assignment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['professor_id', 'unit_id', 'status'];
+    protected $fillable = [
+        'professor_id',
+        'unit_id',
+        'status'
+    ];
 
     // Table name (optional, useful if it's different)
     protected $table = 'assignments';

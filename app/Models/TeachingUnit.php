@@ -18,6 +18,25 @@ class TeachingUnit extends Model
         'semester',
     ];
 
+    public function add($name, $description, $hours, $type, $credits, $semester){
+        return self::create([
+            'name' => $name,
+            'description' => $description,
+            'hours'=> $hours,
+            'type' => $type,
+            'credits' => $credits,
+            'semester' => $semester,
+        ]);
+    }
+
+    public function updateField($id, $field, $value)
+    {
+        $unit = self::findOrFail($id);
+        $unit->$field = $value;
+        $unit->save();
+        return $unit;
+    }
+
     // Relationship with department
     public function department()
     {

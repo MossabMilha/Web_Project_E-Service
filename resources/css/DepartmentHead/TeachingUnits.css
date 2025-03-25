@@ -1,5 +1,123 @@
 @import url(../app.css);
 
+body{
+    justify-content: center;
+    align-content: start;
+    height: 100vh;
+    background-color: var(--color-tirnary-lighter);
+}
+
+.main-container{
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-wrapper{
+    border-radius: var(--border-radius-small);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-wrapper .search-form{
+    display: flex;
+    justify-content: start;
+    gap: var(--gap);
+    width: 100%;
+}
+
+.search-wrapper .search-form .search-bar{
+    display: flex;
+    border-radius: .25em;
+}
+
+.search-wrapper .search-form input{
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-smaller) 0 0 var(--border-radius-smaller);
+    padding: .5em;
+    font-size: .9em;
+    color: var(--color-secondary-darker);
+}
+
+.search-wrapper .search-form input:focus {
+    outline: none;
+}
+
+.search-wrapper .search-form :has(input:focus) {
+    outline: 2px solid var(--color-secondary-dark);
+}
+
+.search-wrapper .search-form .submit-btn{
+    background-color: var(--color-secondary-dark);
+    border-radius: 0 .25em .25em 0;
+    padding: .5em;
+}
+
+.search-wrapper .search-form .submit-btn:hover{
+    background-color: var(--color-secondary-darker);
+}
+
+.search-wrapper .search-form .dropdown{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9em;
+    min-width: 150px;
+    color: var(--color-white);
+    background-color: var(--color-tirnary);
+    border-radius: var(--border-radius-smaller);
+}
+
+.search-wrapper .search-form .dropdown:hover{
+    border-radius: var(--border-radius-smaller) var(--border-radius-smaller) 0 0 ;
+}
+
+.search-wrapper .search-form .dropdown:hover .dropdown-content{
+    /*border-top: 2px solid var(--color-secondary);*/
+}
+
+.search-wrapper .search-form .dropdown-content{
+    display: none;
+    position: absolute;
+    overflow: hidden;
+    font-size: .9em;
+    background-color: var(--color-tirnary-light);
+    border-radius: 0 0 var(--border-radius-smaller) var(--border-radius-smaller);
+    min-width: 150px;
+    top: 20px;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: var(--color-tirnary-darker);
+    text-decoration: none;
+    display: block;
+    font-size: 1.1em;
+    padding: .5em;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--color-tirnary-lighter);
+}
+
+.search-wrapper .add-btn{
+    background-color: var(--color-primary);
+    border-radius: var(--border-radius-smaller);
+    color: var(--color-white);
+    min-width: 150px;
+    padding: .5em .25em;
+}
+
+.search-wrapper .add-btn:hover{
+    background-color: var(--color-primary-dark);
+}
+
 /*table section*/
 .table-container table{
     border-radius: var(--border-radius-small);
@@ -38,4 +156,62 @@
 .table-container table tr td:last-child svg{
     width: 1.25em;
     fill: var(--color-tirnary);
+}
+/*pagination*/
+
+.pagination{
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+}
+
+.pagination .prev-btn.disabled,
+.pagination .next-btn.disabled{
+    color: var(--color-gray);
+}
+
+
+/* Extra Small (Phones) */
+@media (max-width: 575px) {
+    .login-container {
+        width: 80%;
+    }
+
+    .info-container {
+        width: 100%;
+    }
+
+    .img-container{
+        display: none;
+    }
+}
+
+@media (min-width: 576px) {
+    .login-container {
+        width: 80%;
+        height: 360px;
+    }
+}
+/* Small Devices (Tablets) */
+@media (min-width: 768px){
+    .login-container {
+        width: 640px;
+        height: 420px;
+    }
+}
+
+/* Medium Devices (Small Laptops) */
+@media (min-width: 1024px) {
+    .login-container {
+        width: 820px;
+        height: 480px;
+    }
+}
+
+/* Large Screens */
+@media (max-width: 1200px) {
+    .main-container {
+        width: 960px;
+    }
 }
