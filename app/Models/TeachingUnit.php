@@ -12,8 +12,8 @@ class TeachingUnit extends Model
     protected $fillable = [
         'name',
         'description',
-        'department_id',
         'hours',
+        'type',
         'credits',
         'semester',
     ];
@@ -22,6 +22,12 @@ class TeachingUnit extends Model
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+
+    // Relationship with filieres
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class, 'filiere_id');
     }
 
     // Relationship with assignments

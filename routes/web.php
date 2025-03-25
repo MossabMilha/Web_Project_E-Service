@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\DepartmentHeadController;
 use App\Http\Controllers\LoginProcesse;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeachingStaffController;
@@ -26,7 +27,7 @@ Route::post('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUserDb
 Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 Route::post('/Admin/UserManagement/assignment', [AdminController::class, 'AddAssignment'])->name('UserManagement.addAssignment');
 
-
+Route::get('/DepartmentHead/TeachingUnits', [DepartmentHeadController::class, 'index'])->name('TeachingUnits');
 
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 

@@ -54,6 +54,17 @@ class DepartmentSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
 
+            [
+                'name' => 'Preparatory Cycle',
+                'description' => 'Preparatory Cycle Department',
+                'head_id' => 21,
+                'email' => 'departement.head5@gmail.com',
+                'phone' => '08123456789',
+                'location' => 'ENSAH',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+
 
     ]);
 

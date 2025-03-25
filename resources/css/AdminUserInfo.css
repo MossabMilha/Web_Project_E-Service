@@ -26,7 +26,6 @@ table, th, td {
 
 /* Close button */
 .close {
-    float: right;
     font-size: 24px;
     cursor: pointer;
 }
