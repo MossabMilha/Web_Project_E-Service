@@ -11,7 +11,7 @@ for (const role of rolesList) {
     optionDiv.setAttribute("data-value", role.toLowerCase().replace(' ', '_'));
     optionDiv.textContent = role;
 
-    // Append to dropdown options
+
     dropdownOptions.appendChild(optionDiv);
 }
 

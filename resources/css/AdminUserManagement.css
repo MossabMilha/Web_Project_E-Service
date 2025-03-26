@@ -224,3 +224,11 @@ body{
         width: 960px;
     }
 }
+/*================================================================*/
+.delete-user{
+    background: grey;
+}
+.delete-user div button{
+   border: 1px solid black;
+    margin: 20px;
+}

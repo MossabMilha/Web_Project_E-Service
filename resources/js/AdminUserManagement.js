@@ -61,4 +61,16 @@ for (const role of roles) {
             break;
     }
 }
+//Delete User
+window.showDeleteUserSection = function (userId, userName) {
+    const deleteSection = document.querySelector('.delete-user');
+    deleteSection.style.display = 'block'; // Show the delete section
 
+    deleteSection.querySelector('label').innerHTML = `You Will Delete <strong>${userName}</strong> Account holding the id number <strong>${userId}</strong>. Are You Sure? There is no going back from this action.`;
+
+    deleteSection.querySelector('form').setAttribute('action', `/delete-user/${userId}`);
+}
+
+window.hideDeleteUserModal = function () {
+    document.querySelector('.delete-user').style.display = 'none';
+}

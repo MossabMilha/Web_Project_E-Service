@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Assignment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -50,6 +51,26 @@ class  AdminController extends Controller
 
         return view('AdminUserManagement', compact('users'));
     }
+    public function DeleteUser(Request $request, $id)
+    {
+
+        $admin = Auth::user();
+
+        // Validate password input
+        if (!Hash::check($request->password, $admin->password)) {
+            return redirect()->back()->withErrors(['password' => 'Incorrect password.']);
+        }
+
+        // Find the user to delete
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->withErrors(['user' => 'User not found.']);
+        }
+
+        $user->delete();
+        return redirect()->route('UserManagement.index')->with('success', 'User deleted successfully.');
+    }
     public function DeleteAssignment($id){
         $assignment = Assignment::findOrFail($id);
         $assignment->delete();
@@ -78,30 +99,59 @@ class  AdminController extends Controller
     }
     public function AddUserDb(Request $request)
     {
-        // Validate the request data
+
         $request->validate([
-            'fname' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:255',
             'role' => 'required|string',
-            'specialization' => 'nullable|string', // Specialization can be empty for some roles
-
+            'specialization' => 'nullable|string',
         ]);
-        $password = Str::random(10) . rand(0, 9) . '!@#$%^&*()'[rand(0, 9)];
 
-        // Create a new user
+        $valid = true;
+        $errors = [];
+
+
+        $validNameResult = User::validName($request->input('name'));
+        if ($validNameResult !== true) {
+            $errors['name'] = $validNameResult;
+            $valid = false;
+        }
+
+
+        $validEmailResult = User::validEmail($request->input('email'));
+        if ($validEmailResult !== true) {
+            $errors['email'] = $validEmailResult;
+            $valid = false;
+        }
+
+
+        $validPhoneResult = User::validPhoneNumber($request->input('phone'));
+        if ($validPhoneResult !== true) {
+            $errors['phone'] = $validPhoneResult;
+            $valid = false;
+        }
+
+        if (!$valid) {
+            return redirect()->back()->withInput()->withErrors($errors);
+        }
+
         $user = new User();
-        $user->name = $request->input('fname');
+        $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->role = $request->input('role');
-        $user->specialization = $request->input('specialization');
+        if($user->role == 'professor' || $user->role == 'vacataire' ){
+            $user->specialization = $request->input('specialization');
+        }else{
+            $user->specialization = null;
+        }
         $user->password = Hash::make('test');
 
-        // Save the new user
         $user->save();
 
-        // Redirect back or to another page with success message
         return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully!');
     }
+
     public function EditUser(Request $request, $id){
         $user = User::findOrFail($id);
 

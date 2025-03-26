@@ -55,10 +55,15 @@ class User extends Model{
     {
         $messages = [];
 
-        // Check if the email is valid
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $messages['email.valid'] = 'Email is invalid';
         }
+
+
+        if (preg_match('/^\d+@/', $email)) {
+            $messages['email.invalidFormat'] = 'Email cannot start with numbers before the "@" symbol';
+        }
+
 
         if (self::EmailIsUsed($email, $id)) {
             $messages['email.unique'] = 'Email is already used';
@@ -67,13 +72,15 @@ class User extends Model{
         return empty($messages) ? true : $messages;
     }
 
+
     public static function validPhoneNumber($phone, $id = 0)
     {
         $messages = [];
 
-        if (!preg_match('/^\+\d{1,3}\d{7,12}$/', $phone)) {
+        if (!preg_match('/^\+\d{1,3}[-\s]?\d{7,12}$/', $phone)) {
             $messages['phone.valid'] = 'Invalid phone number format.';
         }
+
 
         if (self::PhoneIsUsed($phone, $id)) {
             $messages['phone.unique'] = 'Phone number is already used.';

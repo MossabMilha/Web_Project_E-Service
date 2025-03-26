@@ -137,6 +137,34 @@ body{
     border-radius: .25em;
     padding: .25em .5em;
 }
+.error-messages-holder {
+    position: fixed; /* Make it fixed to cover the whole screen */
+    top: 0;
+    left: 0;
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensure it's above other content */
+}
+
+.error-messages {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+
+}
+.error-text{
+    color: red;
+    font-size: 14px;
+    margin: -10px 0 ;
+}
+.error-text span{
+    font-size: 10px;
+}
+
 
 
 
