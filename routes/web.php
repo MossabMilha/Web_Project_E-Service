@@ -29,9 +29,11 @@ Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 
 Route::post('/Admin/UserManagement/assignment', [AdminController::class, 'AddAssignment'])->name('UserManagement.addAssignment');
 
 Route::get('/DepartmentHead/TeachingUnits', [DepartmentHeadController::class, 'index'])->name('TeachingUnits');
-Route::get('/DepartmentHead/TeachingUnits', [DepartmentHeadController::class, 'search'])->name('TeachingUnits.search');
-Route::get('/DepartmentHead/TeachingUnits/unit/{id}', [DepartmentHeadController::class, 'find'])->name('TeachingUnits.unit');
+Route::get('/DepartmentHead/TeachingUnits/search', [DepartmentHeadController::class, 'search'])->name('TeachingUnits.search');
+Route::get('/DepartmentHead/TeachingUnits/{id}', [DepartmentHeadController::class, 'show'])->name('TeachingUnits.unit');
 Route::get('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assign'])->name('TeachingUnits.assign');
+Route::post('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assignDB'])->name('TeachingUnits.assignDB');
+Route::get('/DepartmentHead/TeachingUnits/unit/{id}/reassign', [DepartmentHeadController::class, 'reassign'])->name('TeachingUnits.reassign');
 
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 

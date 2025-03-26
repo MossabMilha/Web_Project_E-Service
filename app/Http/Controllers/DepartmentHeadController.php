@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assignment;
 use App\Models\TeachingUnit;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DepartmentHeadController extends Controller
@@ -11,13 +13,11 @@ class DepartmentHeadController extends Controller
 
     public function index()
     {
-        // Eager load the 'filiere' relationship to avoid N+1 queries
-        $units = TeachingUnit::with('filiere')->get();
-        $units = TeachingUnit::with('assignments.professor')->get();
+        $units = TeachingUnit::with(['filiere', 'assignments.professor'])->paginate(10);;
         return view('DepartmentHead/TeachingUnits', compact('units'));
     }
 
-    public function find($id){
+    public function show($id){
         $unit = TeachingUnit::with('filiere')->find($id);
         return view('DepartmentHead/unit', compact('unit'));
     }
@@ -57,10 +57,55 @@ class DepartmentHeadController extends Controller
         return view('DepartmentHead/TeachingUnits', compact('units'));
     }
 
-    public function assign(Request $request, $id){
+    public function assign($id){
         $unit = TeachingUnit::with('filiere')->findOrFail($id);
-        return view('DepartmentHead/assignUnit', compact('unit'));
+        $profs = User::where('role', 'professor')
+            ->whereDoesntHave('assignments')
+            ->get();
+
+        return view('DepartmentHead/assignUnit', compact('unit', 'profs'));
     }
+
+    public function reassign($id){
+        $unit = TeachingUnit::with('filiere')->findOrFail($id);
+        $current_prof = Assignment::with('professor')->where('unit_id', $unit->id)->first()?->professor();
+        $profs = User::where('role', 'professor')
+            ->whereDoesntHave('assignments')
+            ->get();
+
+        return view('DepartmentHead/editAssignUnit', compact('unit', 'profs', 'current_prof'));
+    }
+    public function assignDB(Request $request, $unit_id)
+    {
+        // Validate request data
+        $request->validate([
+            'prof_id' => 'required|exists:users,id',
+        ]);
+
+        // Find the existing assignment for this unit
+        $assignment = Assignment::where('unit_id', $unit_id)->first();
+
+        if ($assignment) {
+            // Update the professor in the existing assignment
+            $assignment->update([
+                'professor_id' => $request->input('prof_id'),
+                'status' => Assignment::STATUS_PENDING, // Optional: Reset status
+            ]);
+        } else {
+            // Create a new assignment if none exists
+            Assignment::create([
+                'professor_id' => $request->input('prof_id'),
+                'unit_id' => $unit_id,
+                'status' => Assignment::STATUS_PENDING, // Default status
+            ]);
+        }
+
+        // Redirect with a success message
+        return redirect()->route('TeachingUnits')->with('success', 'Professor assigned successfully!');
+
+    }
+
+
 
 
 

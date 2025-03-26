@@ -59,10 +59,10 @@
                     <td>{{ $unit->semester }}</td>
                     <td>
                         @if ($unit->assignments->isEmpty())
-                            <a href="{{route('TeachingUnits.assign', $unit->id)}}">Not assigned</a>
+                            <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.assign', $unit->id)}}">Not assigned +</a>
                         @else
                             @foreach ($unit->assignments as $assignment)
-                                    {{ $assignment->professor->name }}
+                                <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.reassign', $unit->id)}}">{{ $assignment->professor->name }}</a>
                             @endforeach
                         @endif
                     </td>
