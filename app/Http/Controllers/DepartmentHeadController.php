@@ -68,7 +68,7 @@ class DepartmentHeadController extends Controller
 
     public function reassign($id){
         $unit = TeachingUnit::with('filiere')->findOrFail($id);
-        $current_prof = Assignment::with('professor')->where('unit_id', $unit->id)->first()?->professor();
+        $current_prof = Assignment::where('unit_id', $unit->id)->first()?->professor;
         $profs = User::where('role', 'professor')
             ->whereDoesntHave('assignments')
             ->get();
