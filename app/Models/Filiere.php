@@ -17,4 +17,8 @@ class Filiere extends Model
     {
         return $this->hasMany(TeachingUnit::class);
     }
+
+    public function department(){
+        return $this->belongsTo(Department::class, 'department_id');
+    }
 }

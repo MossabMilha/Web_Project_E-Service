@@ -60,7 +60,7 @@ class DepartmentHeadController extends Controller
     public function assign($id){
         $unit = TeachingUnit::with('filiere')->findOrFail($id);
         $profs = User::where('role', 'professor')
-            ->whereDoesntHave('assignments')
+//            ->whereDoesntHave('assignments')
             ->get();
 
         return view('DepartmentHead/assignUnit', compact('unit', 'profs'));
@@ -70,8 +70,9 @@ class DepartmentHeadController extends Controller
         $unit = TeachingUnit::with('filiere')->findOrFail($id);
         $current_prof = Assignment::where('unit_id', $unit->id)->first()?->professor;
         $profs = User::where('role', 'professor')
-            ->whereDoesntHave('assignments')
+            ->whereNotIn('id', [$current_prof->id])
             ->get();
+
 
         return view('DepartmentHead/editAssignUnit', compact('unit', 'profs', 'current_prof'));
     }
@@ -102,11 +103,10 @@ class DepartmentHeadController extends Controller
 
         // Redirect with a success message
         return redirect()->route('TeachingUnits')->with('success', 'Professor assigned successfully!');
-
     }
 
-
-
-
-
+    public function showProfessors(){
+     $professors = User::where('role', 'professor')->get();
+     return view('DepartmentHead/ProfessorsList', compact('professors'));
+    }
 }

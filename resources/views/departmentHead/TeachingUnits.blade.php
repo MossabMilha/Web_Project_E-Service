@@ -66,16 +66,6 @@
                             @endforeach
                         @endif
                     </td>
-
-{{--                    <td>--}}
-{{--                        @if ($unit->assignments->isEmpty())--}}
-{{--                            {{ 'No status available' }}--}}
-{{--                        @else--}}
-{{--                            @foreach ($unit->assignments as $assignment)--}}
-{{--                                    {{ ucfirst($assignment->status) }}--}}
-{{--                            @endforeach--}}
-{{--                        @endif--}}
-{{--                    </td>--}}
                 </tr>
             @endforeach
         </table>

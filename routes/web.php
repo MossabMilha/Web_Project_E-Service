@@ -4,6 +4,7 @@
 use App\Http\Controllers\DepartmentHeadController;
 use App\Http\Controllers\LoginProcesse;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TeachingStaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,9 @@ Route::get('/DepartmentHead/TeachingUnits/{id}', [DepartmentHeadController::clas
 Route::get('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assign'])->name('TeachingUnits.assign');
 Route::post('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assignDB'])->name('TeachingUnits.assignDB');
 Route::get('/DepartmentHead/TeachingUnits/unit/{id}/reassign', [DepartmentHeadController::class, 'reassign'])->name('TeachingUnits.reassign');
+Route::get('/DepartmentHead/professors/list',[DepartmentHeadController::class, 'showProfessors'])->name('Professors.list');
+Route::get('/DepartmentHead/professor/{id}/profile',[ProfessorController::class, 'show'])->name('Professor.profile');
+Route::get('/DepartmentHead/professor/{id}/assignUnits',[ProfessorController::class, 'assign'])->name('Professor.assignUnits');
 
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 
