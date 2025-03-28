@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\CoordinatorController;
 use App\Http\Controllers\DepartmentHeadController;
 use App\Http\Controllers\LoginProcesse;
 use App\Http\Controllers\AdminController;
@@ -38,6 +39,11 @@ Route::get('/DepartmentHead/TeachingUnits/unit/{id}/reassign', [DepartmentHeadCo
 Route::get('/DepartmentHead/professors/list',[DepartmentHeadController::class, 'showProfessors'])->name('Professors.list');
 Route::get('/DepartmentHead/professor/{id}/profile',[ProfessorController::class, 'show'])->name('Professor.profile');
 Route::get('/DepartmentHead/professor/{id}/assignUnits',[ProfessorController::class, 'assign'])->name('Professor.assignUnits');
+
+
+Route::get('/Coordinator/{id}/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
+
+
 
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 
