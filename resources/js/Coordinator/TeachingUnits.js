@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const UnitFiliere = cells[6].textContent;
             const unitSemester = cells[7].textContent;
 
-            document.getElementById("UnitID").textContent =unitId;
+            document.getElementById("UnitID").value = unitId;
             // Update the title of the modal
             document.getElementById("Unite-Title").textContent = "Edit Information of The Unit: " + unitName;
 
@@ -248,6 +248,7 @@ StartEdit.addEventListener("click", function (event) {
         if (!isValid) {
             event.preventDefault(); // Stop form submission
         }else{
+            // Set the value of the hidden input before submitting
             let form = document.getElementById('editUnitForm');
             form.submit();
         }

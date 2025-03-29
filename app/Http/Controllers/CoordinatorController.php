@@ -19,7 +19,7 @@ class CoordinatorController extends Controller
             return $filiere->TeachingUnits;
         });
 
-        return view('CoordinatorTeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
+        return view('/Coordinator/TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
 
     public function AddUnit(Request $request, $CoordinatorId)
@@ -49,7 +49,7 @@ class CoordinatorController extends Controller
         return redirect()->route('Coordinator.teachingUnits', ['id' => $CoordinatorId])
             ->with('success', 'Teaching unit added successfully!');
     }
-    public function EdtUnit(Request $request,$CoordinatorId)
+    public function EdtUnit(Request $request,$Id)
     {
         // Validate incoming request data
         $request->validate([
@@ -64,14 +64,14 @@ class CoordinatorController extends Controller
         ]);
 
         // Verify user password manually
-        $user = User::findOrFail($CoordinatorId);
+        $user = User::findOrFail($Id);
         if (!Hash::check($request->password, $user->password)) {
-            return redirect()->route('Coordinator.teachingUnits', ['id' => $CoordinatorId])
+            return redirect()->route('Coordinator.teachingUnits', ['id' => $Id])
                 ->withErrors(['password' => 'Incorrect password']);
         }
 
         // Access the unitId from the form data
-        $unitId = $request->input('unitId');
+        $unitId = $request->input('UnitID');
 
         // Find the teaching unit using the unitId and update it
         $unit = TeachingUnit::findOrFail($unitId);
@@ -80,16 +80,19 @@ class CoordinatorController extends Controller
         $unit->hours = $request->hours;
         $unit->type = $request->type;
         $unit->credits = $request->credits;
-        $unit->filiere = $request->filiere;
         $unit->semester = $request->semester;
+        $unit->updated_at = now();
+        $unit->filiere_id = $request->filiere;
+
 
         // Save the updated teaching unit
         $unit->save();
 
         // Return back with success message
-        return redirect()->route('Coordinator.teachingUnits', ['id' => $CoordinatorId])
+        return redirect()->route('Coordinator.teachingUnits', ['id' => $Id])
             ->with('success', 'Teaching unit added successfully!');
     }
+
 
 
 
