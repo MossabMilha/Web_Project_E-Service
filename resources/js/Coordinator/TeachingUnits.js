@@ -1,3 +1,13 @@
+const AddUnit = document.getElementById('add-unit-btn');
+const CancelAddUnit = document.getElementById('add-Unit-Cancel');
+AddUnit.addEventListener("click",function (){
+    document.getElementById('Add-modal-overlay').style.display = "block";
+    AddUnit.style.display ="none";
+})
+CancelAddUnit.addEventListener("click",function (){
+    document.getElementById('Add-modal-overlay').style.display = "none";
+    AddUnit.style.display ="block";
+})
 document.addEventListener("DOMContentLoaded", function () {
     const editButton = document.querySelectorAll('.edit-btn');
     const editForm = document.querySelector('.Edit-Teaching-Unite');
@@ -62,3 +72,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+document.getElementById('Edit-Unit-Cancel').addEventListener("click", function (){
+    document.querySelector('.Edit-Teaching-Unite').style.display = "none";
+    document.getElementById('modal-overlay').style.display = "none";
+})
+
+const StartEdit = document.getElementById('Edit-Unit-Start');
+StartEdit.addEventListener("click", function (){
+    StartEdit.textContent = "Save Changes";
+    document.getElementById("unit-name").style.display = 'none';
+    document.getElementById("edit-name").style.display = 'block';
+
+    document.getElementById("unit-description").style.display = 'none';
+    document.getElementById("edit-description").style.display = 'block';
+
+    document.getElementById("unit-hours").style.display = 'none';
+    document.getElementById("edit-hours").style.display = 'block';
+
+    document.getElementById("unit-type").style.display = 'none';
+    document.getElementById("edit-type").style.display = 'block';
+
+    document.getElementById("unit-credits").style.display = 'none';
+    document.getElementById("edit-credits").style.display = 'block';
+
+    document.getElementById("unit-semester").style.display = 'none';
+    document.getElementById("edit-semester").style.display = 'block';
+})

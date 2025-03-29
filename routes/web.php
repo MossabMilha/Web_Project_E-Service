@@ -30,6 +30,7 @@ Route::delete('/Admin/UserManagement/DeleteUser/{id}', [AdminController::class, 
 Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 Route::post('/Admin/UserManagement/assignment', [AdminController::class, 'AddAssignment'])->name('UserManagement.addAssignment');
 
+
 Route::get('/DepartmentHead/TeachingUnits', [DepartmentHeadController::class, 'index'])->name('TeachingUnits');
 Route::get('/DepartmentHead/TeachingUnits/search', [DepartmentHeadController::class, 'search'])->name('TeachingUnits.search');
 Route::get('/DepartmentHead/TeachingUnits/{id}', [DepartmentHeadController::class, 'show'])->name('TeachingUnits.unit');
@@ -42,6 +43,7 @@ Route::get('/DepartmentHead/professor/{id}/assignUnits',[ProfessorController::cl
 
 
 Route::get('/Coordinator/{id}/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
+Route::post('/Coordinator/{id}/teachingUnits/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('Coordinator.AddUnit');
 
 
 

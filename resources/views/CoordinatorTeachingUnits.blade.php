@@ -7,7 +7,73 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="Add-modal-overlay" id="Add-modal-overlay" style="display: none;">
+        <div class="Add-Teaching-Unite" >
+            <form method="POST" action="{{ route('Coordinator.AddUnit',['id' => $coordinatorId]) }}">
+                @csrf
+                <h1>Add New Unit</h1>
+
+                <div class="add-unit-info">
+                    <label for="add-name">Name: </label>
+                    <input type="text" name="add-name" id="add-name" required>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-description">Description: </label>
+                    <textarea name="add-description" id="add-description" required></textarea>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-hours">Hours: </label>
+                    <input type="number" name="add-hours" id="add-hours" required>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-type">Type: </label>
+                    <div id="add-type">
+                        <input type="radio" name="add-type" id="add-cm" value="CM" required>
+                        <label for="add-cm">CM</label>
+
+                        <input type="radio" name="add-type" id="add-td" value="TD">
+                        <label for="add-td">TD</label>
+
+                        <input type="radio" name="add-type" id="add-tp" value="TP">
+                        <label for="add-tp">TP</label>
+                    </div>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-credits">Credits: </label>
+                    <input type="number" name="add-credits" id="add-credits" required>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-filiere">Filiere: </label>
+                    <select name="add-filiere" id="add-filiere" required>
+                        @foreach($filieres as $filiere)
+                            <option value="{{$filiere->id}}">{{$filiere->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="add-unit-info">
+                    <label for="add-semester">Semester: </label>
+                    <select name="add-semester" id="add-semester" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="button" id="add-Unit-Cancel" >Cancel</button>
+                    <button type="submit" id="add-Unit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="ShowTeachingUnits">
+        <button id="add-unit-btn">Add New Unit</button>
         <table>
             <tr>
                 <th>UnitsId</th>
@@ -39,6 +105,9 @@
             @endforeach
         </table>
     </div>
+
+
+
     <div class="modal-overlay" id="modal-overlay" style="display: none">
         <div class="Edit-Teaching-Unite" style="display: none;">
             <form>
@@ -90,8 +159,8 @@
                 </div>
 
                 <div>
-                    <button>Cancel</button>
-                    <button>Edit</button>
+                    <button type="button" id="Edit-Unit-Cancel">Cancel</button>
+                    <button type="button" id="Edit-Unit-Start">Edit</button>
                 </div>
             </form>
         </div>

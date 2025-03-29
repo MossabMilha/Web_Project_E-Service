@@ -16,9 +16,10 @@ class TeachingUnit extends Model
         'type',
         'credits',
         'semester',
+        'filiere_id',
     ];
 
-    public function add($name, $description, $hours, $type, $credits, $semester){
+    public function add($name, $description, $hours, $type, $credits, $semester,$filiere_id){
         return self::create([
             'name' => $name,
             'description' => $description,
@@ -26,6 +27,7 @@ class TeachingUnit extends Model
             'type' => $type,
             'credits' => $credits,
             'semester' => $semester,
+            'filiere_id' => $filiere_id,
         ]);
     }
 
