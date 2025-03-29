@@ -44,6 +44,9 @@ Route::get('/DepartmentHead/professor/{id}/assignUnits',[ProfessorController::cl
 
 Route::get('/Coordinator/{id}/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
 Route::post('/Coordinator/{id}/teachingUnits/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('Coordinator.AddUnit');
+Route::post('/Coordinator/{id}/teachingUnits/EditUnit', [CoordinatorController::class, 'EdtUnit'])->name('Coordinator.EditUnit');
+
+
 
 
 
