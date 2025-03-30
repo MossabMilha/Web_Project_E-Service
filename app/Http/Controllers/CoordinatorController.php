@@ -143,7 +143,16 @@ class CoordinatorController extends Controller
 
         return redirect()->route('UserManagement')->with('success', 'User added successfully!');
     }
-
+    public function VacataireAccount()
+    {
+        $users = User::where('role', 'vacataire')->get();
+        return view('/Coordinator/VacataireAccount',compact('users'));
+    }
+    public function VacataireInformation($id)
+    {
+        $user = User::findOrFail($id);
+        return view('/Coordinator/VacataireInfo',compact('user'));
+    }
 
 
 }

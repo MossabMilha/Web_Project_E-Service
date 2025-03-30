@@ -16,7 +16,7 @@
             </div>
         </div>
     @endif
-    <form class="add-user-form" action="{{ route('UserManagement.addVacataireDB') }}" method="post">
+    <form class="add-user-form" action="{{ route('VacataireAccount.addVacataireDB') }}" method="post">
         @csrf
         <div class="name-wrapper wrapper">
             <label for="name">Full Name: </label>
