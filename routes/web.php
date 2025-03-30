@@ -48,6 +48,8 @@ Route::delete('/DepartmentHead/professors/list/{unit_id}/{professor_id}', [Profe
 Route::get('/Coordinator/{id}/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
 Route::post('/Coordinator/{id}/teachingUnits/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('Coordinator.AddUnit');
 Route::post('/Coordinator/{id}/teachingUnits/EditUnit', [CoordinatorController::class, 'EdtUnit'])->name('Coordinator.EditUnit');
+Route::get('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataire'])->name('UserManagement.addVacataire');
+Route::post('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataireDb'])->name('UserManagement.addVacataireDB');
 
 
 

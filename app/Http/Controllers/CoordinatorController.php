@@ -92,7 +92,57 @@ class CoordinatorController extends Controller
         return redirect()->route('Coordinator.teachingUnits', ['id' => $Id])
             ->with('success', 'Teaching unit added successfully!');
     }
+    public function AddVacataire(){
+        return view('/Coordinator/AddVacataire');
 
+    }
+    public function AddVacataireDb(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|max:255',
+            'specialization' => 'required|string',
+        ]);
+
+        $valid = true;
+        $errors = [];
+
+
+        $validNameResult = User::validName($request->input('name'));
+        if ($validNameResult !== true) {
+            $errors['name'] = $validNameResult;
+            $valid = false;
+        }
+
+
+        $validEmailResult = User::validEmail($request->input('email'));
+        if ($validEmailResult !== true) {
+            $errors['email'] = $validEmailResult;
+            $valid = false;
+        }
+
+
+        $validPhoneResult = User::validPhoneNumber($request->input('phone'));
+        if ($validPhoneResult !== true) {
+            $errors['phone'] = $validPhoneResult;
+            $valid = false;
+        }
+
+        if (!$valid) {
+            return redirect()->back()->withInput()->withErrors($errors);
+        }
+
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->role = 'vacataire';
+        $user->specialization = $request->input('specialization');
+        $user->password = Hash::make('password');
+
+        $user->save();
+
+        return redirect()->route('UserManagement')->with('success', 'User added successfully!');
+    }
 
 
 
