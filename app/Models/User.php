@@ -143,6 +143,11 @@ class User extends Model{
         return $this->hasMany(Assignment::class, 'professor_id');
     }
 
+    public function departmentMember()
+    {
+        return $this->hasOne(DepartmentMember::class, 'professor_id');
+    }
+
 
 
 

@@ -33,4 +33,8 @@ class Department extends Model
     {
         return $this->where('id', $id)->first();
     }
+
+    public function departmentMember(){
+        return $this->hasMany(DepartmentMember::class);
+    }
 }

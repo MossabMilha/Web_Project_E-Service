@@ -37,9 +37,12 @@ Route::get('/DepartmentHead/TeachingUnits/{id}', [DepartmentHeadController::clas
 Route::get('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assign'])->name('TeachingUnits.assign');
 Route::post('/DepartmentHead/TeachingUnits/unit/{id}/assign', [DepartmentHeadController::class, 'assignDB'])->name('TeachingUnits.assignDB');
 Route::get('/DepartmentHead/TeachingUnits/unit/{id}/reassign', [DepartmentHeadController::class, 'reassign'])->name('TeachingUnits.reassign');
+
 Route::get('/DepartmentHead/professors/list',[DepartmentHeadController::class, 'showProfessors'])->name('Professors.list');
 Route::get('/DepartmentHead/professor/{id}/profile',[ProfessorController::class, 'show'])->name('Professor.profile');
-Route::get('/DepartmentHead/professor/{id}/assignUnits',[ProfessorController::class, 'assign'])->name('Professor.assignUnits');
+Route::get('/DepartmentHead/professors/{id}/assignUnits',[ProfessorController::class, 'assignUnits'])->name('Professor.assignUnits');
+Route::post('/DepartmentHead/professors/{id}/assignUnits',[ProfessorController::class, 'assignUnitsDB'])->name('Professor.assignUnitsDB');
+Route::delete('/DepartmentHead/professors/list/{unit_id}/{professor_id}', [ProfessorController::class, 'removeAssign'])->name('Professor.removeAssign');
 
 
 Route::get('/Coordinator/{id}/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');

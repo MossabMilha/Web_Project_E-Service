@@ -48,7 +48,7 @@ class TeachingUnit extends Model
     // Relationship with filieres
     public function filiere()
     {
-        return $this->belongsTo(Filiere::class, 'filiere_id');
+        return $this->belongsTo(Filiere::class);
     }
 
     // Relationship with assignments

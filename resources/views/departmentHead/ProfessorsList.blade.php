@@ -5,13 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/js/DepartmentHead/TeachingUnits.js', 'resources/css/DepartmentHead/TeachingUnits.css'])
+{{--    @vite(['resources/js/DepartmentHead/TeachingUnits.js', 'resources/css/DepartmentHead/TeachingUnits.css'])--}}
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Professors List</title>
 </head>
 <body>
 <div class="main-container">
     <div class="search-wrapper">
-        <form class="search-form" method="GET" action="{{route('TeachingUnits.search')}}">
+        <form class="search-form" method="GET" action="">
             <div class="search-bar">
                 <input type="text" id="search" name="search" placeholder="Search">
                 <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}"
@@ -38,7 +39,7 @@
     <div class="table-container">
         <table>
             <tr>
-{{--                <th>User Id</th>--}}
+                <th>User Id</th>
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -47,41 +48,59 @@
                 <th>Last Updated</th>
                 <th></th>
             </tr>
-            @foreach($professors as $professor)
-                <tr>
-{{--                    <td>{{ $professor->id }}</td>--}}
+
+            @foreach($profsWithUnits as $data)
+                <tr class="border-blue-400 border-2">
+                    @php
+                        $professor = $data['professor'];
+                        $units = $data['units']
+                    @endphp
+                    <td>{{ $professor->id }}</td>
                     <td>{{ $professor->name }}</td>
                     <td>{{ $professor->email }}</td>
                     <td>{{ $professor->role }}</td>
                     <td>{{ $professor->specialization }}</td>
                     <td>{{ $professor->created_at }}</td>
                     <td>{{ $professor->updated_at }}</td>
-                    {{-- link to professor profile--}}
+                     link to professor profile
                     <td><a href="#">more...</a></td>
-{{--                    <td>--}}
-{{--                        @if ($professor->assignments->isEmpty())--}}
-{{--                            <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em"--}}
-{{--                               href="{{route('TeachingUnits.assign', $professor->id)}}">Not assigned +</a>--}}
-{{--                        @else--}}
-{{--                            @foreach ($professor->assignments as $assignment)--}}
-{{--                                <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em"--}}
-{{--                                   href="{{route('TeachingUnits.reassign', $professor->id)}}">{{ $assignment->professor->name }}</a>--}}
-{{--                            @endforeach--}}
-{{--                        @endif--}}
-{{--                    </td>--}}
+                </tr>
+
+                @if($units->isNotEmpty())
+                    @foreach($units as $unit)
+                        <tr class="bg-blue-200">
+                            <td>{{$unit->name}}</td>
+                            <td>{{$unit->description}}</td>
+                            <td></td>
+                            <td>{{$unit->hours}}</td>
+                            <td>{{$unit->credits}}</td>
+                            <td>{{$unit->semester}}</td>
+                            <td>{{$unit->status}}</td>
+                            <td>
+                                <form action="{{ route('Professor.removeAssign', ['unit_id' => $unit->id, 'professor_id' => $professor->id]) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                <tr class="bg-blue-200 ">
+                    <td class="flex items-center justify-center"><a class="text-blue-700 border-1" href="{{route('Professor.assignUnits', $professor->id)}}">add +</a></td>
                 </tr>
             @endforeach
         </table>
     </div>
-{{--    @if ($units->hasPages())--}}
-{{--        <div class="pagination">--}}
-{{--            <a href="{{ $units->previousPageUrl() }}" class="prev-btn {{ $units->onFirstPage() ? 'disabled' : '' }}"><--}}
-{{--                previous</a>--}}
-{{--            <span class="page-info">{{ $units->currentPage() }} | {{ $units->lastPage() }}</span>--}}
-{{--            <a href="{{ $units->nextPageUrl() }}" class="next-btn {{ $units->hasMorePages() ? '' : 'disabled' }}">next--}}
-{{--                ></a>--}}
-{{--        </div>--}}
-{{--    @endif--}}
+    {{--    @if ($units->hasPages())--}}
+    {{--        <div class="pagination">--}}
+    {{--            <a href="{{ $units->previousPageUrl() }}" class="prev-btn {{ $units->onFirstPage() ? 'disabled' : '' }}"><--}}
+    {{--                previous</a>--}}
+    {{--            <span class="page-info">{{ $units->currentPage() }} | {{ $units->lastPage() }}</span>--}}
+    {{--            <a href="{{ $units->nextPageUrl() }}" class="next-btn {{ $units->hasMorePages() ? '' : 'disabled' }}">next--}}
+    {{--                ></a>--}}
+    {{--        </div>--}}
+    {{--    @endif--}}
 </div>
 </body>
 </html>
