@@ -7,7 +7,6 @@ use App\Models\Assignment;
 use App\Models\Department;
 use App\Models\DepartmentMember;
 use App\Models\Filiere;
-use App\Models\Professor;
 use App\Models\TeachingUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,30 +14,53 @@ use Illuminate\Http\Request;
 class ProfessorController extends Controller
 {
     public function index(){
-        $professors = User::all()->where('role', 'professor');
-        return view('professors.index', compact('professors'));
+        $department_id = 1; // this will be the id of the department that the head belong to
+        $professors = User::where('role', 'professor')
+            ->whereHas('departmentMember', function ($query) use ($department_id) {
+                $query->where('department_id', $department_id);
+            })
+            ->with('departmentMember')
+            ->get();
+        $profsWithUnits = [];
+
+        foreach ($professors as $professor) {
+            if ($professor) {
+                $units = TeachingUnit::
+                wherehas('assignments', function ($q) use ($professor) {
+                    $q->where('professor_id', $professor->id);})
+                    ->with('assignments')
+                    ->get();
+            } else {
+                $units = collect();
+//                $assignedUnits = collect();
+            }
+            $profsWithUnits[] = [
+                'professor' => $professor,
+                'units' => $units,
+            ];
+        }
+
+        return view('department-head.professors.index', compact('profsWithUnits'));
     }
-    public function show($id){
-        $professor = User::find($id);
-        return view('Professor/profile', compact('professor'));
-    }
-    public function assignUnits($id){
+
+    public function assign($id)
+    {
         $department_id = DepartmentMember::where('professor_id', $id)->value('department_id');
         $filiere = Filiere::where('department_id', $department_id)->get();
 
         $professor = User::find($id);
         $units = TeachingUnit::
         whereDoesntHave('assignments')
-        ->whereHas('filiere', function($q) use($filiere){
-            $q->whereIn('id', $filiere->pluck('id'));
-        })
-        ->get();
+            ->whereHas('filiere', function($q) use($filiere){
+                $q->whereIn('id', $filiere->pluck('id'));
+            })
+            ->get();
 
-        return view('DepartmentHead/assignUnits', compact('professor', 'units'));
+        return view('department-head.professors.assign', compact('professor', 'units'));
     }
 
-    public function assignUnitsDB(Request $request, $professor_id) {
-        // Validate input
+    public function storeAssignment(Request $request, $professor_id)
+    {
         $request->validate([
             'unit_id' => 'required|exists:teaching_units,id', // Ensure the unit exists
         ]);
@@ -57,11 +79,11 @@ class ProfessorController extends Controller
                 'unit_id' => $unit_id,
             ]);
         }
-
-        return redirect()->route('Professors.list')->with('success', 'Unit assigned successfully.');
+        // Redirect with a success message
+        return redirect()->route('department-head.professors.index')->with('success', 'unit(s) assigned successfully!');
     }
 
-    public function removeAssign($unit_id, $professor_id)
+    public function destroyAssignment($professor_id, $unit_id)
     {
         $assignment = Assignment::where('unit_id', $unit_id)
             ->where('professor_id', $professor_id)
@@ -69,10 +91,10 @@ class ProfessorController extends Controller
 
         if ($assignment) { // Check if assignment exists
             $assignment->delete();
-            return redirect()->route('Professors.list')->with('success', 'Unit assignment was deleted successfully.');
+            return redirect()->route('department-head.professors.index')->with('success', 'Unit assignment was deleted successfully.');
         }
 
-        return redirect()->route('Professors.list')->with('error', 'Unit assignment not found.');
+        return redirect()->route('department-head.professors.index')->with('error', 'Unit assignment not found.');
     }
 
 }

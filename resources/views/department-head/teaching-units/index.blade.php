@@ -5,13 +5,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite(['resources/js/DepartmentHead/TeachingUnits.js', 'resources/css/DepartmentHead/TeachingUnits.css'])
+    @vite(['resources/js/department-head/teaching-units.js', 'resources/css/department-head/TeachingUnits.css'])
     <title>Teaching Units</title>
 </head>
 <body>
 <div class="main-container">
     <div class="search-wrapper">
-        <form class="search-form" method="GET" action="{{route('TeachingUnits.search')}}">
+        <form class="search-form" method="GET" action="{{route('department-head.teaching-units.search')}}">
             <div class="search-bar">
                 <input type="text" id="search" name="search" placeholder="Search">
                 <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
@@ -57,15 +57,15 @@
                     <td>{{ $unit->type }}</td>
                     <td>{{ $unit->credits }}</td>
                     <td>{{ $unit->semester }}</td>
-                    <td>
-                        @if ($unit->assignments->isEmpty())
-                            <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.assign', $unit->id)}}">Not assigned +</a>
-                        @else
-                            @foreach ($unit->assignments as $assignment)
-                                <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.reassign', $unit->id)}}">{{ $assignment->professor->name }}</a>
-                            @endforeach
-                        @endif
-                    </td>
+{{--                    <td>--}}
+{{--                        @if ($unit->assignments->isEmpty())--}}
+{{--                            <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.assign', $unit->id)}}">Not assigned +</a>--}}
+{{--                        @else--}}
+{{--                            @foreach ($unit->assignments as $assignment)--}}
+{{--                                <a style="color: #0a58ca; border: 1px solid #ccc; border-radius: .5em; font-size: 12px; padding: .5em" href="{{route('TeachingUnits.reassign', $unit->id)}}">{{ $assignment->professor->name }}</a>--}}
+{{--                            @endforeach--}}
+{{--                        @endif--}}
+{{--                    </td>--}}
                 </tr>
             @endforeach
         </table>

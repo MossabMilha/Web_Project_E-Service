@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-{{--    @vite(['resources/js/DepartmentHead/TeachingUnits.js', 'resources/css/DepartmentHead/TeachingUnits.css'])--}}
+{{--    @vite(['resources/js/department-head/teaching-units.js', 'resources/css/department-head/TeachingUnits.css'])--}}
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <title>Professors List</title>
 </head>
@@ -77,7 +77,7 @@
                             <td>{{$unit->semester}}</td>
                             <td>{{$unit->status}}</td>
                             <td>
-                                <form action="{{ route('Professor.removeAssign', ['unit_id' => $unit->id, 'professor_id' => $professor->id]) }}" method="POST" style="display:inline;">
+                                <form action="{{ route('department-head.professors.units.destroy', ['professor_id' => $professor->id, 'unit_id' => $unit->id]) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger">Remove</button>
@@ -87,7 +87,7 @@
                     @endforeach
                 @endif
                 <tr class="bg-blue-200 ">
-                    <td class="flex items-center justify-center"><a class="text-blue-700 border-1" href="{{route('Professor.assignUnits', $professor->id)}}">add +</a></td>
+                    <td class="flex items-center justify-center"><a class="text-blue-700 border-1" href="{{route('department-head.professors.assign', $professor->id)}}">add +</a></td>
                 </tr>
             @endforeach
         </table>
