@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginProcesse;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TeachingStaffController;
+use App\Http\Controllers\TeachingUnitController;
 use Illuminate\Support\Facades\Route;
 
 
