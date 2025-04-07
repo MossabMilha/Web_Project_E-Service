@@ -7,19 +7,33 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Routing\Controller;
 
-class  AdminController extends Controller
+class AdminController extends Controller
 {
+    // Apply middleware to ensure the user is authenticated and is an admin
+    public function __construct()
+    {
+        $this->middleware('auth');  // Ensure the user is authenticated
+        $this->middleware('admin'); // Ensure the user is an admin
+    }
 
-    public function UserInformation($id){
+    // View user information
+    public function UserInformation($id)
+    {
         $user = User::findOrFail($id);
         return view('AdminUserInfo', compact('user'));
     }
-    public function AddUser(){
+
+    // Show Add User form
+    public function AddUser()
+    {
         return view('AdminAddUser');
     }
-    public function search(Request $request) {
+
+    // Search users
+    public function search(Request $request)
+    {
         $searchTerm = $request->input('search');
         $searchOption = $request->input('option', 'id');
 
@@ -44,23 +58,20 @@ class  AdminController extends Controller
             }
         }
 
-        $users = $query->paginate(10)->appends(request()->query());;
-
+        $users = $query->paginate(10)->appends(request()->query());
         return view('AdminUserManagement', compact('users'));
     }
+
+    // Delete user
     public function DeleteUser(Request $request, $id)
     {
-
         $admin = Auth::user();
 
-        // Validate password input
         if (!Hash::check($request->password, $admin->password)) {
             return redirect()->back()->withErrors(['password' => 'Incorrect password.']);
         }
 
-        // Find the user to delete
         $user = User::find($id);
-
         if (!$user) {
             return redirect()->back()->withErrors(['user' => 'User not found.']);
         }
@@ -68,140 +79,64 @@ class  AdminController extends Controller
         $user->delete();
         return redirect()->route('UserManagement.index')->with('success', 'User deleted successfully.');
     }
-    public function DeleteAssignment($id){
+
+    // Delete assignment
+    public function DeleteAssignment($id)
+    {
         $assignment = Assignment::findOrFail($id);
         $assignment->delete();
-        return redirect()->back()->with('success', 'Assignment has been deleted');
-
+        return redirect()->back()->with('success', 'Assignment deleted successfully.');
     }
-    public function AddAssignment(Request $request){
-        // Validate the incoming request data
-        $validatedData = $request->validate([
 
-            'unit_id' => 'required|exists:teaching_units,id', // Teaching unit must exist
+    // Add assignment
+    public function AddAssignment(Request $request)
+    {
+        $request->validate([
+            'unit_id' => 'required|exists:teaching_units,id',
         ]);
 
-        $professor_id = $request->professor_id;
+        Assignment::create([
+            'professor_id' => $request->professor_id,
+            'unit_id' => $request->unit_id,
+            'status' => 'pending',
+        ]);
 
-        $assignment = new Assignment();
-        $assignment->professor_id = $professor_id;
-        $assignment->unit_id = $validatedData['unit_id'];
-        $assignment->status = 'pending';
-        $assignment->created_at = now();
-        $assignment->updated_at = now();
-        $assignment->save();
-
-
-        return redirect()->back()->with('success', 'Assignment added successfully!');
+        return redirect()->back()->with('success', 'Assignment added successfully.');
     }
+
+    // Add user to the database
     public function AddUserDb(Request $request)
     {
-
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:255',
-            'role' => 'required|string',
+            'role' => 'required|string|in:admin,department_head,coordinator,professor,vacataire',
             'specialization' => 'nullable|string',
         ]);
 
-        $valid = true;
-        $errors = [];
-
-
-        $validNameResult = User::validName($request->input('name'));
-        if ($validNameResult !== true) {
-            $errors['name'] = $validNameResult;
-            $valid = false;
-        }
-
-
-        $validEmailResult = User::validEmail($request->input('email'));
-        if ($validEmailResult !== true) {
-            $errors['email'] = $validEmailResult;
-            $valid = false;
-        }
-
-
-        $validPhoneResult = User::validPhoneNumber($request->input('phone'));
-        if ($validPhoneResult !== true) {
-            $errors['phone'] = $validPhoneResult;
-            $valid = false;
-        }
-
-        if (!$valid) {
-            return redirect()->back()->withInput()->withErrors($errors);
-        }
-
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->role = $request->input('role');
-        if($user->role == 'professor' || $user->role == 'vacataire' ){
-            $user->specialization = $request->input('specialization');
-        }else{
-            $user->specialization = null;
-        }
-        $user->password = Hash::make('test');
-
+        $user = new User($validatedData);
+        $user->password = Hash::make('test'); // Default password (should be changed later)
         $user->save();
 
-        return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully!');
+        return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully.');
     }
 
-    public function EditUser(Request $request, $id){
+    // Edit user
+    public function EditUser(Request $request, $id)
+    {
         $user = User::findOrFail($id);
 
-        // Validate the data from the form
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
             'specialization' => 'nullable|string',
-            'role' => 'required|string',
+            'role' => 'required|string|in:admin,department_head,coordinator,professor,vacataire',
         ]);
-        $errors = [];
 
-        // Update fields if different
-        $nameValidation = User::validName($request->input('name'));
-        if ($request->input('name') != $user->name) {
-            if ($nameValidation === true) {
-                User::updateField($id, 'name', $request->input('name'));
-            } else {
-                $errors['name'] = $nameValidation;
-            }
-        }
+        $user->update($validatedData);
 
-        $phoneValidation = User::validPhoneNumber($request->input('phone'), $id);
-        if ($request->input('phone') != $user->phone) {
-            if ($phoneValidation === true) {
-                User::updateField($id, 'phone', $request->input('phone'));
-            } else {
-                $errors['phone'] = $phoneValidation;
-            }
-        }
-
-        $emailValidation = User::validEmail($request->input('email'), $id);
-        if ($request->input('email') != $user->email) {
-            if ($emailValidation === true) {
-                User::updateField($id, 'email', $request->input('email'));
-            } else {
-                $errors['email'] = $emailValidation;
-            }
-        }
-
-        if ($request->input('specialization') != $user->specialization) {
-            User::updateField($id, 'specialization', $request->input('specialization'));
-        }
-
-        if ($request->input('role') != $user->role) {
-            User::updateField($id, 'role', $request->input('role'));
-        }
-
-        if (!empty($errors)) {
-            return redirect()->back()->withErrors($errors)->withInput();
-        }
         return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
     }
-
 }

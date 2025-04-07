@@ -113,7 +113,7 @@
 
     <div class="modal-overlay" id="modal-overlay" style="display: none">
         <div class="Edit-Teaching-Unite" style="display: none;">
-            <form method="POST" action="{{ route('Coordinator.EditUnit' }}" id="editUnitForm">
+            <form method="POST" action="{{ route('Coordinator.EditUnit')}}" id="editUnitForm">
                 @csrf
                 <h1 id="Unite-Title"></h1>
                 <input type="text" name="UnitID" id="UnitID" style="display: none">
