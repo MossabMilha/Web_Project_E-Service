@@ -8,7 +8,7 @@
     <title>request units</title>
 </head>
 <body>
-    <form id="units-request-form" action="{{route('professors.units.request.store', $professor->id)}}" method="post">
+    <form id="units-request-form" action="{{route('professor.units.request.store', $professor->id)}}" method="post">
         @csrf
         <label>prof name: </label>
         <label>{{$professor->name}}</label>
