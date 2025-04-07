@@ -74,7 +74,6 @@
         document.getElementById("store-assignment-form").addEventListener("submit", function () {
             document.getElementById("unitsInput").value = JSON.stringify(Object.keys(selected_units));
         });
-
     </script>
 </form>
 

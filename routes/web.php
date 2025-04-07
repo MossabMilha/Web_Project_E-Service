@@ -78,8 +78,8 @@ Route::prefix('professor')
     ->name('professor.')
 //    ->middleware(['auth', 'role:professor'])
     ->group(function () {
-    Route::get('/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
-    Route::post('/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
+    Route::get('/{id}/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
+    Route::post('/{id}/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
 });
 
 
