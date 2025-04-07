@@ -33,12 +33,15 @@ Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
 
 
 // Group all routes under '/department-head/'
-Route::prefix('department-head')->name('department-head.')->group(function () {
-// Teaching units Routes
+Route::prefix('department-head')
+    ->name('department-head.')
+//    ->middleware(['auth', 'role:department_head'])
+    ->group(function () {
+    // Teaching units Routes
     Route::get('/teaching-units', [TeachingUnitController::class, 'index'])->name('teaching-units.index');
     Route::get('/teaching-units/search', [TeachingUnitController::class, 'search'])->name('teaching-units.search');
 
-// Professors Routes
+    // Professors Routes
     Route::get('/professors', [ProfessorController::class, 'index'])->name('professors.index');
     // Route::get('/professors/{id}', [ProfessorController::class, 'show'])->name('professors.show'); // not implemented
     Route::get('/professors/{id}/assign', [ProfessorController::class, 'assign'])->name('professors.assign');
@@ -54,6 +57,13 @@ Route::middleware(['coordinator'])->group(function () {
     Route::get('/Coordinator/VacataireAccount/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('VacataireAccount.user');
     Route::get('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataire'])->name('VacataireAccount.addVacataire');
     Route::post('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataireDb'])->name('VacataireAccount.addVacataireDB');
+});
+
+Route::prefix('professor')
+    ->name('professor.')
+//    ->middleware(['auth', 'role:professor'])
+    ->group(function () {
+    Route::get('/request-assignment', [ProfessorController::class, 'requestAssignment'])->name('units.request');
 });
 
 

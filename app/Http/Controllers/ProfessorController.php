@@ -106,8 +106,6 @@ class ProfessorController extends Controller
         }
     }
 
-
-
     public function destroyAssignment($professor_id, $unit_id)
     {
         $assignment = Assignment::where('unit_id', $unit_id)
@@ -120,6 +118,11 @@ class ProfessorController extends Controller
         }
 
         return redirect()->route('department-head.professors.index')->with('error', 'Unit assignment not found.');
+    }
+
+    public function requestAssignment(Request $request, $professor_id, $unit_id)
+    {
+
     }
 
 }
