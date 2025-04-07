@@ -23,12 +23,23 @@ class LoginProcesse extends Controller
         $user = User::checkEmailPassword($request->email, $request->password);
 
         if ($user) {
-            // Store user session manually
+            //If The user is found, we will create a session for the user
             Session::put('user_id', $user->id);
             Session::put('user_name', $user->name);
             Session::put('user_role', $user->role);
 
-            return redirect()->route('home');
+            //Depending on the role of the user, we will redirect him to the right page
+            if ($user->role == 'admin') {
+                return redirect()->route('UserManagement.search');
+            } elseif ($user->role == 'department_head') {
+                return redirect()->route('department-head.teaching-units.index');
+            } elseif ($user->role == 'coordinator') {
+                return redirect()->route('Coordinator.teachingUnits');
+            } elseif($user->role == 'professor') {
+                return redirect()->route('home');
+            }elseif($user->role == 'vacataire'){
+                return redirect()->route('home');
+            }
         } else {
             return back()->withErrors(['error' => 'Invalid email or password']);
         }

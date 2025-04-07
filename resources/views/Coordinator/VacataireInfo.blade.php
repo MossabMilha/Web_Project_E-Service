@@ -17,7 +17,7 @@
         <button id="edit-user-btn" type="button" onclick="toggleEditMode()">Edit</button>
 
         <!-- Display User Information -->
-        <form id="user-info-form" action="{{ route('UserManagement.editUser', $user->id) }}" method="POST">
+        <form id="user-info-form" action="{{ route('UserManagement.editUser') }}" method="POST">
             @csrf
             @method('PUT')
 

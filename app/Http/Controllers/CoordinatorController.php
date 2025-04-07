@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\Hash;
 
 class CoordinatorController extends Controller
 {
-    public function teachingUnits($coordinatorId){
-        // Retrieve all Filiere instances and their associated TeachingUnits
+    public function teachingUnits(){
+        $coordinatorId = session('user_id');
+
         $filieres = Filiere::where('coordinator_id', $coordinatorId)->with('TeachingUnits')->get();
 
         // Collect all the teaching units related to these Filiere instances
@@ -22,9 +23,10 @@ class CoordinatorController extends Controller
         return view('/Coordinator/TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
 
-    public function AddUnit(Request $request, $CoordinatorId)
+    public function AddUnit(Request $request)
     {
-        // Validate input data
+        $coordinatorId = session('user_id');
+
         $validated = $request->validate([
             'add-name' => 'required|string|max:255',
             'add-description' => 'required|string',
@@ -46,11 +48,12 @@ class CoordinatorController extends Controller
             'semester' => $validated['add-semester'],
         ]);
 
-        return redirect()->route('Coordinator.teachingUnits', ['id' => $CoordinatorId])
+        return redirect()->route('Coordinator.teachingUnits')
             ->with('success', 'Teaching unit added successfully!');
     }
-    public function EdtUnit(Request $request,$Id)
+    public function EdtUnit(Request $request)
     {
+        $Id = session('user_id');
         // Validate incoming request data
         $request->validate([
             'name' => 'required|string|max:255',

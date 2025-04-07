@@ -10,7 +10,7 @@
 
     <div class="Add-modal-overlay" id="Add-modal-overlay" style="display: none;">
         <div class="Add-Teaching-Unite" >
-            <form method="POST" action="{{ route('Coordinator.AddUnit',['id' => $coordinatorId]) }}">
+            <form method="POST" action="{{ route('Coordinator.AddUnit') }}">
                 @csrf
                 <h1>Add New Unit</h1>
 
@@ -113,7 +113,7 @@
 
     <div class="modal-overlay" id="modal-overlay" style="display: none">
         <div class="Edit-Teaching-Unite" style="display: none;">
-            <form method="POST" action="{{ route('Coordinator.EditUnit', ['id' => $coordinatorId]) }}" id="editUnitForm">
+            <form method="POST" action="{{ route('Coordinator.EditUnit' }}" id="editUnitForm">
                 @csrf
                 <h1 id="Unite-Title"></h1>
                 <input type="text" name="UnitID" id="UnitID" style="display: none">

@@ -11,10 +11,7 @@ use Illuminate\Support\Str;
 
 class  AdminController extends Controller
 {
-    public function UserManagement(){
-        $users = User::all();
-        return view('AdminUserManagement',compact('users'));
-    }
+
     public function UserInformation($id){
         $user = User::findOrFail($id);
         return view('AdminUserInfo', compact('user'));
