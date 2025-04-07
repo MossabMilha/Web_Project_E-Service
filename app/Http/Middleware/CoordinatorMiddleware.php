@@ -6,15 +6,17 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class Admin
+class CoordinatorMiddleware
 {
 
     public function handle(Request $request, Closure $next)
     {
-        if (Session::get('user_role') !== 'admin') {
+        // Check if user is logged in and is a coordinator
+        if (Session::get('user_role') !== 'coordinator') {
             return redirect()->route('login')->withErrors(['error' => 'Access denied']);
         }
 
         return $next($request);
     }
 }
+
