@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 class ProfessorController extends Controller
 {
+    //department head methods
     public function index(){
         $department_id = 1; // this will be the id of the department that the head belong to
         $professors = User::where('role', 'professor')
@@ -120,9 +121,11 @@ class ProfessorController extends Controller
         return redirect()->route('department-head.professors.index')->with('error', 'Unit assignment not found.');
     }
 
-    public function requestAssignment(Request $request, $professor_id, $unit_id)
+    //professor methods
+    public function unitRequestForm()
     {
-
+        $professor = User::find(4);
+        return view('professor.request-units', compact('professor'));
     }
 
 }

@@ -37,15 +37,30 @@ Route::prefix('department-head')
     ->name('department-head.')
 //    ->middleware(['auth', 'role:department_head'])
     ->group(function () {
-    // Teaching units Routes
-    Route::get('/teaching-units', [TeachingUnitController::class, 'index'])->name('teaching-units.index');
-    Route::get('/teaching-units/search', [TeachingUnitController::class, 'search'])->name('teaching-units.search');
+    // ----------------------- Teaching units Routes -----------------------
 
-    // Professors Routes
+        // not implemented
+        // Show the list of all teaching units that belongs to the same department of department head (the id here is not implemented yet!)
+    // Route::get('/teaching-units', [TeachingUnitController::class, 'index'])->name('teaching-units.index');
+
+        // not implemented
+    // Route::get('/teaching-units/search', [TeachingUnitController::class, 'search'])->name('teaching-units.search');
+
+    // ----------------------- Professors Routes -----------------------
+
+        // Show the list of all professors that belongs to the same department of department head (needs id to be passed)
     Route::get('/professors', [ProfessorController::class, 'index'])->name('professors.index');
-    // Route::get('/professors/{id}', [ProfessorController::class, 'show'])->name('professors.show'); // not implemented
+
+        // not implemented
+    // Route::get('/professors/{id}', [ProfessorController::class, 'show'])->name('professors.show');
+
+        // Show the form to assign a professor to a teaching unit or more
     Route::get('/professors/{id}/assign', [ProfessorController::class, 'assign'])->name('professors.assign');
+
+        // Store the assignment of a professor to a teaching unit or more
     Route::post('/professors/{id}/assign', [ProfessorController::class, 'storeAssignment'])->name('professors.units.store');
+
+        // Remove the assignment of a professor from a teaching unit
     Route::delete('/professors/{professor_id}/units/{unit_id}', [ProfessorController::class, 'destroyAssignment'])->name('professors.units.destroy');
 });
 
@@ -63,7 +78,7 @@ Route::prefix('professor')
     ->name('professor.')
 //    ->middleware(['auth', 'role:professor'])
     ->group(function () {
-    Route::get('/request-assignment', [ProfessorController::class, 'requestAssignment'])->name('units.request');
+    Route::get('/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
 });
 
 
