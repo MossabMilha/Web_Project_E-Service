@@ -137,6 +137,17 @@ class User extends Authenticatable{
         return null; // Return null instead of false
     }
 
+    public static function unassignedVacataires()
+    {
+        return self::where('role', 'vacataire')
+            ->whereDoesntHave('filieres')
+            ->get();
+    }
+
+    public function filieres()
+    {
+        return $this->belongsToMany(Filiere::class, 'user_filiere', 'user_id', 'filiere_id');
+    }
 
     public function assignments()
     {

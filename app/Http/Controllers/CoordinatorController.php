@@ -6,6 +6,7 @@ use App\Models\Filiere;
 use App\Models\TeachingUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class CoordinatorController extends Controller
@@ -155,6 +156,18 @@ class CoordinatorController extends Controller
     {
         $user = User::findOrFail($id);
         return view('/Coordinator/VacataireInfo',compact('user'));
+    }
+    public function AssignedTeachingUnit($UnitId){
+        $unit = TeachingUnit::findOrFail($UnitId);
+        $vacataires = Auth::user()->unassignedVacataires();
+
+        return view('/Coordinator/AssignedTeachingUnit', compact('unit','vacataires'));
+
+    }
+    public function getVacataireDetails($id)
+    {
+        $vacataire = User::findOrFail($id);
+        return response()->json($vacataire);
     }
 
 

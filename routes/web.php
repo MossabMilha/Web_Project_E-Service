@@ -65,9 +65,14 @@ Route::prefix('department-head')
 });
 
 Route::middleware(['coordinator'])->group(function () {
+
     Route::get('/Coordinator/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
     Route::post('/Coordinator/teachingUnits/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('Coordinator.AddUnit');
     Route::post('/Coordinator/teachingUnits/EditUnit', [CoordinatorController::class, 'EdtUnit'])->name('Coordinator.EditUnit');
+
+    Route::get('/vacataire/{id}', [CoordinatorController::class, 'getVacataireDetails']);
+
+    Route::get('/Coordinator/teachingUnits/AssignedTeachingUnit/{id}', [CoordinatorController::class, 'AssignedTeachingUnit'])->name('Coordinator.AssignedTeachingUnit');
 
     Route::get('/Coordinator/VacataireAccount', [CoordinatorController::class, 'VacataireAccount'])->name('VacataireAccount');
     Route::get('/Coordinator/VacataireAccount/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('VacataireAccount.user');

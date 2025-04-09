@@ -92,9 +92,9 @@
             </tr>
             @foreach($allTeachingUnits as $unit)
                 <tr>
-                    <td>{{ $unit->id }}</td>
-                    <td>{{ $unit->name }}</td>
-                    <td>{{ $unit->description }}</td>
+                    <td>{{$unit->id }}</td>
+                    <td>{{$unit->name }}</td>
+                    <td>{{$unit->description }}</td>
                     <td>{{$unit->hours}}</td>
                     <td>{{$unit->type}}</td>
                     <td>{{$unit->credits}}</td>
@@ -109,9 +109,9 @@
                         <button class="edit-btn">edit</button>
                         <button class="delete-btn">delete</button>
                         @if($unit->getstatus() == true )
-                            <button class="Re-Assign-btn">Re-Assign</button>
+                            <a  class="Re-Assign-btn">Re-Assign</a>
                         @else
-                            <button class="Assign-btn">Assign</button>
+                            <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">Assign</a>
                         @endif
                     </td>
                 </tr>
