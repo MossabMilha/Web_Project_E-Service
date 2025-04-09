@@ -42,7 +42,7 @@ class ProfessorController extends Controller
             ];
         }
 
-        return view('department-head.professors.index', compact('profsWithUnits'));
+        return view('department_head.professors.index', compact('profsWithUnits'));
     }
 
     public function assign($id)
@@ -58,7 +58,7 @@ class ProfessorController extends Controller
             })
             ->get();
 
-        return view('department-head.professors.assign', compact('professor', 'units'));
+        return view('department_head.professors.assign', compact('professor', 'units'));
     }
 
     public function storeAssignment(Request $request, $professor_id)
@@ -186,6 +186,11 @@ class ProfessorController extends Controller
         } else {
             return redirect()->route('professor.units.request', $professor_id)->with('info', 'The selected unit(s) are already requested by this professor.');
         }
+    }
+
+    public function indexUnitRequests(){
+        $unit_requests = UnitsRequest::all();
+        return view('professors.unitRequests', compact('unit_requests'));
     }
 
 }

@@ -62,6 +62,9 @@ Route::prefix('department-head')
 
         // Remove the assignment of a professor from a teaching unit
     Route::delete('/professors/{professor_id}/units/{unit_id}', [ProfessorController::class, 'destroyAssignment'])->name('professors.units.destroy');
+
+        // show professors units requests
+    Route::get('/professors/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('professors.unit.requests');
 });
 
 Route::middleware(['coordinator'])->group(function () {
