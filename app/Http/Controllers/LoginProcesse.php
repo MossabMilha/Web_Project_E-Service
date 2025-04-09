@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
 
 class LoginProcesse extends Controller
 {
@@ -13,37 +15,37 @@ class LoginProcesse extends Controller
         return view('loginPage');
     }
 
+
+
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $user = User::checkEmailPassword($request->email, $request->password);
+        if (Auth::attempt($credentials)) {
+            // Retrieve the authenticated user
+            $user = Auth::user();
 
-        if ($user) {
-            //If The user is found, we will create a session for the user
-            Session::put('user_id', $user->id);
-            Session::put('user_name', $user->name);
+            // Store user role in the session (optional, since you can use Auth::user()->role directly)
             Session::put('user_role', $user->role);
 
-            //Depending on the role of the user, we will redirect him to the right page
+            // Redirect based on role
             if ($user->role == 'admin') {
                 return redirect()->route('UserManagement.search');
             } elseif ($user->role == 'department_head') {
                 return redirect()->route('department-head.teaching-units.index');
             } elseif ($user->role == 'coordinator') {
                 return redirect()->route('Coordinator.teachingUnits');
-            } elseif($user->role == 'professor') {
-                return redirect()->route('home');
-            }elseif($user->role == 'vacataire'){
+            } elseif (in_array($user->role, ['professor', 'vacataire'])) {
                 return redirect()->route('home');
             }
-        } else {
-            return back()->withErrors(['error' => 'Invalid email or password']);
         }
+
+        return back()->withErrors(['error' => 'Invalid email or password']);
     }
+
 
     public function logout()
     {

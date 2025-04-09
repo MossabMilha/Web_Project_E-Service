@@ -85,6 +85,7 @@
                 <th>credits</th>
                 <th>filliere</th>
                 <th>semester</th>
+                <th>Status</th>
                 <th>Units Created At</th>
                 <th>Units Updated</th>
                 <th>Actions</th>
@@ -99,10 +100,19 @@
                     <td>{{$unit->credits}}</td>
                     <td>{{$unit->filiere_id}}</td>
                     <td>{{$unit->semester}}</td>
+                    <td>
+                        {{$unit->getstatus() == true ? 'assigned' : 'unassigned'}}
+                    </td>
                     <td>{{ $unit->created_at }}</td>
                     <td>{{ $unit->updated_at }}</td>
                     <td>
                         <button class="edit-btn">edit</button>
+                        <button class="delete-btn">delete</button>
+                        @if($unit->getstatus() == true )
+                            <button class="Re-Assign-btn">Re-Assign</button>
+                        @else
+                            <button class="Assign-btn">Assign</button>
+                        @endif
                     </td>
                 </tr>
             @endforeach

@@ -38,6 +38,10 @@ class TeachingUnit extends Model
         $unit->save();
         return $unit;
     }
+    public function getstatus()
+    {
+        return $this->assignments()->exists();
+    }
 
     // Relationship with department
     public function department()

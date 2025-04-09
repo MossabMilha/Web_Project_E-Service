@@ -15,7 +15,8 @@ class CoordinatorMiddleware
         if (!Auth::check()) {
             return redirect()->route('login')->withErrors(['error' => 'You must be logged in to access this page']);
         }
-        if (!$request->session()->has('user_role') || Session::get('user_role') !== 'coordinator') {
+
+        if (Auth::user()->role !== 'coordinator') {
             return redirect()->route('login')->withErrors(['error' => 'Access denied']);
         }
 
