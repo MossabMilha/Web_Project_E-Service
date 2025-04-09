@@ -8,17 +8,61 @@
     <title>units requests</title>
 </head>
 <body>
-<table>
-    <tr>
-        <th>{{$unit_request->professor_id}}</th>
-        <th>{{$unit_request->unit_id}}</th>
-        <th>{{$unit_request->status}}</th>
-        <th>{{$unit_request->semester}}</th>
-        <th>{{$unit_request->academic_year}}</th>
-        <th>{{$unit_request->requested_at}}</th>
-        <th>{{$unit_request->reviewed_at}}</th>
-        <th>{{$unit_request->reviewed_by}}</th>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <th>professor id</th>
+            <th>professor name</th>
+            <th>unit id</th>
+            <th>unit label</th>
+            <th>status</th>
+            <th>semester</th>
+            <th>academic year</th>
+            <th>workload hours</th>
+            <th>requested at</th>
+            <th>reviewed at</th>
+            <th>reviewed by</th>
+        </tr>
+        @foreach($unit_requests as $unit_request)
+        <tr>
+            <td>{{$unit_request->professor_id}}</td>
+            <td>{{$unit_request->professor->name}}</td>
+            <td>{{$unit_request->unit_id}}</td>
+            <td>{{$unit_request->unit->name}}</td>
+            <td>{{$unit_request->status}}</td>
+            <td>{{$unit_request->semester}}</td>
+            <td>{{$unit_request->academic_year}}</td>
+            <td></td>
+            <td>{{$unit_request->requested_at}}</td>
+            <td>{{$unit_request->reviewed_at}}</td>
+            <td>
+                @if($unit_request->reviewed_by != null)
+                    {{$unit_request->reviewed_by}}
+                @else
+                    not reviewed
+                @endif
+            </td>
+            <td>
+                <form action="{{route('department-head.professors.unit.request.handle', $unit_request->id)}}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" name="action" value="approve" class="btn btn-primary">approve</button>
+                </form>
+            </td>
+            <td>
+                <form action="{{route('department-head.professors.unit.request.handle', $unit_request->id)}}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" name="action" value="reject" class="btn btn-danger">reject</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </table>
 </body>
+<style>
+    body {
+        background-color: #cfdcf5;
+    }
+    table tr > *{
+        border: 1px solid #ff4433;
+    }
+</style>
 </html>

@@ -65,6 +65,10 @@ Route::prefix('department-head')
 
         // show professors units requests
     Route::get('/professors/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('professors.unit.requests');
+
+        // handle(accept or reject) professor unit request
+    Route::post('/professors/{unit_request_id}/accept', [ProfessorController::class, 'handleUnitRequests'])->name('professors.unit.request.handle');
+
 });
 
 Route::middleware(['coordinator'])->group(function () {

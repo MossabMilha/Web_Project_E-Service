@@ -189,8 +189,22 @@ class ProfessorController extends Controller
     }
 
     public function indexUnitRequests(){
-        $unit_requests = UnitsRequest::all();
-        return view('professors.unitRequests', compact('unit_requests'));
+        $unit_requests = UnitsRequest::with(['professor', 'unit'])->where('status', 'pending')->get();
+        return view('department_head.professors.unitRequests', compact('unit_requests'));
+    }
+
+    public function handleUnitRequests(Request $request, $unit_request_id){
+        $unit_request = UnitsRequest::find($unit_request_id);
+        $action = $request->input('action');
+
+        if ($action == 'approve'){
+            $unit_request->status = 'approved';
+        } else if ($action == 'reject'){
+            $unit_request->status = 'rejected';
+        }
+        $unit_request->reviewed_at = now();
+        $unit_request->save();
+        return redirect()->back()->with('success', "Request has been {$action}ed.");
     }
 
 }
