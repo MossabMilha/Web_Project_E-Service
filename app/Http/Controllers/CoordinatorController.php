@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Filiere;
 use App\Models\TeachingUnit;
 use App\Models\User;
@@ -168,6 +169,29 @@ class CoordinatorController extends Controller
     {
         $vacataire = User::findOrFail($id);
         return response()->json($vacataire);
+    }
+    public function AssignedTeachingUnitDB(Request $request){
+        $request->validate([
+            'professor_id' => 'required|exists:users,id',
+            'unit_id' => 'required|exists:teaching_units,id',
+            'password' => 'required',
+        ]);
+
+        $user = Auth::user();
+
+        // Check if the password is correct
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Incorrect password'])->withInput();
+        }
+
+        // Save assignment
+        Assignment::create([
+            'professor_id' => $request->professor_id,
+            'unit_id' => $request->unit_id,
+            'status' => 'approved',
+        ]);
+
+        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire assigned successfully!');
     }
 
 

@@ -12,6 +12,8 @@ document.getElementById('vacataire').addEventListener('change', function() {
                 document.getElementById('role').textContent = data.role;
                 document.getElementById('specialization').textContent = data.specialization;
 
+                document.getElementById('selected-vacataire-id').value = data.id;
+
                 document.getElementById('vacataire-info').style.display = 'table'; // Show the table
             })
             .catch(error => console.error('Error:', error));

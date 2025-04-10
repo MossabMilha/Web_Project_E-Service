@@ -80,6 +80,7 @@ Route::middleware(['coordinator'])->group(function () {
     Route::get('/vacataire/{id}', [CoordinatorController::class, 'getVacataireDetails']);
 
     Route::get('/Coordinator/teachingUnits/AssignedTeachingUnit/{id}', [CoordinatorController::class, 'AssignedTeachingUnit'])->name('Coordinator.AssignedTeachingUnit');
+    Route::post('/Coordinator/teachingUnits/AssignedTeachingUnit', [CoordinatorController::class, 'AssignedTeachingUnitDB'])->name('Coordinator.AssignedTeachingUnitDB');
 
     Route::get('/Coordinator/VacataireAccount', [CoordinatorController::class, 'VacataireAccount'])->name('VacataireAccount');
     Route::get('/Coordinator/VacataireAccount/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('VacataireAccount.user');

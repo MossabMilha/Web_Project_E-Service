@@ -101,17 +101,19 @@
                     <td>{{$unit->filiere_id}}</td>
                     <td>{{$unit->semester}}</td>
                     <td>
-                        {{$unit->getstatus() == true ? 'assigned' : 'unassigned'}}
+                        {{$unit->assignmentStatus()}}
                     </td>
                     <td>{{ $unit->created_at }}</td>
                     <td>{{ $unit->updated_at }}</td>
                     <td>
                         <button class="edit-btn">edit</button>
                         <button class="delete-btn">delete</button>
-                        @if($unit->getstatus() == true )
+                        @if($unit->assignmentStatus() == 'assigned')
                             <a  class="Re-Assign-btn">Re-Assign</a>
-                        @else
+                        @elseif($unit->assignmentStatus() == 'unassigned')
                             <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">Assign</a>
+                        @else
+                            <a>Delete Request</a>
                         @endif
                     </td>
                 </tr>

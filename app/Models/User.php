@@ -140,7 +140,7 @@ class User extends Authenticatable{
     public static function unassignedVacataires()
     {
         return self::where('role', 'vacataire')
-            ->whereDoesntHave('filieres')
+            ->whereDoesntHave('assignments')  // Check that the user has no assignments
             ->get();
     }
 

@@ -44,7 +44,7 @@
         </tr>
         <tr>
             <th>Status</th>
-            <td>{{$unit->getstatus() == true ? 'assigned' : 'unassigned'}}</td>
+            <td>{{$unit->assignmentStatus()}}</td>
         </tr>
         <tr>
             <th>Units Created At</th>
@@ -83,6 +83,34 @@
             <th>Specialization</th>
             <td id="specialization"></td>
         </tr>
+        <form method="POST" action="{{ route('Coordinator.AssignedTeachingUnitDB') }}">
+            @csrf
+
+            <input type="hidden" name="professor_id" id="selected-vacataire-id">
+
+
+            <input type="hidden" name="unit_id" value="{{ $unit->id }}">
+
+            <tr>
+                <th>Password (Your Password)</th>
+                <td><input type="password" name="password" required></td>
+            </tr>
+
+            <tr>
+                <th colspan="2"><button type="submit">Assign The Vacataire To Unit</button></th>
+            </tr>
+        </form>
+
+
+        @if ($errors->any())
+            <div style="color: red;">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </table>
 </body>
 </html>
