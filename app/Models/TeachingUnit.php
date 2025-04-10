@@ -38,9 +38,18 @@ class TeachingUnit extends Model
         $unit->save();
         return $unit;
     }
-    public function getstatus()
+    public function assignmentStatus()
     {
-        return $this->assignments()->exists();
+        foreach ($this->assignments()->latest()->get() as $assignment) {
+            if ($assignment->status === 'approved') {
+                return 'assigned';
+            }
+            if ($assignment->status === 'pending') {
+                return 'pending request';
+            }
+            // skip 'declined'
+        }
+        return 'unassigned';
     }
 
     // Relationship with department

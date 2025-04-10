@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Hash;
 class CoordinatorController extends Controller
 {
     public function teachingUnits(){
-        $coordinatorId = session('user_id');
+        $coordinatorId = Auth::user()->id;
 
         $filieres = Filiere::where('coordinator_id', $coordinatorId)->with('TeachingUnits')->get();
 
-        // Collect all the teaching units related to these Filiere instances
+
         $allTeachingUnits = $filieres->flatMap(function($filiere) {
             return $filiere->TeachingUnits;
         });
