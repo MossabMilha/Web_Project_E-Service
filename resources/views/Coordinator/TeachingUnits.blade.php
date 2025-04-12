@@ -108,12 +108,11 @@
                     <td>
                         <button class="edit-btn">edit</button>
                         <button class="delete-btn">delete</button>
-                        @if($unit->assignmentStatus() == 'assigned')
-                            <a  class="Re-Assign-btn">Re-Assign</a>
+                        @if($unit->assignmentStatus() == 'assigned'&& $unit->assignedVacataire())
+                            <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">Re-Assign</a>
+                            <a class="Delete-Assign-btn">Delete-Assign</a>
                         @elseif($unit->assignmentStatus() == 'unassigned')
                             <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">Assign</a>
-                        @else
-                            <a>Delete Request</a>
                         @endif
                     </td>
                 </tr>

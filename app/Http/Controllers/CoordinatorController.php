@@ -165,6 +165,14 @@ class CoordinatorController extends Controller
         return view('/Coordinator/AssignedTeachingUnit', compact('unit','vacataires'));
 
     }
+    public function ReAssignedTeachingUnit($UnitId){
+        $unit = TeachingUnit::findOrFail($UnitId);
+        $oldVacataire = User::find($unit->assignedProfessorId());
+        $vacataires = Auth::user()->unassignedVacataires();
+
+        return view('/Coordinator/ReAssignedTeachingUnit', compact('unit','vacataires','oldVacataire'));
+
+    }
     public function getVacataireDetails($id)
     {
         $vacataire = User::findOrFail($id);
@@ -193,6 +201,48 @@ class CoordinatorController extends Controller
 
         return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire assigned successfully!');
     }
+    public function ReAssignedTeachingUnitDB(Request $request)
+    {
+        // Validate the incoming data
+        $request->validate([
+            'professor_id' => 'required|exists:users,id',  // Ensure the new professor exists
+            'unit_id' => 'required|exists:teaching_units,id', // Ensure the unit exists
+            'password' => 'required',
+        ]);
 
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        // Check if the password is correct
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Incorrect password'])->withInput();
+        }
+
+        // Get the old and new professor details
+        $oldVacataire = User::find($request->input('old-professor_id'));
+        $newVacataire = User::find($request->input('professor_id'));
+
+        if (!$oldVacataire || !$newVacataire) {
+            return back()->withErrors(['professor' => 'Invalid professor IDs provided']);
+        }
+
+        // Find the existing assignment record that links the old professor to the unit
+        $assignment = Assignment::where('unit_id', $request->unit_id)
+            ->where('professor_id', $oldVacataire->id)
+            ->first();
+
+        if (!$assignment) {
+            return back()->withErrors(['assignment' => 'No assignment found for the specified unit and professor']);
+        }
+
+        // Update the professor_id in the assignment record and set the status to 'approved'
+        $assignment->professor_id = $newVacataire->id;
+        $assignment->status = 'approved';  // Setting the status to 'approved'
+        $assignment->save();
+
+        // Optional: You can add additional logic if needed, such as notifying the new professor, etc.
+
+        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire Re-assigned successfully!');
+    }
 
 }

@@ -51,6 +51,27 @@ class TeachingUnit extends Model
         }
         return 'unassigned';
     }
+    public function assignedVacataire()
+    {
+        $latestAssignment = $this->assignments()
+            ->whereNotNull('professor_id')
+            ->latest()
+            ->first();
+
+        $professor = $latestAssignment?->professor;
+
+        return $professor && $professor->role === 'vacataire';
+    }
+    public function assignedProfessorId()
+    {
+        $latestAssignment = $this->assignments()
+            ->whereNotNull('professor_id')
+            ->latest()
+            ->first();
+
+        // Return the professor's ID regardless of their role
+        return $latestAssignment?->professor_id;
+    }
 
     // Relationship with department
     public function department()
