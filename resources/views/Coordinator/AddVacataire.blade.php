@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/js/AdminAddUser.js', 'resources/css/AddUser.css'])
+    @vite(['resources/js/Coordinator/AddVacataire.js', 'resources/css/AddUser.css'])
     <title>Add User</title>
     <style>
         .spec-wrapper {
@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form class="add-user-form" action="{{ route('UserManagement.adduserDB') }}" method="post">
+    <form class="add-user-form" action="{{ route('VacataireAccount.addVacataireDB') }}" method="post">
         @csrf
 
         <div class="name-wrapper wrapper">

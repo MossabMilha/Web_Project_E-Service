@@ -146,7 +146,7 @@ class CoordinatorController extends Controller
 
         $user->save();
 
-        return redirect()->route('UserManagement')->with('success', 'User added successfully!');
+        return redirect()->route('VacataireAccount')->with('success', 'User added successfully!');
     }
     public function VacataireAccount()
     {
@@ -207,13 +207,12 @@ class CoordinatorController extends Controller
         $request->validate([
             'professor_id' => 'required|exists:users,id',  // Ensure the new professor exists
             'unit_id' => 'required|exists:teaching_units,id', // Ensure the unit exists
-            'password' => 'required',
         ]);
 
         // Get the currently authenticated user
         $user = Auth::user();
 
-        // Check if the password is correct
+
         if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors(['password' => 'Incorrect password'])->withInput();
         }
@@ -235,14 +234,17 @@ class CoordinatorController extends Controller
             return back()->withErrors(['assignment' => 'No assignment found for the specified unit and professor']);
         }
 
-        // Update the professor_id in the assignment record and set the status to 'approved'
+
         $assignment->professor_id = $newVacataire->id;
-        $assignment->status = 'approved';  // Setting the status to 'approved'
+        $assignment->status = 'approved';
         $assignment->save();
 
-        // Optional: You can add additional logic if needed, such as notifying the new professor, etc.
+
 
         return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire Re-assigned successfully!');
     }
+
+
+
 
 }
