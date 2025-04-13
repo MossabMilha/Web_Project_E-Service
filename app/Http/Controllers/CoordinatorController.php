@@ -243,6 +243,22 @@ class CoordinatorController extends Controller
 
         return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire Re-assigned successfully!');
     }
+    //Schedule Management Section
+
+    public function ScheduleManagement()
+    {
+        $filieres = Filiere::where('coordinator_id', Auth::user()->id)->get();
+        return view('Coordinator/ScheduleManagement/ScheduleManagement', compact('filieres'));
+    }
+    public function ScheduleManagementFiliere(Request $request, $name)
+    {
+        $filiereId = $request->input('filiere_id');
+
+
+        $filiere = Filiere::find($filiereId);
+
+         return view('Coordinator/ScheduleManagement/ScheduleManagementFiliere', compact('filiere'));
+    }
 
 
 

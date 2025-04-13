@@ -30,17 +30,17 @@ class LoginProcesse extends Controller
 
             // Store user role in the session (optional, since you can use Auth::user()->role directly)
             Session::put('user_role', $user->role);
-
+            return redirect()->route('home');
             // Redirect based on role
-            if ($user->role == 'admin') {
-                return redirect()->route('UserManagement.search');
-            } elseif ($user->role == 'department_head') {
-                return redirect()->route('department-head.teaching-units.index');
-            } elseif ($user->role == 'coordinator') {
-                return redirect()->route('Coordinator.teachingUnits');
-            } elseif (in_array($user->role, ['professor', 'vacataire'])) {
-                return redirect()->route('home');
-            }
+//            if ($user->role == 'admin') {
+//                return redirect()->route('UserManagement.search');
+//            } elseif ($user->role == 'department_head') {
+//                return redirect()->route('department-head.teaching-units.index');
+//            } elseif ($user->role == 'coordinator') {
+//                return redirect()->route('Coordinator.teachingUnits');
+//            } elseif (in_array($user->role, ['professor', 'vacataire'])) {
+//                return redirect()->route('home');
+//            }
         }
 
         return back()->withErrors(['error' => 'Invalid email or password']);

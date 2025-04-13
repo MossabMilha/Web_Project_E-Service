@@ -91,6 +91,13 @@ Route::middleware(['coordinator'])->group(function () {
     Route::get('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataire'])->name('VacataireAccount.addVacataire');
 
     Route::post('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataireDb'])->name('VacataireAccount.addVacataireDB');
+
+    //ScheduleManagement Routes
+    Route::get('/Coordinator/ScheduleManagement', [CoordinatorController::class, 'ScheduleManagement'])->name('Coordinator.ScheduleManagement');
+    Route::post('/coordinator/ScheduleManagement/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('coordinator.ScheduleManagementFiliere');
+
+
+
 });
 
 Route::prefix('professor')
