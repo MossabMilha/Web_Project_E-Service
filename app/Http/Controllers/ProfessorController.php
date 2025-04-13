@@ -10,6 +10,7 @@ use App\Models\Filiere;
 use App\Models\TeachingUnit;
 use App\Models\UnitsRequest;
 use App\Models\User;
+use App\Models\WorkloadProfile;
 use Illuminate\Http\Request;
 
 class ProfessorController extends Controller
@@ -188,22 +189,63 @@ class ProfessorController extends Controller
         }
     }
 
-    public function indexUnitRequests(){
+    public function indexUnitRequests()
+    {
         $unit_requests = UnitsRequest::with(['professor', 'unit'])->where('status', 'pending')->get();
+
+        // Map with workload status
+        $unit_requests = $unit_requests->map(function ($request) {
+            $professor = $request->professor;
+            $assigned_hours = Assignment::
+                join('teaching_units', 'assignments.unit_id', '=', 'teaching_units.id')
+                ->where('assignments.professor_id', $professor->id)
+                ->sum('teaching_units.hours');
+
+            $workloadProfile = WorkloadProfile::where('type', $professor->role)->first();
+
+            $request->underloaded = $assigned_hours < $workloadProfile->min_hours;
+            $request->assigned_hours = $assigned_hours;
+            $request->min_hours = $workloadProfile->min_hours;
+
+            return $request;
+        });
+
+        // Sort so underloaded professors come first
+        $unit_requests = $unit_requests->sortByDesc('underloaded');
+
         return view('department_head.professors.unitRequests', compact('unit_requests'));
     }
+
 
     public function handleUnitRequests(Request $request, $unit_request_id){
         $unit_request = UnitsRequest::find($unit_request_id);
         $action = $request->input('action');
 
-        if ($action == 'approve'){
+        if (!$unit_request) {
+            return redirect()->back()->with('error', 'Unit request not found.');
+        }
+
+        if ($action === 'approve') {
             $unit_request->status = 'approved';
-        } else if ($action == 'reject'){
+
+            // Assign the professor to the unit
+            Assignment::updateOrInsert(
+                [
+                    'professor_id' => $unit_request->professor_id,
+                    'unit_id' => $unit_request->unit_id
+                ],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]
+            );
+        } elseif ($action === 'reject') {
             $unit_request->status = 'rejected';
         }
+
         $unit_request->reviewed_at = now();
         $unit_request->save();
+
         return redirect()->back()->with('success', "Request has been {$action}ed.");
     }
 

@@ -52,6 +52,7 @@ Route::prefix('department-head')
     // ----------------------- Professors Routes -----------------------
 
         // Show the list of all professors that belongs to the same department of department head (needs id to be passed)
+        // TODO: add department head id as a parameter depend on the logged in user
     Route::get('/professors', [ProfessorController::class, 'index'])->name('professors.index');
 
         // not implemented
@@ -70,7 +71,7 @@ Route::prefix('department-head')
     Route::get('/professors/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('professors.unit.requests');
 
         // handle(accept or reject) professor unit request
-    Route::post('/professors/{unit_request_id}/accept', [ProfessorController::class, 'handleUnitRequests'])->name('professors.unit.request.handle');
+    Route::post('/professors/{unit_request_id}/handle', [ProfessorController::class, 'handleUnitRequests'])->name('professors.unit.request.handle');
 
 });
 
