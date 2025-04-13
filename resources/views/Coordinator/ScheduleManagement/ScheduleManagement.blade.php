@@ -15,7 +15,7 @@
         @endforeach
     </select>
 
-    <form method="POST" id="form" action="" style="display: none">
+    <form method="GET" id="form" action="" style="display: none">
         @csrf
         <input type="hidden" name="filiere_id" id="filiere_id">
         <button type="submit">Continue</button>

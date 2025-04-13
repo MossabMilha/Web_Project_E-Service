@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\Filiere;
+use App\Models\Schedule;
 use App\Models\TeachingUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CoordinatorController extends Controller
 {
@@ -259,6 +261,51 @@ class CoordinatorController extends Controller
 
          return view('Coordinator/ScheduleManagement/ScheduleManagementFiliere', compact('filiere'));
     }
+
+    public function convertTimeToSlot($time)
+    {
+        // Example map
+        $slots = [
+            '08:00 - 10:00' => 1,
+            '10:00 - 12:00' => 2,
+            '14:00 - 16:00' => 3,
+            '16:30 - 18:30' => 4,
+        ];
+
+        return $slots[$time] ?? 0; // default to 0 if not found
+    }
+    public function ScheduleManagementFiliereImport(Request $request, Filiere $filiere)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+            'semestre' => 'required|integer|in:1,2',
+        ]);
+
+        try {
+
+            $rows = Excel::toCollection(null, $request->file('file'))[0];
+            $rows = $rows->toArray();
+            foreach ($rows as $index => $row) {
+                if ($index === 0) continue; // skip header row if needed
+
+                Schedule::create([
+                    'jour' => $row[0],
+                    'time_slot' => $this->convertTimeToSlot($row[1]), // You’ll define this function
+                    'filiere_id' => $filiere->id, // You already have the filiere from the route
+                    'module_id' => $row[2],
+                    'enseignant_id' => $row[3],
+                    'salle' => $row[4],
+                    'semestre' => $request->semestre,
+                ]);
+            }
+            return redirect()->route('Coordinator.ScheduleManagement')->with('success', 'Importation terminée avec succès pour le semestre ' . $request->semestre);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return back()->with('error', 'Erreur d\'importation : ' . $e->getMessage());
+        }
+    }
+
+
 
 
 

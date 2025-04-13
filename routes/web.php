@@ -94,8 +94,8 @@ Route::middleware(['coordinator'])->group(function () {
 
     //ScheduleManagement Routes
     Route::get('/Coordinator/ScheduleManagement', [CoordinatorController::class, 'ScheduleManagement'])->name('Coordinator.ScheduleManagement');
-    Route::post('/coordinator/ScheduleManagement/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('coordinator.ScheduleManagementFiliere');
-
+    Route::get('/coordinator/ScheduleManagement/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('coordinator.ScheduleManagementFiliere');
+    Route::post('/coordinator/ScheduleManagement/{filiere}/import', [CoordinatorController::class, 'ScheduleManagementFiliereImport'])->name('coordinator.ScheduleManagementFiliere.import');
 
 
 });
