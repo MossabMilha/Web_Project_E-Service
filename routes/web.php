@@ -37,6 +37,9 @@ Route::prefix('department-head')
     ->name('department-head.')
 //    ->middleware(['auth', 'role:department_head'])
     ->group(function () {
+    // ----------------------- Department Head Routes ----------------------
+        // show professors workload
+    Route::get('professors/workload', [DepartmentHeadController::class, 'workloadOverview'])->name('workload.overview');
     // ----------------------- Teaching units Routes -----------------------
 
         // not implemented
