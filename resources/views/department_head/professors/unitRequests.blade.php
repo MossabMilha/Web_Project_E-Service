@@ -18,12 +18,13 @@
             <th>semester</th>
             <th>academic year</th>
             <th>workload hours</th>
+            <th>min required hours</th>
             <th>requested at</th>
             <th>reviewed at</th>
             <th>reviewed by</th>
         </tr>
         @foreach($unit_requests as $unit_request)
-        <tr>
+        <tr @if($unit_request->underloaded) style="background-color: #ffe5e5;" @endif>
             <td>{{$unit_request->professor_id}}</td>
             <td>{{$unit_request->professor->name}}</td>
             <td>{{$unit_request->unit_id}}</td>
@@ -31,7 +32,8 @@
             <td>{{$unit_request->status}}</td>
             <td>{{$unit_request->semester}}</td>
             <td>{{$unit_request->academic_year}}</td>
-            <td></td>
+            <td>{{$unit_request->assigned_hours}}</td>
+            <td>{{$unit_request->min_hours}}</td>
             <td>{{$unit_request->requested_at}}</td>
             <td>{{$unit_request->reviewed_at}}</td>
             <td>
