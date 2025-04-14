@@ -255,11 +255,39 @@ class CoordinatorController extends Controller
     public function ScheduleManagementFiliere(Request $request, $name)
     {
         $filiereId = $request->input('filiere_id');
-
-
         $filiere = Filiere::find($filiereId);
 
-         return view('Coordinator/ScheduleManagement/ScheduleManagementFiliere', compact('filiere'));
+        // Get the schedules for both semesters
+        $semester1Schedules = Schedule::where('filiere_id', $filiereId)
+            ->where('semestre', 1)
+            ->with(['teachingUnit', 'enseignant'])  // Eager load the relationships
+            ->get();
+
+        $semester2Schedules = Schedule::where('filiere_id', $filiereId)
+            ->where('semestre', 2)
+            ->with(['teachingUnit', 'enseignant'])  // Eager load the relationships
+            ->get();
+
+        return view('Coordinator.ScheduleManagement.ScheduleManagementFiliere', compact('filiere', 'semester1Schedules', 'semester2Schedules'));
+
+    }
+    function processSchedule($schedule)
+    {
+        $processed = [];
+
+        // Loop through all the schedules
+        foreach ($schedule as $entry) {
+            // Day of the week (e.g., 'Lundi', 'Mardi', etc.)
+            $day = $entry->jour;
+
+            // Time slot (e.g., 1, 2, 3, 4)
+            $timeSlot = $entry->time_slot;
+
+            // Group by day and time slot
+            $processed[$day][$timeSlot][] = $entry;
+        }
+
+        return $processed;
     }
 
     public function convertTimeToSlot($time)

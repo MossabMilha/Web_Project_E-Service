@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--    @vite(['resources/js/Coordinator/ScheduleManagement/ScheduleManagement.js'])--}}
+    {{--    @vite(['resources/js/Coordinator/ScheduleManagement/ScheduleManagement.js'])--}}
     <title>Document</title>
 </head>
 <body>
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
     <h1>📅 Schedule Management - {{$filiere->name}}</h1>
     <a href="#" onclick="document.getElementById('import-form').style.display='block'">
         Importer un emploi du temps
@@ -30,30 +35,107 @@
             <button type="submit">Importer</button>
         </form>
     </div>
-    <table>
-        <tr>
-            <th>Hours</th>
-            <th>Monday</th>
-            <th>Tuesday</th>
-            <th>Wednesday</th>
-            <th>Thursday</th>
-            <th>Friday</th>
-            <th>Saturday</th>
-        </tr>
-        <tr>
-            <th>08:30 - 10:30</th>
-        </tr>
-        <tr>
-            <th>10:30 - 12:30</th>
-        </tr>
-        <tr>
-            <th>14:30 - 16:30</th>
-        </tr>
-        <tr>
-            <th>16:30 - 18:30</th>
-        </tr>
+    <!-- Display Schedule for Semestre 1 -->
+    <h2>📚 Semestre 1</h2>
+    @if($semester1Schedules->isNotEmpty())
+        <table>
+            <tr>
+                <th>Hours</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
 
-    </table>
+            @foreach ([1, 2, 3, 4] as $timeSlot)
+                <tr>
+                    <th>
+                        @if ($timeSlot == 1)
+                            08:30 - 10:30
+                        @elseif ($timeSlot == 2)
+                            10:30 - 12:30
+                        @elseif ($timeSlot == 3)
+                            14:30 - 16:30
+                        @else
+                            16:30 - 18:30
+                        @endif
+                    </th>
+
+                    @foreach (['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'] as $day)
+                        <td>
+                            @php
+                                $currentClasses = $semester1Schedules->filter(function ($schedule) use ($day, $timeSlot) {
+                                    return $schedule->jour === $day && $schedule->time_slot === $timeSlot;
+                                });
+                            @endphp
+
+                            @foreach ($currentClasses as $currentClass)
+                                <p><strong>{{ $currentClass->teachingUnit->name }}</strong></p>
+                                <p>{{ $currentClass->enseignant->name }}</p>
+                                <p>{{ $currentClass->salle }}</p>
+                                <hr>
+                            @endforeach
+                        </td>
+                    @endforeach
+                </tr>
+            @endforeach
+        </table>
+    @else
+        <p>No schedule available for Semestre 1.</p>
+    @endif
+
+    <!-- Display Schedule for Semestre 2 -->
+    <h2>📚 Semestre 2</h2>
+    @if($semester2Schedules->isNotEmpty())
+        <table>
+            <tr>
+                <th>Hours</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+
+            @foreach ([1, 2, 3, 4] as $timeSlot)
+                <tr>
+                    <th>
+                        @if ($timeSlot == 1)
+                            08:30 - 10:30
+                        @elseif ($timeSlot == 2)
+                            10:30 - 12:30
+                        @elseif ($timeSlot == 3)
+                            14:30 - 16:30
+                        @else
+                            16:30 - 18:30
+                        @endif
+                    </th>
+
+                    @foreach (['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'] as $day)
+                        <td>
+                            @php
+                                $currentClasses = $semester2Schedules->filter(function ($schedule) use ($day, $timeSlot) {
+                                    return $schedule->jour === $day && $schedule->time_slot === $timeSlot;
+                                });
+                            @endphp
+
+                            @foreach ($currentClasses as $currentClass)
+                                <p><strong>{{ $currentClass->teachingUnit->name }}</strong></p>
+                                <p>{{ $currentClass->enseignant->name }}</p>
+                                <p>{{ $currentClass->salle }}</p>
+                                <hr>
+                            @endforeach
+                        </td>
+                    @endforeach
+                </tr>
+            @endforeach
+        </table>
+    @else
+        <p>No schedule available for Semestre 2.</p>
+    @endif
 
 </body>
 </html>
