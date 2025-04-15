@@ -12,12 +12,15 @@ use App\Models\UnitsRequest;
 use App\Models\User;
 use App\Models\WorkloadProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfessorController extends Controller
 {
-    //department head methods
+
     public function index(){
-        $department_id = 1; // this will be the id of the department that the head belong to
+        $department = Department::where('head_id', Auth::user()->id)->first();
+        $department_id = $department->id;
+
         $professors = User::where('role', 'professor')
             ->whereHas('departmentMember', function ($query) use ($department_id) {
                 $query->where('department_id', $department_id);
@@ -35,7 +38,7 @@ class ProfessorController extends Controller
                     ->get();
             } else {
                 $units = collect();
-//                $assignedUnits = collect();
+                //$assignedUnits = collect();
             }
             $profsWithUnits[] = [
                 'professor' => $professor,

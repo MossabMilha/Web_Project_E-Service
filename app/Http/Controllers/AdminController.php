@@ -89,20 +89,7 @@ class AdminController extends Controller
     }
 
     // Add assignment
-    public function AddAssignment(Request $request)
-    {
-        $request->validate([
-            'unit_id' => 'required|exists:teaching_units,id',
-        ]);
 
-        Assignment::create([
-            'professor_id' => $request->professor_id,
-            'unit_id' => $request->unit_id,
-            'status' => 'pending',
-        ]);
-
-        return redirect()->back()->with('success', 'Assignment added successfully.');
-    }
 
     // Add user to the database
     public function AddUserDb(Request $request)

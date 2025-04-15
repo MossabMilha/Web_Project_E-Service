@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\departmentheadMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'coordinator' => CoordinatorMiddleware::class,
             'admin' => AdminMiddleware::class,
+            'departmenthead' => DepartmentheadMiddleware::class,
         ]);
 
     })
