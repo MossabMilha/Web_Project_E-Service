@@ -134,4 +134,27 @@ class AdminController extends Controller
         $logs = LogModel::with('user')->get();
         return view('AdminLogs',compact('logs'));
     }
+    public function sort(Request $request)
+    {
+        $sortBy = $request->get('sort_by', 'created_at');
+        $sortOrder = $request->get('sort_order', 'desc');
+        $role = $request->get('role');
+
+        $allowedSorts = ['id', 'created_at'];
+        if (!in_array($sortBy, $allowedSorts)) {
+            $sortBy = 'created_at';
+        }
+
+        $logsQuery = LogModel::with('user')
+            ->when($role, function ($query) use ($role) {
+                $query->whereHas('user', function ($q) use ($role) {
+                    $q->where('role', $role);
+                });
+            })
+            ->orderBy($sortBy, $sortOrder);
+
+        $logs = $logsQuery->get();
+
+        return view('AdminLogs', compact('logs'));
+    }
 }
