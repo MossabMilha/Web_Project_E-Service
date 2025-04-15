@@ -10,43 +10,40 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log; // Add the Log facade
 use Maatwebsite\Excel\Facades\Excel;
-use App\Models\LogModel; // Assuming LogModel is in the appropriate namespace
+
+use App\Models\LogModel;
 
 class CoordinatorController extends Controller
 {
-    // Log when accessing teaching units
     public function teachingUnits(){
         $coordinatorId = Auth::user()->id;
 
         $filieres = Filiere::where('coordinator_id', $coordinatorId)->with('TeachingUnits')->get();
         $allTeachingUnits = $filieres->pluck('teachingUnits')->collapse();
 
-        // Log the action with detailed information
-        LogModel::track('access_teaching_units', "Coordinator (ID: {$coordinatorId}) accessed the teaching units list.");
+        LogModel::track('visit_teaching_units', "Coordinator (ID: {$coordinatorId}) visited Teaching Units page.");
+
 
         return view('/Coordinator/TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
 
-    // Log when adding a new teaching unit
     public function AddUnit(Request $request)
     {
         $coordinatorId = session('user_id');
 
-        // Validate the incoming request
         $validated = $request->validate([
             'add-name' => 'required|string|max:255',
             'add-description' => 'required|string',
             'add-hours' => 'required|integer|min:1',
             'add-type' => 'required|string|in:CM,TD,TP',
             'add-credits' => 'required|integer|min:1',
-            'add-filiere' => 'required|exists:filieres,id',
-            'add-semester' => 'required|integer|in:1,2',
+            'add-filiere' => 'required|exists:filieres,id',  // Check if Filiere exists
+            'add-semester' => 'required|integer|in:1,2', // Must be 1 or 2
         ]);
 
         // Create the new teaching unit
-        $unit = TeachingUnit::create([
+        TeachingUnit::create([
             'name' => $validated['add-name'],
             'description' => $validated['add-description'],
             'hours' => $validated['add-hours'],
@@ -55,20 +52,14 @@ class CoordinatorController extends Controller
             'filiere_id' => $validated['add-filiere'],
             'semester' => $validated['add-semester'],
         ]);
-
-        // Log the action with detailed information
-        LogModel::track('add_teaching_unit', "Coordinator (ID: {$coordinatorId}) added a new teaching unit. Name: {$validated['add-name']}, Description: {$validated['add-description']}, Type: {$validated['add-type']}, Credits: {$validated['add-credits']}, Filiere ID: {$validated['add-filiere']}, Semester: {$validated['add-semester']}");
-
+        LogModel::track('unit_created', "Coordinator (ID: {$coordinatorId}) added a unit: {$validated['add-name']}");
         return redirect()->route('Coordinator.teachingUnits')
             ->with('success', 'Teaching unit added successfully!');
     }
-
-    // Log when editing a teaching unit
     public function EdtUnit(Request $request)
     {
         $Id = session('user_id');
-
-        // Validate incoming data
+        // Validate incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -80,15 +71,17 @@ class CoordinatorController extends Controller
             'password' => 'required|string',
         ]);
 
-        // Verify the password
+        // Verify user password manually
         $user = User::findOrFail($Id);
         if (!Hash::check($request->password, $user->password)) {
             return redirect()->route('Coordinator.teachingUnits', ['id' => $Id])
                 ->withErrors(['password' => 'Incorrect password']);
         }
 
-        // Find the unit and update it
+        // Access the unitId from the form data
         $unitId = $request->input('UnitID');
+
+        // Find the teaching unit using the unitId and update it
         $unit = TeachingUnit::findOrFail($unitId);
         $unit->name = $request->name;
         $unit->description = $request->description;
@@ -96,19 +89,26 @@ class CoordinatorController extends Controller
         $unit->type = $request->type;
         $unit->credits = $request->credits;
         $unit->semester = $request->semester;
+        $unit->updated_at = now();
         $unit->filiere_id = $request->filiere;
+
+
+        // Save the updated teaching unit
         $unit->save();
 
-        // Log the action with detailed information
-        LogModel::track('edit_teaching_unit', "Coordinator (ID: {$Id}) edited a teaching unit. Updated Name: {$request->name}, Description: {$request->description}, Hours: {$request->hours}, Type: {$request->type}, Credits: {$request->credits}, Semester: {$request->semester}, Filiere: {$request->filiere}");
+
+        LogModel::track('unit_updated', "Coordinator (ID: {$Id}) edited unit ID: {$unitId} - new name: {$unit->name}");
 
         return redirect()->route('Coordinator.teachingUnits', ['id' => $Id])
-            ->with('success', 'Teaching unit updated successfully!');
+            ->with('success', 'Teaching unit added successfully!');
     }
+    public function AddVacataire(){
+        LogModel::track('visit_add_vacataire', "Coordinator (ID: " . Auth::user()->id . ") visited Add Vacataire form.");
 
-    // Log when adding a new Vacataire
-    public function AddVacataireDb(Request $request)
-    {
+        return view('/Coordinator/AddVacataire');
+
+    }
+    public function AddVacataireDb(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -116,60 +116,230 @@ class CoordinatorController extends Controller
             'specialization' => 'required|string',
         ]);
 
-        // Validate the data and create the new vacataire
+        $valid = true;
+        $errors = [];
+
+
+        $validNameResult = User::validName($request->input('name'));
+        if ($validNameResult !== true) {
+            $errors['name'] = $validNameResult;
+            $valid = false;
+        }
+
+
+        $validEmailResult = User::validEmail($request->input('email'));
+        if ($validEmailResult !== true) {
+            $errors['email'] = $validEmailResult;
+            $valid = false;
+        }
+
+
+        $validPhoneResult = User::validPhoneNumber($request->input('phone'));
+        if ($validPhoneResult !== true) {
+            $errors['phone'] = $validPhoneResult;
+            $valid = false;
+        }
+
+        if (!$valid) {
+            return redirect()->back()->withInput()->withErrors($errors);
+        }
+
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->role = 'vacataire';
         $user->specialization = $request->input('specialization');
-        $user->phone = $request->input('phone');
-        $user->password = Hash::make('password'); // Default password, it should be updated later
+        $user->password = Hash::make('password');
+
         $user->save();
+        LogModel::track('vacataire_created', "Coordinator (ID: " . Auth::user()->id . ") added vacataire: {$user->name} (ID: {$user->id})");
 
-        // Log the action with detailed information
-        LogModel::track('add_vacataire', "Coordinator (ID: {$request->input('coordinator_id')}) added a new Vacataire. Name: {$request->input('name')}, Email: {$request->input('email')}, Phone: {$request->input('phone')}, Specialization: {$request->input('specialization')}, User ID: {$user->id}");
 
-        return redirect()->route('VacataireAccount')->with('success', 'Vacataire added successfully!');
+        return redirect()->route('VacataireAccount')->with('success', 'User added successfully!');
     }
-
-    // Log when re-assigning a teaching unit to a vacataire
-    public function ReAssignedTeachingUnitDB(Request $request)
+    public function VacataireAccount(){
+        LogModel::track('visit_vacataire_account', "Coordinator (ID: " . Auth::user()->id . ") visited Vacataire Account list.");
+        $users = User::where('role', 'vacataire')->get();
+        return view('/Coordinator/VacataireAccount',compact('users'));
+    }
+    public function VacataireInformation($id)
     {
+        LogModel::track('visit_vacataire_info', "Coordinator (ID: " . Auth::user()->id . ") viewed Vacataire details for ID: {$id}.");
+        $user = User::findOrFail($id);
+        return view('/Coordinator/VacataireInfo',compact('user'));
+    }
+    public function AssignedTeachingUnit($UnitId){
+
+        $unit = TeachingUnit::findOrFail($UnitId);
+        $vacataires = Auth::user()->unassignedVacataires();
+
+        LogModel::track('visit_assign_unit', "Coordinator (ID: " . Auth::user()->id . ") opened assignment page for Unit ID: {$UnitId}");
+
+        return view('/Coordinator/AssignedTeachingUnit', compact('unit','vacataires'));
+
+    }
+    public function ReAssignedTeachingUnit($UnitId){
+        $unit = TeachingUnit::findOrFail($UnitId);
+        $oldVacataire = User::find($unit->assignedProfessorId());
+        $vacataires = Auth::user()->unassignedVacataires();
+
+        LogModel::track('visit_reassign_unit', "Coordinator (ID: " . Auth::user()->id . ") opened reassignment page for Unit ID: {$UnitId}");
+
+        return view('/Coordinator/ReAssignedTeachingUnit', compact('unit','vacataires','oldVacataire'));
+
+    }
+    public function getVacataireDetails($id)
+    {
+        $vacataire = User::findOrFail($id);
+        return response()->json($vacataire);
+    }
+    public function AssignedTeachingUnitDB(Request $request){
         $request->validate([
             'professor_id' => 'required|exists:users,id',
             'unit_id' => 'required|exists:teaching_units,id',
+            'password' => 'required',
         ]);
 
-        // Get the current user's password for verification
         $user = Auth::user();
+
+        // Check if the password is correct
         if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors(['password' => 'Incorrect password'])->withInput();
         }
 
-        // Find the old and new vacataire
+        // Save assignment
+        Assignment::create([
+            'professor_id' => $request->professor_id,
+            'unit_id' => $request->unit_id,
+            'status' => 'approved',
+        ]);
+        LogModel::track('unit_assigned', "Coordinator (ID: " . Auth::user()->id . ") assigned unit ID: {$request->unit_id} to vacataire ID: {$request->professor_id}");
+
+        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire assigned successfully!');
+    }
+    public function ReAssignedTeachingUnitDB(Request $request)
+    {
+        // Validate the incoming data
+        $request->validate([
+            'professor_id' => 'required|exists:users,id',  // Ensure the new professor exists
+            'unit_id' => 'required|exists:teaching_units,id', // Ensure the unit exists
+        ]);
+
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Incorrect password'])->withInput();
+        }
+
+        // Get the old and new professor details
         $oldVacataire = User::find($request->input('old-professor_id'));
         $newVacataire = User::find($request->input('professor_id'));
 
         if (!$oldVacataire || !$newVacataire) {
-            return back()->withErrors(['vacataire' => 'Invalid vacataire details']);
+            return back()->withErrors(['professor' => 'Invalid professor IDs provided']);
         }
 
-        // Find the existing assignment and update it
+        // Find the existing assignment record that links the old professor to the unit
         $assignment = Assignment::where('unit_id', $request->unit_id)
             ->where('professor_id', $oldVacataire->id)
             ->first();
 
         if (!$assignment) {
-            return back()->withErrors(['assignment' => 'No assignment found for this unit and professor']);
+            return back()->withErrors(['assignment' => 'No assignment found for the specified unit and professor']);
         }
 
-        // Reassign the vacataire
+
         $assignment->professor_id = $newVacataire->id;
+        $assignment->status = 'approved';
         $assignment->save();
 
-        // Log the action with detailed information
-        LogModel::track('reassign_vacataire', "Coordinator (ID: {$user->id}) reassigned teaching unit (ID: {$request->unit_id}) from Vacataire: {$oldVacataire->name} (ID: {$oldVacataire->id}) to Vacataire: {$newVacataire->name} (ID: {$newVacataire->id})");
+        LogModel::track('unit_reassigned', "Coordinator (ID: " . Auth::user()->id . ") reassigned unit ID: {$request->unit_id} from vacataire ID: {$oldVacataire->id} to ID: {$newVacataire->id}");
 
-        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire reassigned successfully!');
+
+
+
+        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire Re-assigned successfully!');
     }
+    //Schedule Management Section
+
+    public function ScheduleManagement()
+    {
+        LogModel::track('visit_schedule_management', "Coordinator (ID: " . Auth::user()->id . ") visited Schedule Management main page.");
+        $filieres = Filiere::where('coordinator_id', Auth::user()->id)->get();
+        return view('Coordinator/ScheduleManagement/ScheduleManagement', compact('filieres'));
+    }
+    public function ScheduleManagementFiliere(Request $request, $name)
+    {
+        $filiereId = $request->input('filiere_id');
+        $filiere = Filiere::find($filiereId);
+
+        // Get the schedules for both semesters
+        $semester1Schedules = Schedule::where('filiere_id', $filiereId)
+            ->where('semestre', 1)
+            ->with(['teachingUnit', 'enseignant'])  // Eager load the relationships
+            ->get();
+
+        $semester2Schedules = Schedule::where('filiere_id', $filiereId)
+            ->where('semestre', 2)
+            ->with(['teachingUnit', 'enseignant'])  // Eager load the relationships
+            ->get();
+
+        LogModel::track('visit_schedule_filiere', "Coordinator (ID: " . Auth::user()->id . ") viewed schedule for Filiere ID: {$filiereId}");
+        return view('Coordinator.ScheduleManagement.ScheduleManagementFiliere', compact('filiere', 'semester1Schedules', 'semester2Schedules'));
+
+    }
+
+
+    public function convertTimeToSlot($time)
+    {
+        // Example map
+        $slots = [
+            '08:00 - 10:00' => 1,
+            '10:00 - 12:00' => 2,
+            '14:00 - 16:00' => 3,
+            '16:30 - 18:30' => 4,
+        ];
+
+        return $slots[$time] ?? 0; // default to 0 if not found
+    }
+    public function ScheduleManagementFiliereImport(Request $request, Filiere $filiere)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+            'semestre' => 'required|integer|in:1,2',
+        ]);
+
+        try {
+
+            $rows = Excel::toCollection(null, $request->file('file'))[0];
+            $rows = $rows->toArray();
+            foreach ($rows as $index => $row) {
+                if ($index === 0) continue; // skip header row if needed
+
+                Schedule::create([
+                    'jour' => $row[0],
+                    'time_slot' => $this->convertTimeToSlot($row[1]), // You’ll define this function
+                    'filiere_id' => $filiere->id, // You already have the filiere from the route
+                    'module_id' => $row[2],
+                    'enseignant_id' => $row[3],
+                    'salle' => $row[4],
+                    'semestre' => $request->semestre,
+                ]);
+            }
+            LogModel::track('schedule_import', "Coordinator (ID: " . Auth::user()->id . ") imported schedule for filiere ID: {$filiere->id}, semester: {$request->semestre}");
+
+            return redirect()->route('Coordinator.ScheduleManagement')->with('success', 'Importation terminée avec succès pour le semestre ' . $request->semestre);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return back()->with('error', 'Erreur d\'importation : ' . $e->getMessage());
+        }
+    }
+
+
+
+
+
+
 }
