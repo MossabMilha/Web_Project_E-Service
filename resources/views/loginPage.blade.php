@@ -32,7 +32,6 @@
             <label>Password:</label>
             <input type="password" name="password" required>
             <button type="submit">Login</button>
-            <a href="">Forgot password?</a>
         </form>
         <p class="copyright">Copyright © 2025 - All rights reserved</p>
     </div>
