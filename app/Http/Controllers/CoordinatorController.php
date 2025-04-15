@@ -18,11 +18,7 @@ class CoordinatorController extends Controller
         $coordinatorId = Auth::user()->id;
 
         $filieres = Filiere::where('coordinator_id', $coordinatorId)->with('TeachingUnits')->get();
-
-
-        $allTeachingUnits = $filieres->flatMap(function($filiere) {
-            return $filiere->TeachingUnits;
-        });
+        $allTeachingUnits = $filieres->pluck('teachingUnits')->collapse();
 
         return view('/Coordinator/TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
