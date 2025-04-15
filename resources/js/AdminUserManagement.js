@@ -35,13 +35,14 @@ dropdown.addEventListener('click', function() {
 // roles customization
 //------------------------------------------------------------------
 
-const roles = document.querySelectorAll('.role');
+let roles = document.querySelectorAll('.role');
 
 for (const role of roles) {
     switch (role.textContent.trim().toLowerCase()) {
         case 'admin':
             role.style.background = 'var(--bg-gradient-light)';
             role.style.color = 'var(--color-primary-darker)';
+            role.style.padding = '0.5em';
             break;
         case 'professor':
             role.style.backgroundColor = 'var(--color-secondary-light)';

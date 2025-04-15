@@ -1,22 +1,25 @@
-@extends('components.layout')
+<x-layout title="Home">
+{{--    here to add head element like scripts, links, metas, etc.. (inside x-slot:head)--}}
+    <x-slot:head>
+        @vite([
+            'resources/css/components/header.css',
+            'resources/js/components/user-role-styling.js'
+        ])
+    </x-slot:head>
 
-@section('title', 'Home')
+{{--    here to include nav bar --}}
+    <x-nav class="nav"/>
 
-@section('content')
-    <div>
-        <h1 class="text-black text-2xl">Home</h1>
-    </div>
+{{--    here to include content --}}
     @if(auth()->user()->role == "admin")
-        <a href="{{ route('UserManagement.search') }}" class="btn">E-Core Users</a><br>
+        {{--    here to include nav bar --}}
+        <x-header :userrole="auth()->user()->role" :username="auth()->user()->name" :background_url="'png/3566.jpg'"/>
+        <a href="{{ route('UserManagement.search') }}">E-Core Users</a><br>
     @elseif(auth()->user()->role == "department_head")
-        <a href="{{ route('department-head.professors.index') }}" class="btn">E-core Professors</a><br>
+        <a href="{{ route('department-head.professors.index') }}">E-core Professors</a><br>
     @elseif(auth()->user()->role == "coordinator")
-        <a href="{{ route('Coordinator.teachingUnits') }}" class="btn">Teaching Unit Management</a><br>
-        <a href="{{ route('VacataireAccount') }}" class="btn">Vacatire Management</a><br>
-        <a href="{{ route('Coordinator.ScheduleManagement') }}" class="btn">Schedule Management</a>
+        <a href="{{ route('Coordinator.teachingUnits') }}">Teaching Unit Management</a><br>
+        <a href="{{ route('VacataireAccount') }}">Vacatire Management</a><br>
+        <a href="{{ route('Coordinator.ScheduleManagement') }}">Schedule Management</a>
     @endif
-
-
-
-
-@endsection
+</x-layout>
