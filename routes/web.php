@@ -30,8 +30,10 @@ Route::middleware('admin')->group(function () {
     Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 
     //Logs
-    Route::get('/Admin/logs', [AdminController::class, 'logs'])->name('logs');
+
+
     Route::get('/Admin/logs', [AdminController::class, 'sort'])->name('logs.sort');
+    Route::get('/logs/export', [AdminController::class, 'export'])->name('logs.export');
 });
 
 

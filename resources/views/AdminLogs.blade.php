@@ -6,12 +6,14 @@
     <title>Document</title>
 </head>
 <body>
-<style>
-    table, th, td {
-        border: 1px solid black;
-    }
-</style>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
     <form method="GET" action="{{ route('logs.sort') }}">
+        <button type="submit" formaction="{{ route('logs.export') }}">Export The Current Logs</button>
         <table>
             <thead>
             <tr>

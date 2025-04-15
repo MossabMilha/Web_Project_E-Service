@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LogsExport;
 use App\Models\Assignment;
 use App\Models\LogModel;
 use App\Models\User;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use function Illuminate\Events\queueable;
 
 class AdminController extends Controller
@@ -130,10 +132,7 @@ class AdminController extends Controller
     }
 
    //logs
-    public function logs(){
-        $logs = LogModel::with('user')->get();
-        return view('AdminLogs',compact('logs'));
-    }
+
     public function sort(Request $request)
     {
         $sortBy = $request->get('sort_by', 'created_at');
@@ -156,5 +155,9 @@ class AdminController extends Controller
         $logs = $logsQuery->get();
 
         return view('AdminLogs', compact('logs'));
+    }
+    public function export(Request $request)
+    {
+        return Excel::download(new LogsExport($request), 'logs.xlsx');
     }
 }
