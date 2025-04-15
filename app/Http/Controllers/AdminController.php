@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\LogModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Routing\Controller;
+use function Illuminate\Events\queueable;
 
 class AdminController extends Controller
 {
@@ -125,5 +127,11 @@ class AdminController extends Controller
         $user->update($validatedData);
 
         return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
+    }
+
+   //logs
+    public function logs(){
+        $logs = LogModel::with('user')->get();
+        return view('AdminLogs',compact('logs'));
     }
 }

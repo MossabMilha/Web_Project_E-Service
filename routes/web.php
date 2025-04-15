@@ -29,9 +29,9 @@ Route::middleware('admin')->group(function () {
     Route::delete('/Admin/UserManagement/DeleteUser/{id}', [AdminController::class, 'DeleteUser'])->name('UserManagement.deleteUser');
     Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
 
-    //Logs I Need To Work On Them
+    //Logs
 });
-
+Route::get('/Admin/logs', [AdminController::class, 'logs'])->name('logs');
 
 // Group all routes under '/department-head/'
 Route::middleware('departmenthead')->group(function () {
