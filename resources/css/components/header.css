@@ -4,9 +4,10 @@
     align-items: start;
     gap: 8px;
 
-    background-size: cover; /* Cover the entire nav area */
-    background-position: center 20%; /* Center the image */
+    background-size: contain; /* Cover the entire nav area */
+    background-position: right; /* Center the image */
     background-repeat: no-repeat; /* Prevent image repetition */
+    background-color: var(--color-primary);
     padding: 16px;
     filter: saturate(100%) brightness(100%); /*TODO: remove filter after adding correct images*/
 }
