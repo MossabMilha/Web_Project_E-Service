@@ -22,22 +22,25 @@ class AdminController extends Controller
         $this->middleware('admin'); // Ensure the user is an admin
     }
 
-    // View user information
+
     public function UserInformation($id)
     {
         $user = User::findOrFail($id);
+        LogModel::track('visit_user_information', "Admin (ID: " . Auth::user()->id . ") viewed information for User ID: {$id}");
         return view('AdminUserInfo', compact('user'));
     }
 
     // Show Add User form
     public function AddUser()
     {
+        LogModel::track('visit_add_user_form', "Admin (ID: " . Auth::user()->id . ") visited Add User form");
         return view('AdminAddUser');
     }
 
     // Search users
     public function search(Request $request)
     {
+        LogModel::track('search_users', "Admin (ID: " . Auth::user()->id . ") searched users with term '{$request->input('search')}' and option '{$request->input('option')}'");
         $searchTerm = $request->input('search');
         $searchOption = $request->input('option', 'id');
 
@@ -69,6 +72,7 @@ class AdminController extends Controller
     // Delete user
     public function DeleteUser(Request $request, $id)
     {
+        LogModel::track('delete_user_attempt', "Admin (ID: " . Auth::user()->id . ") attempted to delete User ID: {$id}");
         $admin = Auth::user();
 
         if (!Hash::check($request->password, $admin->password)) {
@@ -87,6 +91,8 @@ class AdminController extends Controller
     // Delete assignment
     public function DeleteAssignment($id)
     {
+        LogModel::track('delete_assignment', "Admin (ID: " . Auth::user()->id . ") deleted Assignment ID: {$id}");
+
         $assignment = Assignment::findOrFail($id);
         $assignment->delete();
         return redirect()->back()->with('success', 'Assignment deleted successfully.');
@@ -98,6 +104,7 @@ class AdminController extends Controller
     // Add user to the database
     public function AddUserDb(Request $request)
     {
+        LogModel::track('add_user', "Admin (ID: " . Auth::user()->id . ") added a new user with email: {$request->email}");
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -116,6 +123,8 @@ class AdminController extends Controller
     // Edit user
     public function EditUser(Request $request, $id)
     {
+        LogModel::track('edit_user', "Admin (ID: " . Auth::user()->id . ") edited User ID: {$id}");
+
         $user = User::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -135,6 +144,7 @@ class AdminController extends Controller
 
     public function sort(Request $request)
     {
+        LogModel::track('sort_logs', "Admin (ID: " . Auth::user()->id . ") sorted logs by '{$request->get('sort_by')}' in '{$request->get('sort_order')}' order with role '{$request->get('role')}'");
         $sortBy = $request->get('sort_by', 'created_at');
         $sortOrder = $request->get('sort_order', 'desc');
         $role = $request->get('role');
@@ -158,6 +168,7 @@ class AdminController extends Controller
     }
     public function export(Request $request)
     {
+        LogModel::track('export_logs', "Admin (ID: " . Auth::user()->id . ") exported logs as Excel");
         return Excel::download(new LogsExport($request), 'logs.xlsx');
     }
 }

@@ -31,6 +31,10 @@
                 <x-card :card_title="'E-Core Users'" :card_link="route('UserManagement.search')">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
                 </x-card>
+                {{-- I Add This --}}{{--(X_X)--}}
+                <x-card :card_title="'E-Core Logs'" :card_link="route('logs.sort')">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                </x-card>
             @elseif(auth()->user()->role == "department_head")
                 <x-card :card_title="'E-core Professors'" :card_link="route('department-head.professors.index')">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
