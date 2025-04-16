@@ -365,7 +365,33 @@ class CoordinatorController extends Controller
 
         return Excel::download(new UserExport($users), 'users.xlsx');
     }
+    public function DeleteVacataire(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+        ]);
 
+        // Check if the password is correct
+        if (!Hash::check($request->password, Auth::user()->password)) {
+            return back()->withErrors(['password' => 'Incorrect password'])->withInput();
+        }
+
+        $user = User::findOrFail($request->user_id);
+
+        // Check if the vacataire is assigned to any teaching unit
+        $hasAssignments = Assignment::where('professor_id', $user->id)->exists();
+
+        if ($hasAssignments) {
+            return back()->withErrors(['user' => 'Cannot delete this vacataire because they are assigned to at least one teaching unit.']);
+        }
+
+        $user->delete();
+
+        LogModel::track('vacataire_deleted', "Coordinator (ID: " . Auth::user()->id . ") deleted vacataire ID: {$user->id}");
+
+        return redirect()->route('VacataireAccount')->with('success', 'Vacataire deleted successfully!');
+    }
 
 
 
