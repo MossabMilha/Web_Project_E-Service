@@ -38,6 +38,9 @@
     <!-- Display Schedule for Semestre 1 -->
     <h2>📚 Semestre 1</h2>
     @if($semester1Schedules->isNotEmpty())
+        <button onclick="window.location='{{ route('coordinator.ScheduleManagementFiliere.export', ['filiere' => $filiere->id, 'semester' => 1]) }}'">
+            Exporter l'emploi du temps
+        </button>
         <table>
             <tr>
                 <th>Hours</th>
@@ -89,6 +92,9 @@
     <!-- Display Schedule for Semestre 2 -->
     <h2>📚 Semestre 2</h2>
     @if($semester2Schedules->isNotEmpty())
+        <button onclick="window.location='{{ route('coordinator.ScheduleManagementFiliere.export', ['filiere' => $filiere->id, 'semester' => 2]) }}'">
+            Exporter l'emploi du temps
+        </button>
         <table>
             <tr>
                 <th>Hours</th>

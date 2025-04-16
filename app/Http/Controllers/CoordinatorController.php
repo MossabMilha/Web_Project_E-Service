@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ScheduleExport;
 use App\Exports\UserExport;
 use App\Models\Assignment;
 use App\Models\Filiere;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 use App\Models\LogModel;
 
@@ -391,6 +393,17 @@ class CoordinatorController extends Controller
         LogModel::track('vacataire_deleted', "Coordinator (ID: " . Auth::user()->id . ") deleted vacataire ID: {$user->id}");
 
         return redirect()->route('VacataireAccount')->with('success', 'Vacataire deleted successfully!');
+    }
+
+    public function exportSchedule($filiereId, $semester)
+    {
+        $filiere = Filiere::findOrFail($filiereId);
+        $filiereNameSlug = Str::slug($filiere->name); // Converts "Informatique L3" -> "informatique-l3"
+
+        return Excel::download(
+            new ScheduleExport($filiereId, $semester),
+            "schedule_{$filiereNameSlug}_semester_{$semester}.xlsx"
+        );
     }
 
 

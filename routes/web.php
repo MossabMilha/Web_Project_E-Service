@@ -107,6 +107,7 @@ Route::middleware(['coordinator'])->group(function () {
 
     //Exporting
     Route::get('/export-user/{id?}', [CoordinatorController::class, 'exportUsers'])->name('export.users');
+    Route::get('/coordinator/schedule/export/{filiere}/{semester}', [CoordinatorController::class, 'exportSchedule'])->name('coordinator.ScheduleManagementFiliere.export');
 
 
 });
