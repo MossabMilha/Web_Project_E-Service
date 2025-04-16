@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExport;
 use App\Models\Assignment;
 use App\Models\Filiere;
 use App\Models\Schedule;
@@ -335,6 +336,34 @@ class CoordinatorController extends Controller
             dd($e->getMessage());
             return back()->with('error', 'Erreur d\'importation : ' . $e->getMessage());
         }
+    }
+
+
+    public function exportUsers($id = null)
+    {
+        $role = request('role'); // Get the role from the request
+
+        if ($id) {
+            $user = User::findOrFail($id);
+
+            LogModel::track('export_users', "Coordinator (ID: " . Auth::user()->id . ") exported user information for User ID: " . $user->id);
+
+            return Excel::download(new UserExport([$user]), 'user_' . $user->id . '.xlsx');  // Wrap single user in an array
+        }
+
+        if ($role) {
+            $users = User::where('role', $role)->get();
+
+            LogModel::track('export_users', "Coordinator (ID: " . Auth::user()->id . ") exported all $role user information.");
+
+            return Excel::download(new UserExport($users), $role . '_users.xlsx');
+        }
+
+        $users = User::all();
+
+        LogModel::track('export_users', "Coordinator (ID: " . Auth::user()->id . ") exported all user information.");
+
+        return Excel::download(new UserExport($users), 'users.xlsx');
     }
 
 

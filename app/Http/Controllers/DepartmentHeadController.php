@@ -6,15 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\DepartmentMember;
 use App\Models\Filiere;
+use App\Models\LogModel;
 use App\Models\TeachingUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DepartmentHeadController extends Controller
 {
     public function workloadOverview()
     {
+        LogModel::track('view_workload_overview', "Department Head (ID: " . Auth::user()->id . ") viewed workload overview page.");
+
         $professors = DB::select("
         SELECT
             p.id AS professor_id,

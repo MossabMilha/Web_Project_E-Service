@@ -12,6 +12,11 @@
         <form class="add-user-form" method="GET" action="{{ route('VacataireAccount.addVacataire') }}">
             <button class="add-btn" type="submit">+ Add New User</button>
         </form>
+        <form method="GET" action="{{ route('export.users') }}">
+
+            <input type="hidden" name="role" value="Vacataire">
+            <button type="submit">Export All Vacataire Users</button>
+        </form>
         <div class="table-container">
             <table>
                 <tr>
@@ -46,6 +51,7 @@
                                 </svg>
                             </a>
                             <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">Delete user</a>
+                            <a href="{{ route('export.users', ['id' => $user->id]) }}">Export</a>
 
                         </td>
                     </tr>

@@ -105,6 +105,9 @@ Route::middleware(['coordinator'])->group(function () {
     Route::get('/coordinator/ScheduleManagement/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('coordinator.ScheduleManagementFiliere');
     Route::post('/coordinator/ScheduleManagement/{filiere}/import', [CoordinatorController::class, 'ScheduleManagementFiliereImport'])->name('coordinator.ScheduleManagementFiliere.import');
 
+    //Exporting
+    Route::get('/export-user/{id?}', [CoordinatorController::class, 'exportUsers'])->name('export.users');
+
 
 });
 
