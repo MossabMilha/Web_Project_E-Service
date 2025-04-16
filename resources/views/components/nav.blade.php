@@ -1,4 +1,5 @@
-<nav class="">
+{{--styled by resources/css/components/nav.css--}}
+<nav class="nav">
     <img class="nav-logo" src="{{asset('svg/e-service-logo-1.svg')}}" alt="Ecore logo">
     <ul class="">
         <li><x-nav-link href="home" :active="request()->is('home')">Home</x-nav-link></li>

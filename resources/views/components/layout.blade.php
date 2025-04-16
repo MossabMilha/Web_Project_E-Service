@@ -7,11 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-{{--    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>--}}
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
 
     @vite([
+    // css files
         'resources/css/app.css',
         'resources/css/components/nav.css',
+    // js files
         'resources/js/app.js'
         ])
 

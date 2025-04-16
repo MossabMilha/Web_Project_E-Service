@@ -1,0 +1,75 @@
+@import url("../app.css");
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid var(--color-gray-light);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(10, 40, 200, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: 320px; /* Set card width */
+}
+
+/* Card Image */
+.card-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures image covers the area */
+    border-bottom: 1px solid #ddd; /* Optional: add a line below image */
+
+}
+
+.card .card-header{
+    background-color: #f8f9fa;
+    padding: 15px;
+    text-align: center;
+}
+
+.card .card-title{
+    font-size: 1.125em;
+    font-weight: bold;
+    color: var(--color-gray-dark);
+    margin: 0;
+}
+
+.card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    text-align: center;
+}
+
+.card .card-text {
+    flex-grow: 1;
+    font-size: 1em;
+    color: #666;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd; /* Optional: add a line below */
+}
+
+/* Card Button */
+.card .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.card .btn:hover {
+    background-color: var(--color-primary-dark);
+}
+
+/* Hover Effect on Card */
+.card:hover {
+    transform: translateY(-5px); /* Lifts the card slightly on hover */
+    box-shadow: 0 8px 16px rgba(10, 40, 200, 0.15);
+}

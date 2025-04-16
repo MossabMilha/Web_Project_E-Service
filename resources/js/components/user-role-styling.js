@@ -5,9 +5,6 @@ for (const role of roles) {
         case 'admin':
             role.style.background = 'var(--bg-gradient-light)';
             role.style.color = 'var(--color-primary-darker)';
-            role.style.padding = '0.25em 1em';
-            role.style.borderRadius = '1em';
-
             break;
         case 'professor':
             role.style.backgroundColor = 'var(--color-secondary-light)';
@@ -26,4 +23,6 @@ for (const role of roles) {
             role.style.color = 'var(--color-primary-darker)';
             break;
     }
+    role.style.padding = '0.25em 1em';
+    role.style.borderRadius = '1em';
 }

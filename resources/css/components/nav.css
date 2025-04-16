@@ -6,7 +6,6 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding-inline: var(--gap-x);
-    border-bottom: 2px solid var(--color-tirnary-light);
     padding: 1em 1.5em;
 }
 
