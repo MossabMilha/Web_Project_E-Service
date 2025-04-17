@@ -22,7 +22,7 @@ class CoordinatorController extends Controller
     public function teachingUnits(){
         $coordinatorId = Auth::user()->id;
 
-        $filieres = Filiere::where('coordinator_id', $coordinatorId)->with('TeachingUnits')->get();
+        $filieres = Filiere::where('coordinator_id', $coordinatorId)->with(['TeachingUnits.filiere'])->get();
         $allTeachingUnits = $filieres->pluck('teachingUnits')->collapse();
 
         LogModel::track('visit_teaching_units', "Coordinator (ID: {$coordinatorId}) visited Teaching Units page.");

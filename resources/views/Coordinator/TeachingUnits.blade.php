@@ -77,17 +77,57 @@
         <button id="add-unit-btn">Add New Unit</button>
         <table>
             <tr>
-                <th>UnitsId</th>
+                <th>
+                    UnitsId
+                    <a>↑</a>
+                    <a>↓</a>
+                </th>
                 <th>Name</th>
                 <th>description</th>
                 <th>hours</th>
-                <th>type </th>
+                <th>
+                    type
+                    <select>
+                        <option value="all" selected>All</option>
+                        <option value="CM">CM</option>
+                        <option value="TD">TD</option>
+                        <option value="TP">TP</option>
+                    </select>
+                </th>
                 <th>credits</th>
-                <th>filliere</th>
-                <th>semester</th>
-                <th>Status</th>
-                <th>Units Created At</th>
-                <th>Units Updated</th>
+                <th>
+                    filliere
+                    <select>
+                        @foreach($filieres as $filiere)
+                            <option value="{{$filiere->id}}">{{$filiere->name}}</option>
+                        @endforeach
+                    </select>
+                </th>
+                <th>
+                    semester
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                </th>
+                <th>
+                    Status
+                    <select>
+                        <option>pending</option>
+                        <option>approved</option>
+                        <option>declined</option>
+                    </select>
+                </th>
+                <th>
+                    Units Created At
+                    <a>↑</a>
+                    <a>↓</a>
+                </th>
+                <th>
+                    Units Updated
+                    <a>↑</a>
+                    <a>↓</a>
+                </th>
                 <th>Actions</th>
             </tr>
             @foreach($allTeachingUnits as $unit)
@@ -98,7 +138,7 @@
                     <td>{{$unit->hours}}</td>
                     <td>{{$unit->type}}</td>
                     <td>{{$unit->credits}}</td>
-                    <td>{{$unit->filiere_id}}</td>
+                    <td>{{$unit->filiere->name ?? 'N/A'}}</td>
                     <td>{{$unit->semester}}</td>
                     <td>
                         {{$unit->assignmentStatus()}}
@@ -106,8 +146,6 @@
                     <td>{{ $unit->created_at }}</td>
                     <td>{{ $unit->updated_at }}</td>
                     <td>
-                        <button class="edit-btn">edit</button>
-                        <button class="delete-btn">delete</button>
                         @if($unit->assignmentStatus() == 'assigned'&& $unit->assignedVacataire())
                             <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">Re-Assign</a>
                             <a class="Delete-Assign-btn">Delete-Assign</a>
