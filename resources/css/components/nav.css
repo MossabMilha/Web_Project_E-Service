@@ -7,6 +7,7 @@ nav{
     align-items: center;
     padding-inline: var(--gap-x);
     padding: 1em 1.5em;
+    background: #fff;
 }
 
 .nav-logo{

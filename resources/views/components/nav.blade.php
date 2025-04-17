@@ -2,7 +2,7 @@
 <nav class="nav">
     <img class="nav-logo" src="{{asset('svg/e-service-logo-1.svg')}}" alt="Ecore logo">
     <ul class="">
-        <li><x-nav-link href="home" :active="request()->is('home')">Home</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link></li>
         <li><x-nav-link href="courses" :active="request()->is('courses')">Courses</x-nav-link></li>
         <li><x-nav-link href="re-enrollment"  :active="request()->is('re-enrollment')">Re-Enrollment</x-nav-link></li>
         <li><x-nav-link href="requests" :active="request()->is('requests')">Requests</x-nav-link></li>

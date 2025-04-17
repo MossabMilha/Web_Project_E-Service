@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>{{ $title ?? 'E-Service' }}</title>
 
     @vite([
     // css files
@@ -16,8 +17,6 @@
     // js files
         'resources/js/app.js'
         ])
-
-    <title>{{ $title ?? 'E-Service' }}</title>
 
     {{-- Optional extra head content --}}
     {{$head ?? '' }}

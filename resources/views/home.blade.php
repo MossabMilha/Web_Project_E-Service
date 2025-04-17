@@ -28,17 +28,22 @@
             </p>
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
             @if(auth()->user()->role == "admin")
-                <x-card :card_img="'png/planing.jpg'" :card_title="'E-Core Users'" :card_link="'UserManagement.search'">
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'E-Core Users'" :card_link="'UserManagement.search'">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                <x-card :card_img="'png/dead.jpg'" :card_title="'E-Core Logs'" :card_link="'logs.sort'">
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
                 </x-card>
-                {{-- I Add This --}}{{--(X_X)--}}
-                <x-card :card_img="'png/schedule.jpg'" :card_title="'E-Core Logs'" :card_link="'logs.sort'">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
-                </x-card>
+                </div>
             @elseif(auth()->user()->role == "department_head")
-                <x-card :card_img="'png/schedule.jpg'" :card_title="'E-core Professors'" :card_link="'department-head.professors.index'">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
-                </x-card>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'E-core Professors'" :card_link="'department-head.professors.index'">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    </x-card>
+                </div>
             @elseif(auth()->user()->role == "coordinator")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/units.jpg'" :card_title="'Teaching Unit Management'" :card_link="'Coordinator.teachingUnits'">
@@ -46,19 +51,19 @@
                     </x-card>
                 </div>
                 <div class="flex justify-center">
-                <x-card :card_img="'png/part-time.jpg'" :card_title="'Vacatire Management'" :card_link="'VacataireAccount'">
-                    Manage part-time instructors, their assignments, and teaching hours with ease.
-                </x-card>
+                    <x-card :card_img="'png/part-time.jpg'" :card_title="'Vacatire Management'" :card_link="'VacataireAccount'">
+                        Manage part-time instructors, their assignments, and teaching hours with ease.
+                    </x-card>
                 </div>
                 <div class="flex justify-center">
-                <x-card :card_img="'png/schedule.jpg'" :card_title="'Schedule Management'" :card_link="'Coordinator.ScheduleManagement'">
-                    Easily plan and manage course schedules, classrooms, and instructor availability.
-                </x-card>
+                    <x-card :card_img="'png/schedule.jpg'" :card_title="'Schedule Management'" :card_link="'Coordinator.ScheduleManagement'">
+                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                    </x-card>
                 </div>
                 <div class="flex justify-center">
-                <x-card :card_img="'png/dead.jpg'" :card_title="'he is dead'" :card_link="'Coordinator.ScheduleManagement'">
-                    Don't revive him X_X
-                </x-card>
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'he is dead'" :card_link="'Coordinator.ScheduleManagement'">
+                        Don't revive him X_X
+                    </x-card>
                 </div>
             @endif
             </div>

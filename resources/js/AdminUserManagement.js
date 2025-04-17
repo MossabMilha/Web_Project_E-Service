@@ -35,6 +35,7 @@ dropdown.addEventListener('click', function() {
 // roles customization
 //------------------------------------------------------------------
 
+// TODO: to be remove in the future (general version already exist)
 let roles = document.querySelectorAll('.role');
 
 for (const role of roles) {
@@ -42,7 +43,6 @@ for (const role of roles) {
         case 'admin':
             role.style.background = 'var(--bg-gradient-light)';
             role.style.color = 'var(--color-primary-darker)';
-            role.style.padding = '0.5em';
             break;
         case 'professor':
             role.style.backgroundColor = 'var(--color-secondary-light)';
@@ -64,14 +64,17 @@ for (const role of roles) {
 }
 //Delete User
 window.showDeleteUserSection = function (userId, userName) {
-    const deleteSection = document.querySelector('.delete-user');
+    const deleteSection = document.querySelector('.delete-user-popup');
+    const deleteForm = document.getElementById('deleteForm');
+    let deleteMsg = deleteSection.querySelector('.delete-message');
+
     deleteSection.style.display = 'block'; // Show the delete section
 
-    deleteSection.querySelector('label').innerHTML = `You Will Delete <strong>${userName}</strong> Account holding the id number <strong>${userId}</strong>. Are You Sure? There is no going back from this action.`;
+    deleteMsg.innerHTML = `You Will Delete <strong>${userName}</strong> Account holding the id number <strong>${userId}</strong>. Are You Sure? There is no going back from this action.`;
 
-    deleteSection.querySelector('form').setAttribute('action', `/delete-user/${userId}`);
+    deleteForm.setAttribute('action', `/delete-user/${userId}`);
 }
 
 window.hideDeleteUserModal = function () {
-    document.querySelector('.delete-user').style.display = 'none';
+    document.querySelector('.delete-user-popup').style.display = 'none';
 }

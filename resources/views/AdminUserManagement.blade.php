@@ -1,21 +1,26 @@
+<x-layout title="User Management">
+    <x-slot:head>
+        @vite([
+            // css files
+            'resources/css/components/table.css',
+            'resources/css/AdminUserManagement.css',
+            // js files
+            // 'resources/js/components/user-role-styling.js' // TODO: use this instead of AdminUserManagement.js
+            'resources/js/AdminUserManagement.js',
+        ])
+    </x-slot:head>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/js/AdminUserManagement.js', 'resources/css/AdminUserManagement.css'])
-    <title>Document</title>
-</head>
-<body>
+    <x-nav/>
+
+    {{--  body  --}}
     <div class="main-container">
-        <div class="search-wrapper">
+        <div class="search-wrapper"> {{--  TODO: make a search component that work with dropdown components--}}
             <form class="search-form" method="GET" action="{{route('UserManagement.search')}}">
                 <div class="search-bar">
                     <input type="text" id="search" name="search" placeholder="Search">
                     <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
                 </div>
-                <div class="dropdown">
+                <div class="dropdown"> {{--  TODO: make dropdown component dynamic that work with any option--}}
                     <button id="OptionButton" onclick="toggleDropdown()">Select an Option</button>
                     <div class="dropdown-content">
                         <a href="#" onclick="selectOption('id')">id</a>
@@ -31,7 +36,7 @@
                 <button class="add-btn" type="submit">+ Add New User</button>
             </form>
         </div>
-        <div class="table-container">
+        <x-table> {{--TODO: think of a way to make a table component. You can do better :)--}}
             <table>
                 <tr>
                     <th>User Id</th>
@@ -54,7 +59,7 @@
                                 N/A
                             @else
                                 {{ $user->specialization }}
-                           @endif
+                            @endif
                         </td>
                         <td>{{ $user->created_at }}</td>
                         <td>{{ $user->updated_at }}</td>
@@ -64,13 +69,15 @@
                                     <path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160L0 416c0 53 43 96 96 96l256 0c53 0 96-43 96-96l0-96c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7-14.3 32-32 32L96 448c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 64z"/>
                                 </svg>
                             </a>
-                            <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">Delete user</a>
+                            <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">
+                                <svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 469.404 469.404" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M310.4,235.083L459.88,85.527c12.545-12.546,12.545-32.972,0-45.671L429.433,9.409c-12.547-12.546-32.971-12.546-45.67,0 L234.282,158.967L85.642,10.327c-12.546-12.546-32.972-12.546-45.67,0L9.524,40.774c-12.546,12.546-12.546,32.972,0,45.671 l148.64,148.639L9.678,383.495c-12.546,12.546-12.546,32.971,0,45.67l30.447,30.447c12.546,12.546,32.972,12.546,45.67,0 l148.487-148.41l148.792,148.793c12.547,12.546,32.973,12.546,45.67,0l30.447-30.447c12.547-12.546,12.547-32.972,0-45.671 L310.4,235.083z"></path> </g> </g></svg>
+                            </a>
 
                         </td>
                     </tr>
                 @endforeach
             </table>
-        </div>
+        </x-table>
         @if ($users->hasPages())
             <div class="pagination">
                 <a href="{{ $users->previousPageUrl() }}" class="prev-btn {{ $users->onFirstPage() ? 'disabled' : '' }}">< previous</a>
@@ -78,29 +85,34 @@
                 <a href="{{ $users->nextPageUrl() }}" class="next-btn {{ $users->hasMorePages() ? '' : 'disabled' }}">next ></a>
             </div>
         @endif
-        <div class="delete-user" style="display: none">
-            <form method="POST" action="{{ route('UserManagement.deleteUser', ['id' => $user->id]) }}">
+
+        <div class="delete-user-popup popup" style="display: none">
+            <form id="deleteForm" method="POST" action="{{ route('UserManagement.deleteUser', ['id' => $user->id]) }}">
                 @csrf
                 @method('DELETE')
-
-                <label for="password">Enter Password:</label>
-                <br>
-                <input id="password" name="password" type="password" placeholder="Enter password" required>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                <img src="{{asset('png/warning.jpg')}}" alt="alert image" class="popup-img-top">
+                <div class="content">
+                    <p class="delete-message"></p>
+                    <div class="password-container">
+                        <label for="password">Enter Password:</label>
+                        <input id="password" name="password" type="password" placeholder="Enter password" required>
                     </div>
-                @endif
-                <div>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                </div>
+                <div class="button-container">
                     <button type="submit">Delete User</button>
                     <button type="button" onclick="hideDeleteUserModal()">Cancel</button>
                 </div>
             </form>
         </div>
+
     </div>
-</body>
-</html>
+</x-layout>
