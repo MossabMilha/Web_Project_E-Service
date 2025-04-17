@@ -14,6 +14,7 @@
     // css files
         'resources/css/app.css',
         'resources/css/components/nav.css',
+        'resources/css/components/table.css',
     // js files
         'resources/js/app.js'
         ])
@@ -21,7 +22,7 @@
     {{-- Optional extra head content --}}
     {{$head ?? '' }}
 </head>
-<body class="">
+<body>
 
     {{-- Page Content --}}
     {{ $slot }}

@@ -1,20 +1,17 @@
-@php use App\Models\Department; @endphp
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/js/AdminUserInfo.js', 'resources/css/AdminUserInfo.css'])
-    <title>Document</title>
-</head>
+<x-layout>
 
-    <body>
+    <x-slot:head>
+        @vite([
+        'resources/js/AdminUserInfo.js',
+        'resources/css/AdminUserInfo.css',
+        'resources/js/components/user-role-styling.js'
+        ])
+    </x-slot:head>
+
     <!-- Personal-Information -->
-    <div class="Personal-Information">
+    <div class="main-container">
         <h1>Personal Information</h1>
         <div class="user-details-section">
-            <!-- Button to trigger edit mode -->
-            <button id="edit-user-btn" type="button" onclick="toggleEditMode()">Edit</button>
 
             <!-- Display User Information -->
             <form id="user-info-form" action="{{ route('UserManagement.editUser', $user->id) }}" method="POST">
@@ -63,9 +60,9 @@
                     @enderror
                 </div>
 
-                <div class="info-item">
+                <div class="info-item" id="role-container">
                     <label for="role">Role:</label>
-                    <span id="user-role">{{$user->role}}</span>
+                    <span id="user-role" class="role">{{$user->role}}</span>
                     <select id="edit-role" name="role" style="display:none;" required class="@error('role') is-invalid @enderror">
                         <option value="{{$user->role}}" selected>{{$user->role}}</option>
                         @php
@@ -81,12 +78,14 @@
                     @enderror
                 </div>
 
-                <!-- Save Changes Button -->
-                <button id="save-changes" type="submit" style="display:none;">Save Changes</button>
+                <div class="btns-wrapper">
+                    <!-- Button to trigger edit mode -->
+                    <button id="edit-user-btn" type="button" onclick="toggleEditMode()">Edit</button>
 
+                    <!-- Save Changes Button -->
+                    <button id="save-changes" type="submit" style="display:none;">Save Changes</button>
+                </div>
             </form>
         </div>
     </div>
-
-</body>
-</html>
+</x-layout>

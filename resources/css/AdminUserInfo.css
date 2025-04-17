@@ -1,40 +1,108 @@
-/* Modal background */
 body{
-    background: grey;
-}
-table, th, td {
-    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--color-primary);
 }
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
+.main-container{
+    display: inline-flex;
+    background-color: var(--color-white);
+    /*max-width: var(--container-width);*/
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    padding: 1em 1.5em;
+    gap: 3em;
+    align-items: center;
+    flex-direction: column;
+}
+
+.main-container h1{
+    font-size: 2em;
+}
+
+.main-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 2em;
+    width: 420px;
+}
+
+.main-container .info-item{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.main-container #role-container{
+    display: inline;
+}
+
+.main-container label,
+.main-container span,
+.main-container input{
+    border-radius: .25em;
+}
+
+.main-container span,
+.main-container input,
+.main-container select{
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    padding: .25em .5em;
+    background-color: var(--color-gray-light);
 }
 
-/* Modal content */
-.modal-content {
-    background-color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 50%;
-    text-align: center;
+.main-container label{
+    font-size: .8em;
+    margin-bottom: .5em;
 }
 
-/* Close button */
-.close {
-    font-size: 24px;
-    cursor: pointer;
+/*to keep the height of an empty input*/
+.main-container span {
+    min-height: 2em;
+    color: #727e94;
 }
+
+.main-container span.role{
+    width: auto;
+}
+
+.main-container input:focus{
+    color: #0a0a0a;
+    outline: 2px solid var(--color-secondary-dark);
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
+
+
 .text-danger{
     color: red;
 }
-.Personal-Information{
-    background: #0a53be;
+
+.btns-wrapper{
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.btns-wrapper button{
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    border-radius: .25em;
+    padding: .25em .5em;
+}
+
+.btns-wrapper button:hover{
+    background-color: var(--color-primary-dark);
+}
+
+.btns-wrapper button[type="submit"]{
+    width: 50%;
+}
+
+.btns-wrapper button[type="button"]{
+    border-radius: .25em;
+    width: 100%;
 }

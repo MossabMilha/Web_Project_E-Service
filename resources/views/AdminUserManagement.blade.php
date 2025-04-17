@@ -2,7 +2,6 @@
     <x-slot:head>
         @vite([
             // css files
-            'resources/css/components/table.css',
             'resources/css/AdminUserManagement.css',
             // js files
             // 'resources/js/components/user-role-styling.js' // TODO: use this instead of AdminUserManagement.js
@@ -77,7 +76,6 @@
                     </tr>
                 @endforeach
             </table>
-        </x-table>
         @if ($users->hasPages())
             <div class="pagination">
                 <a href="{{ $users->previousPageUrl() }}" class="prev-btn {{ $users->onFirstPage() ? 'disabled' : '' }}">< previous</a>
@@ -85,8 +83,10 @@
                 <a href="{{ $users->nextPageUrl() }}" class="next-btn {{ $users->hasMorePages() ? '' : 'disabled' }}">next ></a>
             </div>
         @endif
+        </x-table>
 
-        <div class="delete-user-popup popup" style="display: none">
+
+        <div class="delete-user-popup popup">
             <form id="deleteForm" method="POST" action="{{ route('UserManagement.deleteUser', ['id' => $user->id]) }}">
                 @csrf
                 @method('DELETE')

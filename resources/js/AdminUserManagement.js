@@ -1,3 +1,4 @@
+// TODO: to be remove in the future (general version need to be made)
 window.selectOption=function(option) {
     let button = document.getElementById("OptionButton");
     let hiddenInput = document.getElementById("selectedOption");
@@ -70,7 +71,7 @@ window.showDeleteUserSection = function (userId, userName) {
 
     deleteSection.style.display = 'block'; // Show the delete section
 
-    deleteMsg.innerHTML = `You Will Delete <strong>${userName}</strong> Account holding the id number <strong>${userId}</strong>. Are You Sure? There is no going back from this action.`;
+    deleteMsg.innerHTML = `You are about to delete the <strong>${userName}</strong> account with ID <strong>#${userId}</strong>. This action is irreversible. Are you sure you want to proceed?`;
 
     deleteForm.setAttribute('action', `/delete-user/${userId}`);
 }
