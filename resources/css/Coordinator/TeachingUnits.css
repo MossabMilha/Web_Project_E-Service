@@ -1,12 +1,32 @@
-table, th, td {
-    border: 1px solid black;
+body{
+    background-color: var(--color-primary);
 }
 
+.main-container{
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pagination{
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+}
+
+.pagination .prev-btn.disabled,
+.pagination .next-btn.disabled{
+    color: var(--color-gray);
+}
 
 .modal-overlay, .Add-modal-overlay{
     width: 100%;
     color: white;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(21, 21, 21);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -17,4 +37,11 @@ table, th, td {
 .unit-info label{
     font-size: 20px;
     margin-right: 20px;
+}
+
+.text-truncate{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px
 }

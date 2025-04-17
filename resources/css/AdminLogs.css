@@ -11,10 +11,6 @@ body{
     flex-direction: column;
 }
 
-.main-container form{
-
-}
-
 button[type=submit]{
     display: flex;
     align-items: center;
