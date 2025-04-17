@@ -20,15 +20,27 @@ use App\Models\LogModel;
 class CoordinatorController extends Controller
 {
     public function teachingUnits(){
-        $coordinatorId = Auth::user()->id;
+        $coordinatorId = Auth::id(); // Shortcut for Auth::user()->id
 
-        $filieres = Filiere::where('coordinator_id', $coordinatorId)->with(['TeachingUnits.filiere'])->get();
-        $allTeachingUnits = $filieres->pluck('teachingUnits')->collapse();
+        // Fetch filieres with their teaching units for display if needed
+        $filieres = Filiere::with('TeachingUnits.filiere')
+            ->where('coordinator_id', $coordinatorId)
+            ->get();
 
+        // Get filiere IDs directly
+        $filiereIds = $filieres->pluck('id');
+
+        // Paginate Teaching Units that belong to the coordinator's filieres
+        $allTeachingUnits = TeachingUnit::with('filiere')
+            ->whereIn('filiere_id', $filiereIds)
+            ->paginate(10);
+
+        // Log coordinator's visit
         LogModel::track('visit_teaching_units', "Coordinator (ID: {$coordinatorId}) visited Teaching Units page.");
 
+        // Return view
+        return view('Coordinator.TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
 
-        return view('/Coordinator/TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
 
     public function AddUnit(Request $request)

@@ -158,6 +158,14 @@
         </table>
     </div>
 
+    @if ($allTeachingUnits->hasPages())
+        <div class="pagination">
+            <a href="{{ $allTeachingUnits->previousPageUrl() }}" class="prev-btn {{ $allTeachingUnits->onFirstPage() ? 'disabled' : '' }}">< previous</a>
+            <span class="page-info">{{ $allTeachingUnits->currentPage() }} | {{ $allTeachingUnits->lastPage() }}</span>
+            <a href="{{ $allTeachingUnits->nextPageUrl() }}" class="next-btn {{ $allTeachingUnits->hasMorePages() ? '' : 'disabled' }}">next ></a>
+        </div>
+    @endif
+
 
 
     <div class="modal-overlay" id="modal-overlay" style="display: none">
