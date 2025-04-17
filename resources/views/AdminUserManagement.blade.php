@@ -95,7 +95,7 @@
                     <p class="delete-message"></p>
                     <div class="password-container">
                         <label for="password">Enter Password:</label>
-                        <input id="password" name="password" type="password" placeholder="Enter password" required>
+                        <input id="password" name="password" type="password" placeholder="Password" required>
                     </div>
                     @if ($errors->any())
                         <div class="alert alert-danger">

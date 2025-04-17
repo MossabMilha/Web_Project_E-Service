@@ -1,9 +1,4 @@
-@import url(app.css);
-
 body{
-    /*justify-content: center;*/
-    /*align-content: start;*/
-    /*height: 100vh;*/
     background-color: var(--color-tirnary-lighter);
 }
 
@@ -226,21 +221,21 @@ body{
 
 .delete-user-popup .password-container{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 8px;
 }
 .delete-user-popup label[for="password"]{
     font-size: 0.9em;
     display: inline-block;
     align-content: center;
-    width: 40%;
 }
 
 .delete-user-popup input[name="password"]{
     font-size: 0.9em;
+    border-radius: 0.25em;
     padding: .25em .5em;
     border: 1px solid black;
-    width: 60%;
+    width: 100%;
 }
 
 .delete-user-popup button[type="submit"],

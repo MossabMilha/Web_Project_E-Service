@@ -162,7 +162,7 @@ class AdminController extends Controller
             })
             ->orderBy($sortBy, $sortOrder);
 
-        $logs = $logsQuery->get();
+        $logs = $logsQuery->paginate(10)->appends(request()->query());
 
         return view('AdminLogs', compact('logs'));
     }
