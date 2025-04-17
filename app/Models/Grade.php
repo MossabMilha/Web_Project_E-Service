@@ -17,10 +17,10 @@ class Grade extends Model
         'grade_retake',
     ];
 
-    // Relationship with student (User)
+    // ✅ Updated relationship: now points to Student model
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id');
     }
 
     // Relationship with teaching unit
@@ -29,7 +29,7 @@ class Grade extends Model
         return $this->belongsTo(TeachingUnit::class, 'unit_id');
     }
 
-    // Relationship with professor (User)
+    // Relationship with professor (still a User)
     public function professor()
     {
         return $this->belongsTo(User::class, 'professor_id');
