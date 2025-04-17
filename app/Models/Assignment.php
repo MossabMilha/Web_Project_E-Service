@@ -36,4 +36,8 @@ class Assignment extends Model
     {
         return $this->belongsTo(TeachingUnit::class, 'unit_id');
     }
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class);
+    }
 }

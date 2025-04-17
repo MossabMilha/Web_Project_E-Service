@@ -65,6 +65,12 @@
                         Don't revive him X_X
                     </x-card>
                 </div>
+            @elseif(auth()->user()->role == "vacataire")
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/schedule.jpg'" :card_title="'Assigned Units'" :card_link="'Vacataire.assignedUnit'">
+                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                    </x-card>
+                </div>
             @endif
             </div>
         </section>

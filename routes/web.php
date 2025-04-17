@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TeachingStaffController;
 use App\Http\Controllers\TeachingUnitController;
+use App\Http\Controllers\VacataireController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -120,11 +121,12 @@ Route::prefix('professor')
     Route::post('/{id}/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
 });
 
-
-
-
-
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
+
+
+
+
+Route::get('/Vacataire/assignedUnit', [VacataireController::class, 'assignedUnit'])->name('Vacataire.assignedUnit');
 
 
 
