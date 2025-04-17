@@ -75,87 +75,92 @@
 
     <div class="ShowTeachingUnits">
         <button id="add-unit-btn">Add New Unit</button>
-        <table>
-            <tr>
-                <th>
-                    UnitsId
-                    <a>↑</a>
-                    <a>↓</a>
-                </th>
-                <th>Name</th>
-                <th>description</th>
-                <th>hours</th>
-                <th>
-                    type
-                    <select>
-                        <option value="all" selected>All</option>
-                        <option value="CM">CM</option>
-                        <option value="TD">TD</option>
-                        <option value="TP">TP</option>
-                    </select>
-                </th>
-                <th>credits</th>
-                <th>
-                    filliere
-                    <select>
-                        @foreach($filieres as $filiere)
-                            <option value="{{$filiere->id}}">{{$filiere->name}}</option>
-                        @endforeach
-                    </select>
-                </th>
-                <th>
-                    semester
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                    </select>
-                </th>
-                <th>
-                    Status
-                    <select>
-                        <option>pending</option>
-                        <option>approved</option>
-                        <option>declined</option>
-                    </select>
-                </th>
-                <th>
-                    Units Created At
-                    <a>↑</a>
-                    <a>↓</a>
-                </th>
-                <th>
-                    Units Updated
-                    <a>↑</a>
-                    <a>↓</a>
-                </th>
-                <th>Actions</th>
-            </tr>
-            @foreach($allTeachingUnits as $unit)
+        <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
+            <table>
                 <tr>
-                    <td>{{$unit->id }}</td>
-                    <td>{{$unit->name }}</td>
-                    <td>{{$unit->description }}</td>
-                    <td>{{$unit->hours}}</td>
-                    <td>{{$unit->type}}</td>
-                    <td>{{$unit->credits}}</td>
-                    <td>{{$unit->filiere->name ?? 'N/A'}}</td>
-                    <td>{{$unit->semester}}</td>
-                    <td>
-                        {{$unit->assignmentStatus()}}
-                    </td>
-                    <td>{{ $unit->created_at }}</td>
-                    <td>{{ $unit->updated_at }}</td>
-                    <td>
-                        @if($unit->assignmentStatus() == 'assigned'&& $unit->assignedVacataire())
-                            <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">Re-Assign</a>
-                            <a class="Delete-Assign-btn">Delete-Assign</a>
-                        @elseif($unit->assignmentStatus() == 'unassigned')
-                            <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">Assign</a>
-                        @endif
-                    </td>
+                    <th>
+                        UnitsId
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'id', 'sort_direction' => 'asc']) }}">↑</a>
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'id', 'sort_direction' => 'desc']) }}">↓</a>
+                    </th>
+                    <th>Name</th>
+                    <th>description</th>
+                    <th>hours</th>
+                    <th>
+                        type
+                        <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
+                            <select name="type" onchange="this.form.submit()">
+                                <option value="all" {{ request()->type == 'all' ? 'selected' : '' }}>All</option>
+                                <option value="CM" {{ request()->type == 'CM' ? 'selected' : '' }}>CM</option>
+                                <option value="TD" {{ request()->type == 'TD' ? 'selected' : '' }}>TD</option>
+                                <option value="TP" {{ request()->type == 'TP' ? 'selected' : '' }}>TP</option>
+                            </select>
+                        </form>
+                    </th>
+                    <th>credits</th>
+                    <th>
+                        filliere
+                        <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
+                            <select name="filiere" onchange="this.form.submit()">
+                                <option value="all" {{ request()->filiere == 'all' ? 'selected' : '' }}>All</option>
+                                @foreach($filieres as $filiere)
+                                    <option value="{{ $filiere->id }}" {{ request()->filiere == $filiere->id ? 'selected' : '' }}>
+                                        {{ $filiere->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </form>
+                    </th>
+                    <th>
+                        semester
+                        <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
+                            <select name="semester" onchange="this.form.submit()">
+                                <option value="all" {{ request()->semester == 'all' ? 'selected' : '' }}>All</option>
+                                <option value="1" {{ request()->semester == '1' ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ request()->semester == '2' ? 'selected' : '' }}>2</option>
+                            </select>
+                        </form>
+                    </th>
+                    <th>Status</th>
+                    <th>
+                        Units Created At
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'created_at', 'sort_direction' => 'asc']) }}">↑</a>
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'created_at', 'sort_direction' => 'desc']) }}">↓</a>
+                    </th>
+                    <th>
+                        Units Updated
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'updated_at', 'sort_direction' => 'asc']) }}">↑</a>
+                        <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'updated_at', 'sort_direction' => 'desc']) }}">↓</a>
+                    </th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        </table>
+                @foreach($allTeachingUnits as $unit)
+                    <tr>
+                        <td>{{$unit->id }}</td>
+                        <td>{{$unit->name }}</td>
+                        <td>{{$unit->description }}</td>
+                        <td>{{$unit->hours}}</td>
+                        <td>{{$unit->type}}</td>
+                        <td>{{$unit->credits}}</td>
+                        <td>{{$unit->filiere->name ?? 'N/A'}}</td>
+                        <td>{{$unit->semester}}</td>
+                        <td>
+                            {{$unit->assignmentStatus()}}
+                        </td>
+                        <td>{{ $unit->created_at }}</td>
+                        <td>{{ $unit->updated_at }}</td>
+                        <td>
+                            @if($unit->assignmentStatus() == 'assigned'&& $unit->assignedVacataire())
+                                <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">Re-Assign</a>
+                                <a class="Delete-Assign-btn">Delete-Assign</a>
+                            @elseif($unit->assignmentStatus() == 'unassigned')
+                                <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">Assign</a>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </form>
     </div>
 
     @if ($allTeachingUnits->hasPages())

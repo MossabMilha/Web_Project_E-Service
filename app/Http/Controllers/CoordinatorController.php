@@ -19,28 +19,62 @@ use App\Models\LogModel;
 
 class CoordinatorController extends Controller
 {
-    public function teachingUnits(){
-        $coordinatorId = Auth::id(); // Shortcut for Auth::user()->id
+    public function teachingUnits(Request $request)
+    {
+        $coordinatorId = Auth::id();
 
-        // Fetch filieres with their teaching units for display if needed
+        // Fetch the filieres associated with the coordinator
         $filieres = Filiere::with('TeachingUnits.filiere')
             ->where('coordinator_id', $coordinatorId)
             ->get();
 
-        // Get filiere IDs directly
+        // Get the IDs of the filieres
         $filiereIds = $filieres->pluck('id');
 
-        // Paginate Teaching Units that belong to the coordinator's filieres
-        $allTeachingUnits = TeachingUnit::with('filiere')
-            ->whereIn('filiere_id', $filiereIds)
-            ->paginate(10);
+        // Initialize the query for TeachingUnit
+        $query = TeachingUnit::with('filiere')->whereIn('filiere_id', $filiereIds);
+
+        // Filter by type (if provided in request)
+        if ($request->has('type') && $request->type != 'all') {
+            $query->where('type', $request->type);
+        }
+
+        // Filter by filiere (if provided in request)
+        if ($request->has('filiere') && $request->filiere != 'all') {
+            $query->where('filiere_id', $request->filiere);
+        }
+
+        // Filter by semester (if provided in request)
+        if ($request->has('semester') && $request->semester != 'all') {
+            $query->where('semester', $request->semester);
+        }
+
+        // Filter by status (if provided in request)
+        if ($request->has('status') && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        // Sorting by columns (if specified)
+        if ($request->has('sort_by')) {
+            $sortColumn = $request->sort_by;
+            $sortDirection = $request->has('sort_direction') ? $request->sort_direction : 'asc';
+
+            // Make sure the column exists for sorting (defaulting to 'id' if invalid)
+            $validSortColumns = ['id', 'created_at', 'updated_at'];
+
+            if (in_array($sortColumn, $validSortColumns)) {
+                $query->orderBy($sortColumn, $sortDirection);
+            }
+        }
+
+        // Paginate the results (10 items per page)
+        $allTeachingUnits = $query->paginate(10);
 
         // Log coordinator's visit
         LogModel::track('visit_teaching_units', "Coordinator (ID: {$coordinatorId}) visited Teaching Units page.");
 
-        // Return view
+        // Return view with data
         return view('Coordinator.TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
-
     }
 
     public function AddUnit(Request $request)
