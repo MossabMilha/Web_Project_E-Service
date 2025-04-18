@@ -71,6 +71,11 @@
                         Easily plan and manage course schedules, classrooms, and instructor availability.
                     </x-card>
                 </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/schedule.jpg'" :card_title="'Assessments '" :card_link="'Vacataire.assessments'">
+                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                    </x-card>
+                </div>
             @endif
             </div>
         </section>

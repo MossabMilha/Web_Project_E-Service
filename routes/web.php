@@ -127,6 +127,8 @@ Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, '
 
 
 Route::get('/Vacataire/assignedUnit', [VacataireController::class, 'assignedUnit'])->name('Vacataire.assignedUnit');
+Route::get('/Vacataire/assessments', [VacataireController::class, 'assessments'])->name('Vacataire.assessments');
+Route::get('/Vacataire/new-assessments', [VacataireController::class, 'NewAssessments'])->name('Vacataire.AddAssessments');
 Route::get('/Vacataire/Grades', [VacataireController::class, 'assignedUnit'])->name('Vacataire.assignedUnit');
 
 

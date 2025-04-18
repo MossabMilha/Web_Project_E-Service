@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
@@ -12,11 +13,18 @@ class Student extends Model
         'name',
         'cne',
         'filiere',
+        'grade_id',
     ];
 
-
-    public function grades()
+    // A student belongs to a grade
+    public function grade()
     {
-        return $this->hasMany(Grade::class, 'student_id');
+        return $this->belongsTo(Grade::class);
+    }
+
+    // A student belongs to a filiere
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class, 'filiere');
     }
 }

@@ -11,27 +11,20 @@ class Grade extends Model
 
     protected $fillable = [
         'student_id',
-        'unit_id',
-        'professor_id',
+        'assessment_id',
         'grade_normal',
         'grade_retake',
     ];
 
-    // ✅ Updated relationship: now points to Student model
+    // Relationship with Student
     public function student()
     {
-        return $this->belongsTo(Student::class, 'student_id');
+        return $this->belongsTo(Student::class);
     }
 
-    // Relationship with teaching unit
-    public function teachingUnit()
+    // Relationship with Assessment
+    public function assessment()
     {
-        return $this->belongsTo(TeachingUnit::class, 'unit_id');
-    }
-
-    // Relationship with professor (still a User)
-    public function professor()
-    {
-        return $this->belongsTo(User::class, 'professor_id');
+        return $this->belongsTo(Assessment::class);
     }
 }
