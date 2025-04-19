@@ -24,7 +24,7 @@ class CoordinatorController extends Controller
         $coordinatorId = Auth::id();
 
         // Fetch the filieres associated with the coordinator
-        $filieres = Filiere::with('TeachingUnits.filiere')
+        $filieres = Filiere::with('user')
             ->where('coordinator_id', $coordinatorId)
             ->get();
 
@@ -34,24 +34,18 @@ class CoordinatorController extends Controller
         // Initialize the query for TeachingUnit
         $query = TeachingUnit::with('filiere')->whereIn('filiere_id', $filiereIds);
 
-        // Filter by type (if provided in request)
-        if ($request->has('type') && $request->type != 'all') {
-            $query->where('type', $request->type);
-        }
+        // Here to add filters
+        $filters = [
+            'type' => 'type',
+            'filiere' => 'filiere_id',
+            'semester' => 'semester',
+            'status' => 'status'
+        ];
 
-        // Filter by filiere (if provided in request)
-        if ($request->has('filiere') && $request->filiere != 'all') {
-            $query->where('filiere_id', $request->filiere);
-        }
-
-        // Filter by semester (if provided in request)
-        if ($request->has('semester') && $request->semester != 'all') {
-            $query->where('semester', $request->semester);
-        }
-
-        // Filter by status (if provided in request)
-        if ($request->has('status') && $request->status != 'all') {
-            $query->where('status', $request->status);
+        foreach ($filters as $requestKey => $column) {
+            if ($request->$requestKey && $request->$requestKey != 'all') {
+                $query->where($column, $request->$requestKey);
+            }
         }
 
         // Sorting by columns (if specified)

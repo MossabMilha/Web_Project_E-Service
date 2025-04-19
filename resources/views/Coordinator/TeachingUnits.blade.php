@@ -9,149 +9,147 @@
     <x-nav/>
 
     <div class="main-container">
-        <div class="Add-modal-overlay" id="Add-modal-overlay" style="display: none;">
-            <div class="Add-Teaching-Unite" >
-                <form method="POST" action="{{ route('Coordinator.AddUnit') }}">
-                    @csrf
-                    <h1>Add New Unit</h1>
+{{--        <div class="Add-modal-overlay" id="Add-modal-overlay" style="display: none;">--}}
+{{--            <div class="Add-Teaching-Unite" >--}}
+{{--                <form method="POST" action="{{ route('Coordinator.AddUnit') }}">--}}
+{{--                    @csrf--}}
+{{--                    <h1>Add New Unit</h1>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-name">Name: </label>
-                        <input type="text" name="add-name" id="add-name" required>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-name">Name: </label>--}}
+{{--                        <input type="text" name="add-name" id="add-name" required>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-description">Description: </label>
-                        <textarea name="add-description" id="add-description" required></textarea>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-description">Description: </label>--}}
+{{--                        <textarea name="add-description" id="add-description" required></textarea>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-hours">Hours: </label>
-                        <input type="number" name="add-hours" id="add-hours" required>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-hours">Hours: </label>--}}
+{{--                        <input type="number" name="add-hours" id="add-hours" required>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-type">Type: </label>
-                        <div id="add-type">
-                            <input type="radio" name="add-type" id="add-cm" value="CM" required>
-                            <label for="add-cm">CM</label>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-type">Type: </label>--}}
+{{--                        <div id="add-type">--}}
+{{--                            <input type="radio" name="add-type" id="add-cm" value="CM" required>--}}
+{{--                            <label for="add-cm">CM</label>--}}
 
-                            <input type="radio" name="add-type" id="add-td" value="TD">
-                            <label for="add-td">TD</label>
+{{--                            <input type="radio" name="add-type" id="add-td" value="TD">--}}
+{{--                            <label for="add-td">TD</label>--}}
 
-                            <input type="radio" name="add-type" id="add-tp" value="TP">
-                            <label for="add-tp">TP</label>
-                        </div>
-                    </div>
+{{--                            <input type="radio" name="add-type" id="add-tp" value="TP">--}}
+{{--                            <label for="add-tp">TP</label>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-credits">Credits: </label>
-                        <input type="number" name="add-credits" id="add-credits" required>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-credits">Credits: </label>--}}
+{{--                        <input type="number" name="add-credits" id="add-credits" required>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-filiere">Filiere: </label>
-                        <select name="add-filiere" id="add-filiere" required>
-                            @foreach($filieres as $filiere)
-                                <option value="{{$filiere->id}}">{{$filiere->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-filiere">Filiere: </label>--}}
+{{--                        <select name="add-filiere" id="add-filiere" required>--}}
+{{--                            @foreach($filieres as $filiere)--}}
+{{--                                <option value="{{$filiere->id}}">{{$filiere->name}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
-                    <div class="add-unit-info">
-                        <label for="add-semester">Semester: </label>
-                        <select name="add-semester" id="add-semester" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                    </div>
+{{--                    <div class="add-unit-info">--}}
+{{--                        <label for="add-semester">Semester: </label>--}}
+{{--                        <select name="add-semester" id="add-semester" required>--}}
+{{--                            <option value="1">1</option>--}}
+{{--                            <option value="2">2</option>--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
-                    <div>
-                        <button type="button" id="add-Unit-Cancel" >Cancel</button>
-                        <button type="submit" id="add-Unit">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+{{--                    <div>--}}
+{{--                        <button type="button" id="add-Unit-Cancel" >Cancel</button>--}}
+{{--                        <button type="submit" id="add-Unit">Save</button>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <x-table class="ShowTeachingUnits">
             <button id="add-unit-btn">Add New Unit</button>
-            <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
+
+            <form method="GET" action="{{ route('Coordinator.teachingUnits') }}" id="filters-form">
                 <table>
                     <tr>
                         <th>
-                            UnitsId
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'id', 'sort_direction' => 'asc']) }}">↑</a>
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'id', 'sort_direction' => 'desc']) }}">↓</a>
+                            <div class="th-wrapper">
+                                <span>Id</span>
+                                <div class="sort-buttons">
+                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'asc'])) }}"><img src="{{asset('png/arrow up 2.png')}}"></a>
+                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'desc'])) }}"><img src="{{asset('png/arrow up 2.png')}}"></a>
+                                </div>
+                            </div>
                         </th>
-                        <th>Name</th>
-                        <th>description</th>
-                        <th>hours</th>
+                        <th><div class="th-wrapper">Name</div></th>
+                        <th><div class="th-wrapper">Description</div></th>
+                        <th><div class="th-wrapper">Hours</div></th>
                         <th>
-                            type
-                            <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
-                                <select name="type" onchange="this.form.submit()">
-                                    <option value="all" {{ request()->type == 'all' ? 'selected' : '' }}>All</option>
-                                    <option value="CM" {{ request()->type == 'CM' ? 'selected' : '' }}>CM</option>
-                                    <option value="TD" {{ request()->type == 'TD' ? 'selected' : '' }}>TD</option>
-                                    <option value="TP" {{ request()->type == 'TP' ? 'selected' : '' }}>TP</option>
-                                </select>
-                            </form>
+                            Type
+                            <select name="type" onchange="document.getElementById('filters-form').submit()">
+                                <option value="all" {{ request()->type == 'all' ? 'selected' : '' }}>All</option>
+                                <option value="CM" {{ request()->type == 'CM' ? 'selected' : '' }}>CM</option>
+                                <option value="TD" {{ request()->type == 'TD' ? 'selected' : '' }}>TD</option>
+                                <option value="TP" {{ request()->type == 'TP' ? 'selected' : '' }}>TP</option>
+                            </select>
                         </th>
-                        <th>credits</th>
+                        <th>Credits</th>
                         <th>
-                            filliere
-                            <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
-                                <select name="filiere" onchange="this.form.submit()">
-                                    <option value="all" {{ request()->filiere == 'all' ? 'selected' : '' }}>All</option>
-                                    @foreach($filieres as $filiere)
-                                        <option value="{{ $filiere->id }}" {{ request()->filiere == $filiere->id ? 'selected' : '' }}>
-                                            {{ $filiere->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </form>
+                            Filiere
+                            <select name="filiere" onchange="document.getElementById('filters-form').submit()">
+                                <option value="all" {{ request()->filiere == 'all' ? 'selected' : '' }}>All</option>
+                                @foreach($filieres as $filiere)
+                                    <option value="{{ $filiere->id }}" {{ request()->filiere == $filiere->id ? 'selected' : '' }}>
+                                        {{ $filiere->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </th>
                         <th>
-                            semester
-                            <form method="GET" action="{{ route('Coordinator.teachingUnits') }}">
-                                <select name="semester" onchange="this.form.submit()">
-                                    <option value="all" {{ request()->semester == 'all' ? 'selected' : '' }}>All</option>
-                                    <option value="1" {{ request()->semester == '1' ? 'selected' : '' }}>1</option>
-                                    <option value="2" {{ request()->semester == '2' ? 'selected' : '' }}>2</option>
-                                </select>
-                            </form>
+                            Semester
+                            <select name="semester" onchange="document.getElementById('filters-form').submit()">
+                                <option value="all" {{ request()->semester == 'all' ? 'selected' : '' }}>All</option>
+                                <option value="1" {{ request()->semester == '1' ? 'selected' : '' }}>1</option>
+                                <option value="2" {{ request()->semester == '2' ? 'selected' : '' }}>2</option>
+                            </select>
                         </th>
                         <th>Status</th>
                         <th>
-                            Units Created At
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'created_at', 'sort_direction' => 'asc']) }}">↑</a>
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'created_at', 'sort_direction' => 'desc']) }}">↓</a>
+                            Created At
+                            <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'created_at', 'sort_direction' => 'asc'])) }}">↑</a>
+                            <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'created_at', 'sort_direction' => 'desc'])) }}">↓</a>
                         </th>
                         <th>
-                            Units Updated
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'updated_at', 'sort_direction' => 'asc']) }}">↑</a>
-                            <a href="{{ route('Coordinator.teachingUnits', ['sort_by' => 'updated_at', 'sort_direction' => 'desc']) }}">↓</a>
+                            Updated At
+                            <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'updated_at', 'sort_direction' => 'asc'])) }}">↑</a>
+                            <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'updated_at', 'sort_direction' => 'desc'])) }}">↓</a>
                         </th>
                         <th>Actions</th>
                     </tr>
+
                     @foreach($allTeachingUnits as $unit)
                         <tr>
-                            <td>{{$unit->id }}</td>
-                            <td>{{$unit->name }}</td>
-                            <td class="text-truncate">{{$unit->description }}</td>
-                            <td>{{$unit->hours}}</td>
-                            <td>{{$unit->type}}</td>
-                            <td>{{$unit->credits}}</td>
-                            <td>{{$unit->filiere->name ?? 'N/A'}}</td>
-                            <td>{{$unit->semester}}</td>
-                            <td>
-                                {{$unit->assignmentStatus()}}
-                            </td>
+                            <td>{{ $unit->id }}</td>
+                            <td class="text-truncate">{{ $unit->name }}</td>
+                            <td class="text-truncate">{{ $unit->description }}</td>
+                            <td>{{ $unit->hours }}</td>
+                            <td>{{ $unit->type }}</td>
+                            <td>{{ $unit->credits }}</td>
+                            <td>{{ $unit->filiere->name ?? 'N/A' }}</td>
+                            <td>{{ $unit->semester }}</td>
+                            <td>{{ $unit->assignmentStatus() }}</td>
                             <td>{{ $unit->created_at }}</td>
                             <td>{{ $unit->updated_at }}</td>
                             <td>
-                                @if($unit->assignmentStatus() == 'assigned'&& $unit->assignedVacataire())
+                                @if($unit->assignmentStatus() == 'assigned' && $unit->assignedVacataire())
                                     <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">Re-Assign</a>
                                     <a class="Delete-Assign-btn">Delete-Assign</a>
                                 @elseif($unit->assignmentStatus() == 'unassigned')
@@ -162,17 +160,15 @@
                     @endforeach
                 </table>
             </form>
+
             @if ($allTeachingUnits->hasPages())
                 <div class="pagination">
-                    <a href="{{ $allTeachingUnits->previousPageUrl() }}" class="prev-btn {{ $allTeachingUnits->onFirstPage() ? 'disabled' : '' }}">< previous</a>
+                    <a href="{{ $allTeachingUnits->previousPageUrl() }}" class="prev-btn {{ $allTeachingUnits->onFirstPage() ? 'disabled' : '' }}">← previous</a>
                     <span class="page-info">{{ $allTeachingUnits->currentPage() }} | {{ $allTeachingUnits->lastPage() }}</span>
-                    <a href="{{ $allTeachingUnits->nextPageUrl() }}" class="next-btn {{ $allTeachingUnits->hasMorePages() ? '' : 'disabled' }}">next ></a>
+                    <a href="{{ $allTeachingUnits->nextPageUrl() }}" class="next-btn {{ $allTeachingUnits->hasMorePages() ? '' : 'disabled' }}">next →</a>
                 </div>
             @endif
         </x-table>
-
-
-
 
         <div class="modal-overlay" id="modal-overlay" style="display: none">
             <div class="Edit-Teaching-Unite" style="display: none;">

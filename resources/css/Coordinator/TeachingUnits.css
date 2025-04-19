@@ -10,6 +10,23 @@ body{
     display: flex;
     flex-direction: column;
 }
+/*========================================================*/
+/*====================== modal ======================*/
+/*========================================================*/
+
+
+.modal-overlay, .Add-modal-overlay{
+    width: 100%;
+    color: white;
+    background-color: rgb(21, 21, 21);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/*========================================================*/
+/*====================== pagination ======================*/
+/*========================================================*/
 
 .pagination{
     flex-grow: 1;
@@ -23,14 +40,26 @@ body{
     color: var(--color-gray);
 }
 
-.modal-overlay, .Add-modal-overlay{
-    width: 100%;
-    color: white;
-    background-color: rgb(21, 21, 21);
+/*========================================================*/
+/*========================================================*/
+
+.sort-buttons{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    gap: 2px;
 }
+
+.sort-buttons img{
+    width: 1em;
+    object-fit: cover;
+}
+
+.sort-buttons :last-child img{
+    rotate: 180deg;
+}
+
 .unit-info{
     display: flex;
 }
@@ -43,5 +72,5 @@ body{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 240px
+    max-width: 120px;
 }
