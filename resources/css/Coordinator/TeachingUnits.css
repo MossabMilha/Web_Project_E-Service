@@ -52,7 +52,7 @@ body{
 }
 
 .sort-buttons img{
-    width: 1em;
+    width: .75em;
     object-fit: cover;
 }
 
