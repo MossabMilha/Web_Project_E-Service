@@ -29,4 +29,9 @@ class Filiere extends Model
     {
         return $this->hasMany(Student::class, 'filiere');
     }
+    public function coordinator()
+    {
+        return $this->belongsTo(User::class, 'coordinator_id');
+    }
+
 }

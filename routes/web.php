@@ -130,7 +130,8 @@ Route::get('/Vacataire/assignedUnit', [VacataireController::class, 'assignedUnit
 Route::get('/Vacataire/assessments', [VacataireController::class, 'assessments'])->name('Vacataire.assessments');
 Route::get('/Vacataire/new-assessments', [VacataireController::class, 'NewAssessments'])->name('Vacataire.AddAssessments');
 Route::post('/Vacataire/new-assessments/store', [VacataireController::class, 'NewAssessmentsDB'])->name('Vacataire.AddAssessmentsDB');
-Route::post('/Vacataire/Grades', [VacataireController::class, 'UploadNormalGrade'])->name('Vacataire.grades.upload');
+Route::post('/Vacataire/NormalGrades', [VacataireController::class, 'UploadNormalGrade'])->name('Vacataire.grades.upload');
+Route::post('/Vacataire/Grades', [VacataireController::class, 'ExportGrade'])->name('Vacataire.grades.export');
 
 
 

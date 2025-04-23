@@ -15,6 +15,20 @@
     <h1>Hello To The Assasement Page</h1>
     <p>Welcome to the assessment page. Here you can find all the information related to your assessments.</p>
     <button onclick="window.location='{{ route('Vacataire.AddAssessments') }}'">Add New Assessments</button>
+    @if ($errors->any())
+        <div class="alert alert-danger" style="color: red;">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success" style="color: green;">
+            {{ session('success') }}
+        </div>
+    @endif
     @if ($assessments->isEmpty())
         <p>You have no assessments available at the moment.</p>
     @else
@@ -38,7 +52,11 @@
                     <td>{{ $assessment->filiere->name }}</td>
                     <td>{{ $assessment->semester }}</td>
                     <td>
-                        <button>Export Grades</button>
+                        <form id="exportForm-{{ $assessment->id }}" action="{{ route('Vacataire.grades.export') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                            <button type="submit">Export Grades</button>
+                        </form>
                         <form id="uploadForm-{{ $assessment->id }}" action="{{ route('Vacataire.grades.upload') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">

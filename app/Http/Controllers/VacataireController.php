@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GradesExport;
 use App\Models\Assessment;
 use App\Models\Assignment;
 use App\Models\Filiere;
@@ -106,14 +107,18 @@ class VacataireController extends Controller
 
         return redirect()->route('Vacataire.assessments')->with('success', 'Assessment added successfully.');
     }
-    public function UploadNormalGrade(Request $request){
+    public function UploadNormalGrade(Request $request)
+    {
         $request->validate([
             'assessment_id' => 'required|exists:assessments,id',
             'file' => 'required|file|mimes:ods,xlsx,xls',
         ]);
+
         $assessment = Assessment::findOrFail($request->assessment_id);
         $filiere = Filiere::findOrFail($assessment->filiere);
         $students = $filiere->students;
+        $totalStudents = $students->count();
+
         $path = $request->file('file')->getRealPath();
         $rows = IOFactory::load($path)->getActiveSheet()->toArray(null, true, true, true);
 
@@ -129,10 +134,24 @@ class VacataireController extends Controller
             }
         }
 
+        // Check attendance rate
+        $presentCount = 0;
+        foreach ($students as $student) {
+            if (array_key_exists($student->cne, $gradesFromSheet)) {
+                $presentCount++;
+            }
+        }
+
+        $absentPercentage = ($totalStudents - $presentCount) / $totalStudents;
+
+        if ($absentPercentage > 0.4) {
+            return back()->withErrors(['file' => 'More than 40% of students are absent Something Is Wrong Please Contact One Of The Admin (Grades not saved !!)']);
+        }
+
+
         foreach ($students as $student) {
             $cne = $student->cne;
-
-            $grade = array_key_exists($cne, $gradesFromSheet) ? $gradesFromSheet[$cne] : -1;
+            $grade = array_key_exists($cne, $gradesFromSheet) ? $gradesFromSheet[$cne] : 0;
 
             Grade::updateOrCreate(
                 [
@@ -146,6 +165,33 @@ class VacataireController extends Controller
         }
 
         return back()->with('success', 'Grades uploaded successfully.');
+    }
+    public function ExportGrade(Request $request){
+        $request->validate([
+            'assessment_id' => 'required|exists:assessments,id',
+        ]);
+
+        // Retrieve the assessment and related data
+        $assessment = Assessment::findOrFail($request->assessment_id);
+        $filiere = Filiere::findOrFail($assessment->filiere);
+        $students = $filiere->students;
+
+        // Get grades related to the assessment
+        $grades = Grade::where('assessment_id', $assessment->id)->get();
+
+        // Modify grades by setting default value (0) for missing grades (null)
+        foreach ($grades as $grade) {
+            // Set normal grade and retake grade to 0 if they are null
+            $grade->grade_normal = $grade->grade_normal ?? 0;
+            $grade->grade_retake = $grade->grade_retake ?? 0;
+        }
+
+        // Create a filename based on the assessment name
+        $fileName = 'grades_' . str_replace(' ', '_', strtolower($assessment->name)) . '.xlsx';
+
+        // Pass the modified grades to the export class
+        return Excel::download(new GradesExport($grades, $students, $assessment, $filiere), $fileName);
+
     }
 
 }
