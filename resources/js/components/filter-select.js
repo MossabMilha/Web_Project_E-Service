@@ -3,15 +3,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const selected = dropdown.querySelector(".selected");
         const options = dropdown.querySelector(".options");
         const wrapper = dropdown.closest(".filter-dropdown-wrapper");
+        const arrow_icon = dropdown.querySelector("#arrow-up-icon");
         const input = wrapper.querySelector("input[type=hidden]");
         const allOptions = options.querySelectorAll(".option");
 
-        // Toggle dropdown
-        selected.addEventListener("click", (e) => {
-            console.log("selected", e.target.getAttribute("value"));
-            e.stopPropagation();
-            options.classList.toggle("show");
-            dropdown.setAttribute('aria-expanded', options.classList.contains('show'));
+        const toggleDropdown = () => {
+            const isOpen = options.classList.toggle("show");
+            dropdown.setAttribute('aria-expanded', isOpen);
+            arrow_icon.style.transform = isOpen ? "rotate(180deg)" : "rotate(0deg)";
+        };
+
+        dropdown.addEventListener("click", (e) => {
+            if (!e.target.closest(".option")) {
+                e.stopPropagation();
+                toggleDropdown();
+            }
         });
 
         // Handle option selection
@@ -25,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.value = value;
                 options.classList.remove("show");
                 dropdown.setAttribute('aria-expanded', 'false');
+                arrow_icon.style.transform = "rotate(0deg)";
 
                 // Highlight selected option
                 allOptions.forEach(opt => opt.classList.remove("selected-option"));
@@ -43,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!dropdown.contains(e.target)) {
                 options.classList.remove("show");
                 dropdown.setAttribute('aria-expanded', 'false');
+                arrow_icon.style.transform = "rotate(0deg)";
             }
         });
 
@@ -50,11 +58,11 @@ document.addEventListener("DOMContentLoaded", () => {
         dropdown.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                options.classList.toggle("show");
-                dropdown.setAttribute('aria-expanded', options.classList.contains('show'));
+                toggleDropdown();
             } else if (e.key === 'Escape') {
                 options.classList.remove("show");
                 dropdown.setAttribute('aria-expanded', 'false');
+                arrow_icon.style.transform = "rotate(0deg)";
             }
         });
 

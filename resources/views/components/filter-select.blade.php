@@ -34,7 +34,7 @@
             @endforeach
         </div>
         <div class="dropdown-icon">
-            <img src="{{asset('png/arrow up 2.png')}}" alt="">
+            <img id="arrow-up-icon" src="{{asset('png/arrow up 2.png')}}" alt="">
         </div>
     </div>
 </div>
