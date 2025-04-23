@@ -4,7 +4,7 @@ body{
     justify-content: center;
     align-content: center;
     height: 100vh;
-    background-color: var(--color-tirnary-lighter);
+    background-color: var(--color-primary);
 }
 
 .login-container{
@@ -16,7 +16,8 @@ body{
 }
 .img-container{
     width: 50%;
-    background: var(--bg-gradient);
+    background-color: var(--color-tirnary);
+
     display: flex;
     flex-direction: column;
     justify-content: center;

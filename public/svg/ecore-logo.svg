@@ -1,0 +1,18 @@
+<svg stroke="none"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84.53 78.53">
+    <defs>
+        <style>
+            .a944fb51-3705-4d75-b6ec-19e231517f87{
+                fill: var(--fill-color-1, #fdcaf2);
+            }
+            .b0409cbe-e9af-402a-a886-5f425cd00839{
+                fill: var(--fill-color-2, #2b54ff);
+            }
+        </style>
+    </defs>
+    <g id="a00016e8-324d-4034-979b-d025990b960a">
+        <g id="add82d80-f7f7-4543-ada8-a01ce78f6ccf">
+            <path class="a944fb51-3705-4d75-b6ec-19e231517f87" d="M43,41.57,26.47,58.06H84.53V0H26.47V16.51l16.48,0H68V41.57Z"/>
+            <polygon class="b0409cbe-e9af-402a-a886-5f425cd00839" points="16.48 62.06 41.54 36.99 58.01 20.52 0 20.52 0 78.53 41.54 78.53 58.01 78.53 58.01 62.06 41.54 62.06 16.48 62.06"/>
+        </g>
+    </g>
+</svg>
