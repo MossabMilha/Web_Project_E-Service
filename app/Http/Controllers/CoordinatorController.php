@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 
@@ -23,18 +24,27 @@ class CoordinatorController extends Controller
     {
         $coordinatorId = Auth::id();
 
-        // Fetch the filieres associated with the coordinator
-        $filieres = Filiere::with('user')
-            ->where('coordinator_id', $coordinatorId)
-            ->get();
+        // Cache filieres for 6 hours
+        $filieres = Cache::remember('coordinator_filieres_'.$coordinatorId, now()->addHours(6), function() use ($coordinatorId) {
+            return Filiere::with('user')
+                ->where('coordinator_id', $coordinatorId)
+                ->get();
+        });
 
-        // Get the IDs of the filieres
         $filiereIds = $filieres->pluck('id');
 
-        // Initialize the query for TeachingUnit
-        $query = TeachingUnit::with('filiere')->whereIn('filiere_id', $filiereIds);
+        // Eager load all necessary relationships with optimized queries
+        $query = TeachingUnit::with([
+            'filiere',
+            // Load all assignments in one query
+            'assignments' => function($q) {
+                $q->whereNotNull('unit_id')
+                    ->orderBy('created_at', 'desc')
+                    ->with('professor'); // Eager load professor too
+            }
+        ])->whereIn('filiere_id', $filiereIds);
 
-        // Here to add filters
+        // Apply filters
         $filters = [
             'type' => 'type',
             'filiere' => 'filiere_id',
@@ -48,26 +58,55 @@ class CoordinatorController extends Controller
             }
         }
 
-        // Sorting by columns (if specified)
+        // Apply sorting
         if ($request->has('sort_by')) {
             $sortColumn = $request->sort_by;
             $sortDirection = $request->has('sort_direction') ? $request->sort_direction : 'asc';
 
-            // Make sure the column exists for sorting (defaulting to 'id' if invalid)
             $validSortColumns = ['id', 'created_at', 'updated_at'];
-
             if (in_array($sortColumn, $validSortColumns)) {
                 $query->orderBy($sortColumn, $sortDirection);
             }
         }
 
-        // Paginate the results (10 items per page)
+        // Paginate results
         $allTeachingUnits = $query->paginate(10);
 
-        // Log coordinator's visit
+        // Precompute all necessary data for the view
+        $allTeachingUnits->getCollection()->transform(function($unit) {
+            // Get all assignments sorted by newest first
+            $sortedAssignments = $unit->assignments->sortByDesc('created_at');
+
+            // Find the latest assignment in each state
+            $latestPending = $sortedAssignments->where('status', 'pending')->first();
+            $latestAccepted = $sortedAssignments->where('status', 'accepted')->first();
+            $latestRejected = $sortedAssignments->where('status', 'rejected')->first();
+
+            // Determine the actual status
+            if ($latestAccepted) {
+                $unit->computedStatus = 'assigned';
+                $unit->computedVacataire = $latestAccepted->professor;
+                $unit->latestAssignment = $latestAccepted;
+            } elseif ($latestPending) {
+                $unit->computedStatus = 'pending';
+                $unit->computedVacataire = $latestPending->professor;
+                $unit->latestAssignment = $latestPending;
+            } elseif ($unit->assignments->isNotEmpty()) {
+                $unit->computedStatus = 'unassigned'; // Has assignments but none accepted/pending
+                $unit->computedVacataire = null;
+                $unit->latestAssignment = null;
+            } else {
+                $unit->computedStatus = 'unassigned'; // No assignments at all
+                $unit->computedVacataire = null;
+                $unit->latestAssignment = null;
+            }
+
+            return $unit;
+        });
+
+        // Log the visit
         LogModel::track('visit_teaching_units', "Coordinator (ID: {$coordinatorId}) visited Teaching Units page.");
 
-        // Return view with data
         return view('Coordinator.TeachingUnits', compact('allTeachingUnits', 'filieres', 'coordinatorId'));
     }
 

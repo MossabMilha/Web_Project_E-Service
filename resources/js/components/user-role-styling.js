@@ -16,7 +16,7 @@ for (const role of roles) {
             break;
         case 'vacataire':
             role.style.backgroundColor = 'var(--color-gray-light)';
-            role.style.color = 'var(--color-gray)';
+            role.style.color = 'var(--color-gray-dark)';
             break;
         case 'coordinator':
             role.style.backgroundColor = 'var(--color-primary-lighter)';

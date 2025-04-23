@@ -1,13 +1,14 @@
 @import url(../app.css);
 
-/*table section*/
-.table-container table{
+/* Table Section */
+.table-container table {
+    width: 100%;
     border-radius: var(--border-radius-small);
     overflow: hidden;
-    width: 100%;
 }
 
-.table-container table tr{
+/* Table Rows */
+.table-container table tr {
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-gray-lighter);
 }
@@ -16,54 +17,53 @@
     background-color: var(--color-white);
 }
 
-.table-container table tr th{
+/* Table Headers */
+.table-container table tr th {
     color: var(--color-primary);
     font-weight: 500;
     text-align: left;
 }
 
-.table-container table .th-wrapper{
+.table-container table .th-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5em;
 }
 
-.table-container table tr > *{
-    flex-grow: 1;
-    text-align: center;
-    padding: .75em 0.5em;
-    font-size: .9em;
-    /*padding: .5em .25em;*/
+/* Table Cells (Generic) */
+.table-container table tr > * {
+    padding: 0.75em 0.5em;
+    font-size: 0.9em;
 }
 
-.table-container table td{
+.table-container table td {
     border: 1px solid var(--color-gray);
+    /* display: flex; */ /* TODO: fix the table td not flexing */
 }
 
-.table-container table tr td:first-child{
+.table-container table td .td-wrapper {
+    gap: 0.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-container table tr td:first-child {
     text-align: center;
 }
 
-.table-container table tr td:last-child{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5em;
+.table-container table tr td:last-child .td-wrapper {
+
 }
 
-.table-container table tr td:last-child svg{
-    width: 1.5em;
-    fill: var(--color-tirnary);
-    stroke: var(--color-tirnary);
-}
+/* SVG Inside Last TD */
 
-.table-container table tr td .role{
+/* Role Badge */
+.table-container table tr td .role {
     border-radius: 1rem;
     padding: 2px 4px;
     font-size: 12px;
     text-align: center;
     width: 140px;
 }
-
-/*TODO: fix the table td not flexing*/

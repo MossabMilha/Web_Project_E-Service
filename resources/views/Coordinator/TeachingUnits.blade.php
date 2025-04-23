@@ -154,94 +154,34 @@
 
                     @foreach($allTeachingUnits as $unit)
                         <tr>
-                            <td>{{ $unit->id }}</td>
+                            <td><div class="td-wrapper">{{ $unit->id }}</div></td>
                             <td class="text-truncate">{{ $unit->name }}</td>
                             <td class="text-truncate">{{ $unit->description }}</td>
-                            <td>{{ $unit->hours }}</td>
-                            <td>{{ $unit->type }}</td>
-                            <td>{{ $unit->credits }}</td>
-                            <td>{{ $unit->filiere->name ?? 'N/A' }}</td>
-                            <td>{{ $unit->semester }}</td>
-                            <td>{{ $unit->assignmentStatus() }}</td>
-                            <td>{{ $unit->created_at }}</td>
-                            <td>{{ $unit->updated_at }}</td>
+                            <td><div class="td-wrapper">{{ $unit->hours }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->type }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->credits }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->filiere->name ?? 'N/A' }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->semester }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->computedStatus }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->created_at }}</div></td>
+                            <td><div class="td-wrapper">{{ $unit->updated_at }}</div></td>
                             <td>
-                                @if($unit->assignmentStatus() == 'assigned' && $unit->assignedVacataire())
-                                    <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Re-Assign-btn">
-                                        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-                                            <defs>
-                                                <style>
-                                                    .b4e30752-d4ee-44ed-af4f-17915f36cc38,.ecdafdf7-088d-4671-a7a8-7e83de742b35{
-                                                        fill:none;
-                                                        stroke-linecap:round;
-                                                        stroke-linejoin:bevel;
-                                                    }
-                                                    .ecdafdf7-088d-4671-a7a8-7e83de742b35{
-                                                        stroke-width:50px;
-                                                    }
-                                                    .b4e30752-d4ee-44ed-af4f-17915f36cc38{
-                                                        stroke-width:30px;
-                                                    }
-                                                </style>
-                                            </defs>
-                                            <g id="baf4be44-2e28-4491-bbbf-ad873dbf634f" data-name="ic-actions-add-file">
-                                                <path class="ecdafdf7-088d-4671-a7a8-7e83de742b35" d="M495.33,66.67H200a66.66,66.66,0,0,0-66.67,66.66V666.67A66.66,66.66,0,0,0,200,733.33H600a66.66,66.66,0,0,0,66.67-66.66V297.33a31.4,31.4,0,0,0-6-19L522.33,81A33.3,33.3,0,0,0,495.33,66.67Z"/>
-                                                <path class="b4e30752-d4ee-44ed-af4f-17915f36cc38" d="M265.67,485a142.4,142.4,0,0,1,235-148l12.59,12.59"/><line class="b4e30752-d4ee-44ed-af4f-17915f36cc38" x1="513.27" y1="349.57" x2="437.76" y2="349.57"/>
-                                                <line class="b4e30752-d4ee-44ed-af4f-17915f36cc38" x1="513.27" y1="349.57" x2="513.27" y2="274.06"/>
-                                                <path class="b4e30752-d4ee-44ed-af4f-17915f36cc38" d="M534.34,390.39a142.41,142.41,0,0,1-235,148l-12.59-12.58"/>
-                                                <line class="b4e30752-d4ee-44ed-af4f-17915f36cc38" x1="286.73" y1="525.77" x2="362.24" y2="525.77"/>
-                                                <line class="b4e30752-d4ee-44ed-af4f-17915f36cc38" x1="286.73" y1="525.77" x2="286.73" y2="601.28"/>
-                                            </g>
-                                        </svg>
-                                    </a>
-                                    <a class="Delete-Assign-btn">
-                                        <svg viewBox="0 0 24 24" fill="#000000">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <defs>
-                                                    <style>
-                                                        .cls-1,.cls-2{
-                                                            fill:none;
-                                                            stroke-linecap:round;
-                                                            stroke-linejoin:bevel;
-                                                            stroke-width:1.5px;
-                                                        }
-                                                        .cls-1{fill-rule:evenodd;}
-                                                    </style>
-                                                </defs>
-                                                <g id="ic-actions-paper-remove">
-                                                    <path class="cls-1" d="M14.86,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8.92a.94.94,0,0,0-.18-.57L15.67,2.43A1,1,0,0,0,14.86,2Z"></path>
-                                                    <line class="cls-2" x1="16" y1="13" x2="8" y2="13"></line>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </a>
-                                @elseif($unit->assignmentStatus() == 'unassigned')
-                                    <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">
-                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                            <g id="SVGRepo_iconCarrier">
-                                                <defs>
-                                                    <style>
-                                                        .cls-1,.cls-2{
-                                                            fill:none;
-                                                            stroke-linecap:round;
-                                                            stroke-linejoin:bevel;
-                                                            stroke-width:1.5px;
-                                                        }
-                                                        .cls-2{fill-rule:evenodd;}
-                                                    </style>
-                                                </defs>
-                                                <g id="ic-actions-add-file">
-                                                    <line class="cls-1" x1="16" y1="13.13" x2="8" y2="13.13"></line>
-                                                    <line class="cls-1" x1="12" y1="17.13" x2="12" y2="9.13"></line>
-                                                    <path class="cls-2" d="M14.86,2H6A2,2,0,0,0,4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V8.92a.94.94,0,0,0-.18-.57L15.67,2.43A1,1,0,0,0,14.86,2Z"></path>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </a>
+                                @if($unit->computedStatus == 'assigned' && $unit->computedVacataire)
+                                    <div class="td-wrapper">
+                                        <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}"
+                                           class="Re-Assign-btn">
+                                            <x-svg-icon src="svg/re-assign-paper-icon.svg" stroke="var(--color-warning)" width="1.75em" />
+                                        </a>
+                                        <a class="Delete-Assign-btn">
+                                            <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em" stroke="var(--color-danger)" />
+                                        </a>
+                                    </div>
+                                @elseif($unit->computedStatus == 'unassigned')
+                                    <div class="td-wrapper">
+                                        <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">
+                                            <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em" stroke="var(--color-primary)" />
+                                        </a>
+                                    </div>
                                 @endif
                             </td>
                         </tr>

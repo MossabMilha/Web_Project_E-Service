@@ -1,0 +1,12 @@
+body{
+    background-color: var(--color-primary);
+}
+
+.main-container{
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}

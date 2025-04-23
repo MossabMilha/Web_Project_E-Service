@@ -40,6 +40,11 @@
 
     --color-tirnary-darker : #3516a1;
 
+    --color-success: #3df19a;
+    --color-info: #406dfa;
+    --color-warning: #ffc107;
+    --color-danger: #f44336 ;
+
     --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
     --bg-gradient-light: linear-gradient(-45deg, #adcaff 0%, rgb(201, 187, 255) 50%, rgb(255, 215, 245) 100%);
 
