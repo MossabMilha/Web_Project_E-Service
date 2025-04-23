@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="icon line">
+    <defs>
+        <style>
+            .export-icon-stroke {
+            fill: none;
+            stroke: var(--svg-stroke, currentColor);
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.5px;
+            }
+        </style>
+    </defs>
+    <polyline class="export-icon-stroke" points="15 3 21 3 21 9"/>
+    <path class="export-icon-stroke" d="M21,13v7a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V4A1,1,0,0,1,4,3h7"/>
+    <line class="export-icon-stroke" x1="11" y1="13" x2="21" y2="3"/>
+</svg>

@@ -1,20 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" >
     <defs>
         <style>
             .b4e30752-d4ee-44ed-af4f-17915f36cc38, .ecdafdf7-088d-4671-a7a8-7e83de742b35 {
             fill: none;
             stroke-linecap: round;
             stroke-linejoin: bevel;
+            stroke: var(--svg-stroke, #000000);
             }
 
             .ecdafdf7-088d-4671-a7a8-7e83de742b35 {
             stroke-width: 50px;
-            stroke: #000; /* Default warning color */
             }
 
             .b4e30752-d4ee-44ed-af4f-17915f36cc38 {
             stroke-width: 30px;
-            stroke: #000; /* Default primary color */
             }
         </style>
     </defs>

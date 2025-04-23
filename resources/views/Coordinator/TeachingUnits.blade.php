@@ -170,7 +170,7 @@
                                     <div class="td-wrapper">
                                         <a href="{{ route('Coordinator.ReAssignedTeachingUnit', ['id' => $unit->id]) }}"
                                            class="Re-Assign-btn">
-                                            <x-svg-icon src="svg/re-assign-paper-icon.svg" stroke="var(--color-warning)" width="1.75em" />
+                                            <x-svg-icon src="svg/re-assign-paper-icon.svg" width="1.75em" stroke="var(--color-warning)" />
                                         </a>
                                         <a class="Delete-Assign-btn">
                                             <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em" stroke="var(--color-danger)" />

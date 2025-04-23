@@ -8,12 +8,8 @@
             stroke-width: 1.5px;
             }
 
-            .cls-1 {
-            stroke: #000000; /* Default stroke color */
-            }
-
-            .cls-2 {
-            stroke: #000000; /* Default stroke color */
+            .cls-1, .cls-2 {
+            stroke: var(--svg-stroke, currentColor);
             }
         </style>
     </defs>

@@ -74,32 +74,51 @@ class CoordinatorController extends Controller
 
         // Precompute all necessary data for the view
         $allTeachingUnits->getCollection()->transform(function($unit) {
-            // Get all assignments sorted by newest first
-            $sortedAssignments = $unit->assignments->sortByDesc('created_at');
+            // Get the latest assignment with professor
+            $unit->latestAssignment = $unit->assignments
+                ->where('professor_id', '!=', null)
+                ->sortByDesc('created_at')
+                ->first();
 
-            // Find the latest assignment in each state
-            $latestPending = $sortedAssignments->where('status', 'pending')->first();
-            $latestAccepted = $sortedAssignments->where('status', 'accepted')->first();
-            $latestRejected = $sortedAssignments->where('status', 'rejected')->first();
+            // Precompute status
+            $unit->computedStatus = $unit->assignments->isEmpty()
+                ? 'unassigned'
+                : ($unit->latestAssignment ? 'assigned' : 'unassigned');
+
+            // Precompute vacataire
+            $unit->computedVacataire = $unit->latestAssignment
+                ? $unit->latestAssignment->professor
+                : null;
+
+        // Precompute all necessary data for the view
+//        $allTeachingUnits->getCollection()->transform(function($unit) {
+//            // Get all assignments sorted by newest first
+//            $sortedAssignments = $unit->assignments->sortByDesc('created_at');
+//
+//            // Find the latest assignment in each state
+//            $latestPending = $sortedAssignments->where('status', 'pending')->first();
+//            $latestAccepted = $sortedAssignments->where('status', 'accepted')->first();
+//            $latestRejected = $sortedAssignments->where('status', 'rejected')->first();
 
             // Determine the actual status
-            if ($latestAccepted) {
-                $unit->computedStatus = 'assigned';
-                $unit->computedVacataire = $latestAccepted->professor;
-                $unit->latestAssignment = $latestAccepted;
-            } elseif ($latestPending) {
-                $unit->computedStatus = 'pending';
-                $unit->computedVacataire = $latestPending->professor;
-                $unit->latestAssignment = $latestPending;
-            } elseif ($unit->assignments->isNotEmpty()) {
-                $unit->computedStatus = 'unassigned'; // Has assignments but none accepted/pending
-                $unit->computedVacataire = null;
-                $unit->latestAssignment = null;
-            } else {
-                $unit->computedStatus = 'unassigned'; // No assignments at all
-                $unit->computedVacataire = null;
-                $unit->latestAssignment = null;
-            }
+//            if ($latestAccepted) {
+//                $unit->computedStatus = 'assigned';
+//                $unit->computedVacataire = $latestAccepted->professor;
+//                $unit->latestAssignment = $latestAccepted;
+//            } elseif ($latestPending) {
+//                $unit->computedStatus = 'pending';
+//                $unit->computedVacataire = $latestPending->professor;
+//                $unit->latestAssignment = $latestPending;
+//            } elseif ($unit->assignments->isNotEmpty()) {
+//                $unit->computedStatus = 'unassigned'; // Has assignments but none accepted/pending
+//                $unit->computedVacataire = null;
+//                $unit->latestAssignment = null;
+//            } else {
+//                $unit->computedStatus = 'unassigned'; // No assignments at all
+//                $unit->computedVacataire = null;
+//                $unit->latestAssignment = null;
+//            }
+            // TODO: Some assignments were made before status tracking was implemented
 
             return $unit;
         });

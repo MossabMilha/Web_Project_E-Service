@@ -1,15 +1,5 @@
-@props([
-    'src',
-    'class' => '',
-    'style' => '',
-    'width' => '1.5em',
-    'height' => '1.5em',
-    'fill' => 'currentColor', // Default fill color
-    'stroke' => 'currentColor', // Default stroke color
-])
-
 @if($src)
-    <span class="svg-icon-wrapper {{ $class }}" style="{{ $style }}">
+    <span class="svg-icon-wrapper {{ $class }}" style="--svg-stroke: {{ $stroke }}; {{ $style }}">
         @php
             // Get the SVG content from the local file path
             $svgContent = @file_get_contents(public_path($src));
