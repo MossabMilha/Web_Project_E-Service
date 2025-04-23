@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Assessment;
 use App\Models\Assignment;
 use App\Models\Filiere;
+use App\Models\Grade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class VacataireController extends Controller
 {
@@ -103,4 +106,46 @@ class VacataireController extends Controller
 
         return redirect()->route('Vacataire.assessments')->with('success', 'Assessment added successfully.');
     }
+    public function UploadNormalGrade(Request $request){
+        $request->validate([
+            'assessment_id' => 'required|exists:assessments,id',
+            'file' => 'required|file|mimes:ods,xlsx,xls',
+        ]);
+        $assessment = Assessment::findOrFail($request->assessment_id);
+        $filiere = Filiere::findOrFail($assessment->filiere);
+        $students = $filiere->students;
+        $path = $request->file('file')->getRealPath();
+        $rows = IOFactory::load($path)->getActiveSheet()->toArray(null, true, true, true);
+
+        $gradesFromSheet = [];
+        foreach ($rows as $index => $row) {
+            if ($index === 1) continue; // Skip header row
+
+            $cne = trim($row['A']); // Column A = CNE
+            $grade = isset($row['C']) && is_numeric($row['C']) ? floatval($row['C']) : null; // Column C = grade
+
+            if ($cne) {
+                $gradesFromSheet[$cne] = $grade;
+            }
+        }
+
+        foreach ($students as $student) {
+            $cne = $student->cne;
+
+            $grade = array_key_exists($cne, $gradesFromSheet) ? $gradesFromSheet[$cne] : -1;
+
+            Grade::updateOrCreate(
+                [
+                    'student_id' => $student->id,
+                    'assessment_id' => $assessment->id
+                ],
+                [
+                    'grade_normal' => $grade
+                ]
+            );
+        }
+
+        return back()->with('success', 'Grades uploaded successfully.');
+    }
+
 }

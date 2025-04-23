@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    @vite('resources/js/Vacataire/assessments.js')
     <title>Document</title>
 </head>
 <body>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
     <h1>Hello To The Assasement Page</h1>
     <p>Welcome to the assessment page. Here you can find all the information related to your assessments.</p>
     <button onclick="window.location='{{ route('Vacataire.AddAssessments') }}'">Add New Assessments</button>
@@ -32,7 +38,15 @@
                     <td>{{ $assessment->filiere->name }}</td>
                     <td>{{ $assessment->semester }}</td>
                     <td>
-                        <button>h</button>
+                        <button>Export Grades</button>
+                        <form id="uploadForm-{{ $assessment->id }}" action="{{ route('Vacataire.grades.upload') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+
+                            <input type="file" name="file" id="fileInput-{{ $assessment->id }}" style="display: none;" onchange="submitForm()" />
+                            <button type="button" class="upload-button" data-id="{{ $assessment->id }}">Upload File</button>
+                        </form>
+                        <button>Upload Retake Grades</button>
                     </td>
                 </tr>
             @endforeach
