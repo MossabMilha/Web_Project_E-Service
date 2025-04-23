@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assessment;
 use App\Models\Assignment;
+use App\Models\Filiere;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,11 +19,18 @@ class VacataireController extends Controller
     public function assessments(){
         $userId = Auth::user()->id;
 
+        $assessments = Assessment::where('professor_id', $userId)->get();
 
-        $assessments = Assessment::with('filiere')
-        ->where('professor_id', $userId)
-            ->get();
-        return view('/Vacataire/assessments',compact('assessments'));
+        $filiereIds = $assessments->pluck('filiere')->unique();
+        $filieres = Filiere::whereIn('id', $filiereIds)->get();
+
+        foreach ($assessments as $assessment) {
+
+            $assessment->filiere = $filieres->firstWhere('id', $assessment->filiere);
+        }
+
+
+        return view('/Vacataire/assessments', compact('assessments'));
 
     }
     public function NewAssessments(){
@@ -39,7 +47,11 @@ class VacataireController extends Controller
                 'teaching_units.id as module_id',
                 'teaching_units.name as module_name',
                 'teaching_units.type',
-                'teaching_units.hours'
+                'teaching_units.hours',
+                'teaching_units.description',
+                'teaching_units.credits',
+                'teaching_units.semester',
+                'teaching_units.filiere_id'
             )
             ->get();
 
@@ -61,10 +73,34 @@ class VacataireController extends Controller
                 'id' => $row->module_id,
                 'name' => $row->module_name,
                 'type' => $row->type,
-                'hours' => $row->hours
+                'hours' => $row->hours,
+                'description' => $row->description,
+                'credits' => $row->credits,
+                'semester' => $row->semester
             ];
         }
 
         return view('/Vacataire/AddAssessments', ['filieres' => array_values($filieres)]);
+    }
+    public function NewAssessmentsDB(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'filiere_id' => 'required|exists:filieres,id',
+            'unit_id' => 'required|exists:teaching_units,id',
+            'semester' => 'required|string',
+        ]);
+
+        // Saving the assessment
+        Assessment::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'filiere' => $validated['filiere_id'],  // Store the ID, not the object
+            'teaching_unit_id' => $validated['unit_id'],
+            'semester' => (int) $validated['semester'],
+            'professor_id' => auth()->id()
+        ]);
+
+        return redirect()->route('Vacataire.assessments')->with('success', 'Assessment added successfully.');
     }
 }

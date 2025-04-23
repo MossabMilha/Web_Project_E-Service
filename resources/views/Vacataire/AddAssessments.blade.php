@@ -3,11 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite('resources/js/Vacataire/AddAssessments.js') <!-- Include your JS file correctly -->
+    @vite('resources/js/Vacataire/AddAssessments.js')
     <title>Document</title>
 </head>
 <body>
-<form>
+<form class="add-assessment-form" action="{{ route('Vacataire.AddAssessmentsDB') }}" method="post">
+    @csrf
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="name-wrapper wrapper">
         <label for="name">Assessments Name:</label>
         <input type="text" id="name" name="name" required>
@@ -32,12 +42,18 @@
             <option value="">Select Unit</option>
         </select>
     </div>
+    <div class="semester-wrapper wrapper" style="display:none;">
+        <label for="semester">Semester:</label>
+        <input type="text" id="semester" name="semester" readonly>
+    </div>
+    <div class="submit-wrapper" style="display: none;">
+        <button type="submit">Add Assessment</button>
+    </div>
 </form>
 
 
 
 <script>
-
     var filieres = @json($filieres);
 </script>
 </body>
