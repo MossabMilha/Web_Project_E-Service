@@ -55,7 +55,6 @@ Route::middleware('departmenthead')->group(function () {
 
         // ----------------------- Professors Routes -----------------------
         // Show the list of all professors that belongs to the same department of department head (needs id to be passed)
-        // TODO: add department head id as a parameter depend on the logged in user
         Route::get('/professors', [ProfessorController::class, 'index'])->name('professors.index');
 
         // not implemented

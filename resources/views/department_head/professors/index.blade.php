@@ -3,7 +3,8 @@
     <x-slot:head>
         @vite([
         'resources/js/components/user-role-styling.js',
-        'resources/css/DepartmentHead/professors/index.css'
+        'resources/css/DepartmentHead/professors/index.css',
+        'resources/js/department-head/professors/index.js'
         ])
     </x-slot:head>
 
@@ -65,61 +66,63 @@
                         <td><div class="td-wrapper">{{ $professor->specialization }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->created_at }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->updated_at }}</div></td>
-                        <td><a href="#" class="toggle-units">more...</a></td>
+                        <td><div  class="td-wrapper toggle-units">more</div></td>
                     </tr>
 
                     <!-- Nested Units Table -->
                     @if($units->isNotEmpty())
-                        <tr>
-                            <td class="nested-table-wrapper" colspan="8">
-                                <table class="nested-units-table">
-                                    <thead>
-                                    <tr>
-                                        <th class="nested"><div class="th-wrapper">Unit ID</div></th>
-                                        <th class="nested"><div class="th-wrapper">Unit Name</div></th>
-                                        <th class="nested"><div class="th-wrapper">Description</div></th>
-                                        <th class="nested"><div class="th-wrapper">Unit Hours</div></th>
-                                        <th class="nested"><div class="th-wrapper">Credits</div></th>
-                                        <th class="nested"><div class="th-wrapper">Semester</div></th>
-                                        <th class="nested"><div class="th-wrapper">Status</div></th>
-                                        <th class="nested"><div class="th-wrapper">Action</div></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($units as $unit)
+                        <tr class="nested-row" id="units-{{ $professor->id }}" style="display: none;">
+                            <td colspan="8">
+                                <div class="nested-content">
+                                    <table class="nested-units-table">
+                                        <thead>
                                         <tr>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->id }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->name }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->description }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->hours }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->credits }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->semester }}</div></td>
-                                            <td class="nested"><div class="td-wrapper">{{ $unit->assignmentStatus()}}</div></td>
-                                            <td class="nested">
-                                                <div class="td-wrapper">
-                                                    <form action="{{ route('department-head.professors.units.destroy', ['professor_id' => $professor->id, 'unit_id' => $unit->id]) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">
-                                                            <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
+                                            <th class="nested"><div class="th-wrapper">Unit ID</div></th>
+                                            <th class="nested"><div class="th-wrapper">Unit Name</div></th>
+                                            <th class="nested"><div class="th-wrapper">Description</div></th>
+                                            <th class="nested"><div class="th-wrapper">Unit Hours</div></th>
+                                            <th class="nested"><div class="th-wrapper">Credits</div></th>
+                                            <th class="nested"><div class="th-wrapper">Semester</div></th>
+                                            <th class="nested"><div class="th-wrapper">Status</div></th>
+                                            <th class="nested"><div class="th-wrapper">Action</div></th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($units as $unit)
+                                            <tr>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->id }}</div></td>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->name }}</div></td>
+                                                <td class="nested" style="max-width: 300px"><div class="td-wrapper">{{ $unit->description }}</div></td>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->hours }}</div></td>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->credits }}</div></td>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->semester }}</div></td>
+                                                <td class="nested"><div class="td-wrapper">{{ $unit->assignmentStatus()}}</div></td>
+                                                <td class="nested">
+                                                    <div class="td-wrapper">
+                                                        <form action="{{ route('department-head.professors.units.destroy', ['professor_id' => $professor->id, 'unit_id' => $unit->id]) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">
+                                                                <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                            <tr>
+                                                <td colspan="8" class="text-center">
+                                                    <a class="text-blue-700"
+                                                       href="{{ route('department-head.professors.assign', $professor->id) }}">Add
+                                                        Unit +</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </td>
                         </tr>
                     @endif
-
-                    <!-- Add Unit Row -->
-                    <tr>
-                        <td colspan="8" class="text-center">
-                            <a class="text-blue-700" href="{{ route('department-head.professors.assign', $professor->id) }}">Add Unit +</a>
-                        </td>
-                    </tr>
                 @endforeach
                 </tbody>
             </table>
@@ -135,6 +138,55 @@
         {{--    @endif--}}
     </div>
     </body>
+
+    <style>
+        /* Nested table styles */
+        .nested-row {
+            background-color: var(--color-secondary);
+        }
+
+        /*.nested-row > td{*/
+        /*    padding: 0 !important;*/
+        /*    border: none !important;*/
+        /*}*/
+
+        .nested-content {
+
+        }
+
+        /*.nested-units-table {*/
+        /*    padding: 0 !important;*/
+        /*    border: none !important;*/
+        /*}*/
+
+
+        .nested-units-table th {
+            background-color: #e9ecef;
+            font-weight: 500;
+        }
+
+        .nested-units-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .nested-units-table tr:hover {
+            background-color: #e9ecef;
+        }
+
+        /* Toggle button styles */
+        .td-wrapper.toggle-units {
+            color: #0d6efd;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .td-wrapper.toggle-units:hover {
+            background-color: #f0f7ff;
+            text-decoration: none;
+        }
+    </style>
 
 
 </x-layout>

@@ -27,6 +27,9 @@
                 Manage key academic operations including teaching units, contractual staff, and schedule planning.
             </p>
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
+            {{--   ========================================================    --}}
+            {{--    admin section    --}}
+            {{--   ========================================================    --}}
             @if(auth()->user()->role == "admin")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/dead.jpg'" :card_title="'E-Core Users'" :card_link="'UserManagement.search'">
@@ -38,12 +41,33 @@
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
                 </x-card>
                 </div>
+            {{--   ========================================================    --}}
+            {{--    department_head section    --}}
+            {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "department_head")
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'ECore Professors'" :card_link="'department-head.professors.index'">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'ECore units request'" :card_link="'department-head.professors.unit.requests'">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'E-core workload'" :card_link="'department-head.workload.overview'">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    </x-card>
+                </div>
                 <div class="flex justify-center">
                     <x-card :card_img="'png/dead.jpg'" :card_title="'E-core Professors'" :card_link="'department-head.professors.index'">
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
                     </x-card>
                 </div>
+            {{--   ========================================================    --}}
+            {{--    coordinator section    --}}
+            {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "coordinator")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/units.jpg'" :card_title="'Teaching Unit Management'" :card_link="'Coordinator.teachingUnits'">
@@ -65,6 +89,9 @@
                         Don't revive him X_X
                     </x-card>
                 </div>
+            {{--   ========================================================    --}}
+            {{--    vacataire section    --}}
+            {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "vacataire")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/schedule.jpg'" :card_title="'Assigned Units'" :card_link="'Vacataire.assignedUnit'">
