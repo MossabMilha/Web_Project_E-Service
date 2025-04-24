@@ -20,9 +20,8 @@ class Assessment extends Model
     ];
 
     // Relationship with Filiere
-    public function filiere()
-    {
-        return $this->belongsTo(Filiere::class);
+    public function filiere(){
+        return $this->belongsTo(Filiere::class, 'filiere'); // Specify the correct foreign key
     }
 
     // Relationship with Professor (User)
@@ -41,5 +40,29 @@ class Assessment extends Model
     public function grades()
     {
         return $this->hasMany(Grade::class);
+    }
+
+    public function hasGrades(): bool
+    {
+        return (bool) $this->grades()
+            ->where(function($query) {
+                $query->whereNotNull('grade_normal')
+                    ->orWhereNotNull('grade_retake');
+            })
+            ->exists();
+    }
+
+    public function hasNormalGrades(): bool
+    {
+        return (bool) $this->grades()
+            ->whereNotNull('grade_normal')
+            ->exists();
+    }
+
+    public function hasRetakeGrades(): bool
+    {
+        return (bool) $this->grades()
+            ->whereNotNull('grade_retake')
+            ->exists();
     }
 }

@@ -6,14 +6,18 @@ use App\Models\Grade;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class GradesExport implements FromCollection ,WithHeadings
+class GradesExport implements FromCollection, WithHeadings, WithStyles
 {
 
     protected $grades;
     protected $students;
     protected $assessment;
     protected $filiere;
+    protected $averages = [];
 
     public function __construct($grades, $students, $assessment, $filiere)
     {
@@ -46,32 +50,63 @@ class GradesExport implements FromCollection ,WithHeadings
     public function collection()
     {
         $data = collect();
+        $row = 9; // start row in Excel
+        $this->averages = []; // reset
+
+        $allRetakeFailed = true; // Flag to check if all retake grades are -1
 
         foreach ($this->students as $student) {
-            // Find the grade for the student (if exists)
             $grade = $this->grades->firstWhere('student_id', $student->id);
+            $normal = $grade ? $grade->grade_normal : -1;
+            $retake = $grade ? $grade->grade_retake : -1;
 
-            // Default missing grades to 0 if no grade is found
-            $normal = $grade ? $grade->grade_normal : 0;
-            $retake = $grade ? $grade->grade_retake : 0;
+            $normalDisplay = $normal != -1 ? number_format($normal, 2) : "ABS";
 
-            // If retake grade is 0, display as '-'
-            $retakeDisplay = $retake != 0 ? number_format($retake, 2) : 0;
+            // If any retake grade is not -1, update the flag
+            if ($retake != -1) {
+                $allRetakeFailed = false;
+            }
 
-            // Calculate the average, ensure it's handled when both grades are 0
-            $average = ($normal + $retake) == 0 ? 0 : (($normal + $retake) / 2);
+            // Check if retake grade is -1, then add "Not Pass Yet"
+            $retakeDisplay = $retake != -1 ? number_format($retake, 2) : "ABS";
+            if ($retake == -1 && $allRetakeFailed) {
+                $retakeDisplay = "Not Pass Yet";
+            }
 
-            // Add the student's data to the collection
+            // Calculate average
+            if ($normal != -1 && $retake != -1) {
+                $average = ($normal + $retake) / 2;
+            } elseif ($normal != -1) {
+                $average = $normal / 2;
+            } elseif ($retake != -1) {
+                $average = $retake / 2;
+            } else {
+                $average = -1;
+            }
+
+            $averageDisplay = $average != -1 ? number_format($average, 2) : "ABS";
+            $this->averages[$row] = $average;
+
             $data->push([
                 $student->cne,
                 $student->name,
-                $normal != 0 ? number_format($normal, 2) : "0",  // Display '0' for missing normal grade
-                $retakeDisplay != 0 ? number_format($retakeDisplay, 2) : "0",
-                $average != 0 ? number_format($average, 2) : "0",  // Display '0' for missing average
+                $normalDisplay,
+                $retakeDisplay,
+                $averageDisplay,
             ]);
+
+            $row++;
         }
 
         return $data;
+    }
+    public function styles(Worksheet $sheet){
+        foreach ($this->averages as $row => $average) {
+            if ($average != -1 && $average < 10) {
+                $sheet->getStyle('E' . $row)->getFill()->setFillType(Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('b76565');
+            }
+        }
     }
 
     // Set the sheet title (you can change this if you'd like)

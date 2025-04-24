@@ -23,14 +23,14 @@ class VacataireController extends Controller
     public function assessments(){
         $userId = Auth::user()->id;
 
-        $assessments = Assessment::where('professor_id', $userId)->get();
+        $assessments = Assessment::where('professor_id', Auth::id())->get();
 
-        $filiereIds = $assessments->pluck('filiere')->unique();
-        $filieres = Filiere::whereIn('id', $filiereIds)->get();
 
         foreach ($assessments as $assessment) {
 
-            $assessment->filiere = $filieres->firstWhere('id', $assessment->filiere);
+            $filiere = Filiere::find($assessment->filiere);
+
+            $assessment->filiere = $filiere;
         }
 
 
@@ -166,6 +166,52 @@ class VacataireController extends Controller
 
         return back()->with('success', 'Grades uploaded successfully.');
     }
+
+    public function UploadNewNormalGrade(Request $request){
+        $request->validate([
+            'assessment_id' => 'required|exists:assessments,id',
+            'file' => 'required|file|mimes:ods,xlsx,xls',
+        ]);
+
+        $assessmentId = $request->assessment_id;
+
+        // Step 1: Set all existing grade_normal values to NULL
+        Grade::where('assessment_id', $assessmentId)->update(['grade_normal' => null]);
+
+        // Step 2: Load file
+        $path = $request->file('file')->getRealPath();
+        $rows = IOFactory::load($path)->getActiveSheet()->toArray(null, true, true, true);
+
+        $gradesFromSheet = [];
+        foreach ($rows as $index => $row) {
+            if ($index === 1) continue; // Skip header
+
+            $cne = trim($row['A']);
+            $grade = isset($row['C']) && is_numeric($row['C']) ? floatval($row['C']) : null;
+
+            if ($cne) {
+                $gradesFromSheet[$cne] = $grade;
+            }
+        }
+
+        // Step 3: Fetch grades with matching student CNEs
+        $assessment = Assessment::findOrFail($assessmentId);
+        $filiere = Filiere::findOrFail($assessment->filiere);
+        $students = $filiere->students->keyBy('cne');
+
+        foreach ($gradesFromSheet as $cne => $grade) {
+            if (!isset($students[$cne])) continue;
+
+            $studentId = $students[$cne]->id;
+
+
+            Grade::where('assessment_id', $assessmentId)
+                ->where('student_id', $studentId)
+                ->update(['grade_normal' => $grade ?? 0]);
+        }
+
+        return back()->with('success', 'Normal grades updated successfully (existing records only, retake grades preserved).');
+    }
     public function ExportGrade(Request $request){
         $request->validate([
             'assessment_id' => 'required|exists:assessments,id',
@@ -179,11 +225,11 @@ class VacataireController extends Controller
         // Get grades related to the assessment
         $grades = Grade::where('assessment_id', $assessment->id)->get();
 
-        // Modify grades by setting default value (0) for missing grades (null)
+
         foreach ($grades as $grade) {
-            // Set normal grade and retake grade to 0 if they are null
-            $grade->grade_normal = $grade->grade_normal ?? 0;
-            $grade->grade_retake = $grade->grade_retake ?? 0;
+
+            $grade->grade_normal = $grade->grade_normal ?? -1;
+            $grade->grade_retake = $grade->grade_retake ?? -1;
         }
 
         // Create a filename based on the assessment name
@@ -192,6 +238,66 @@ class VacataireController extends Controller
         // Pass the modified grades to the export class
         return Excel::download(new GradesExport($grades, $students, $assessment, $filiere), $fileName);
 
+    }
+    public function UploadRetakeGrade(Request $request){
+        $request->validate([
+            'assessment_id' => 'required|exists:assessments,id',
+            'file' => 'required|file|mimes:ods,xlsx,xls',
+        ]);
+
+        $assessment = Assessment::findOrFail($request->assessment_id);
+        $filiere = Filiere::findOrFail($assessment->filiere);
+        $students = $filiere->students;
+        $totalStudents = $students->count();
+
+        $path = $request->file('file')->getRealPath();
+        $rows = IOFactory::load($path)->getActiveSheet()->toArray(null, true, true, true);
+
+        $gradesFromSheet = [];
+        foreach ($rows as $index => $row) {
+            if ($index === 1) continue; // Skip header row
+
+            $cne = trim($row['A']); // Column A = CNE
+            $grade = isset($row['C']) && is_numeric($row['C']) ? floatval($row['C']) : null;
+
+            if ($cne) {
+                $gradesFromSheet[$cne] = $grade;
+            }
+        }
+
+        // Check attendance rate
+        $presentCount = 0;
+        foreach ($students as $student) {
+            if (array_key_exists($student->cne, $gradesFromSheet)) {
+                $presentCount++;
+            }
+        }
+
+        $absentPercentage = ($totalStudents - $presentCount) / $totalStudents;
+
+        if ($absentPercentage > 0.4) {
+            return back()->withErrors(['file' => 'More than 40% of students are absent. Something is wrong. Please contact an admin. (Grades not saved!)']);
+        }
+
+        foreach ($students as $student) {
+            $cne = $student->cne;
+
+            if (array_key_exists($cne, $gradesFromSheet)) {
+                $grade = $gradesFromSheet[$cne];
+
+                // Only update if the Grade already exists
+                $existingGrade = Grade::where('student_id', $student->id)
+                    ->where('assessment_id', $assessment->id)
+                    ->first();
+
+                if ($existingGrade) {
+                    $existingGrade->grade_retake = $grade;
+                    $existingGrade->save();
+                }
+            }
+        }
+
+        return back()->with('success', 'Retake grades updated successfully.');
     }
 
 }

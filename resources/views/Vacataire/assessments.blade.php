@@ -12,9 +12,11 @@
             border: 1px solid black;
         }
     </style>
-    <h1>Hello To The Assasement Page</h1>
+    <h1>Hello To The Assessment Page</h1>
     <p>Welcome to the assessment page. Here you can find all the information related to your assessments.</p>
+
     <button onclick="window.location='{{ route('Vacataire.AddAssessments') }}'">Add New Assessments</button>
+
     @if ($errors->any())
         <div class="alert alert-danger" style="color: red;">
             <ul class="mb-0">
@@ -24,15 +26,17 @@
             </ul>
         </div>
     @endif
+
     @if (session('success'))
         <div class="alert alert-success" style="color: green;">
             {{ session('success') }}
         </div>
     @endif
+
     @if ($assessments->isEmpty())
         <p>You have no assessments available at the moment.</p>
     @else
-        <table >
+        <table>
             <thead>
             <tr>
                 <th>Assessment ID</th>
@@ -52,19 +56,41 @@
                     <td>{{ $assessment->filiere->name }}</td>
                     <td>{{ $assessment->semester }}</td>
                     <td>
-                        <form id="exportForm-{{ $assessment->id }}" action="{{ route('Vacataire.grades.export') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
-                            <button type="submit">Export Grades</button>
-                        </form>
-                        <form id="uploadForm-{{ $assessment->id }}" action="{{ route('Vacataire.grades.upload') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                        @if($assessment->hasGrades())
+                            <form action="{{ route('Vacataire.grades.export') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                                <button type="submit">Export Grades</button>
+                            </form>
 
-                            <input type="file" name="file" id="fileInput-{{ $assessment->id }}" style="display: none;" onchange="submitForm()" />
-                            <button type="button" class="upload-button" data-id="{{ $assessment->id }}">Upload File</button>
-                        </form>
-                        <button>Upload Retake Grades</button>
+                            {{-- Upload Normal Grade --}}
+                            <form id="uploadForm-normal-{{ $assessment->id }}" action="{{ route($assessment->hasNormalGrades() ? 'Vacataire.grades.upload' : 'Vacataire.grades.upload') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                                <input type="file" name="file" id="fileInput-normal-{{ $assessment->id }}" style="display: none;">
+                                <button type="button" class="upload-button" data-id="{{ $assessment->id }}" data-type="normal">
+                                    {{ $assessment->hasNormalGrades() ? 'Upload New Normal Grade' : 'Upload Normal Grade' }}
+                                </button>
+                            </form>
+
+                            {{-- Upload Retake Grade --}}
+                            <form id="uploadForm-retake-{{ $assessment->id }}" action="{{ route($assessment->hasRetakeGrades() ? 'Vacataire.NewRetakegrades.upload' : 'Vacataire.Retakegrades.upload') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                                <input type="file" name="file" id="fileInput-retake-{{ $assessment->id }}" style="display: none;">
+                                <button type="button" class="upload-button" data-id="{{ $assessment->id }}" data-type="retake">
+                                    {{ $assessment->hasRetakeGrades() ? 'Upload New Retake Grade' : 'Upload Retake Grade' }}
+                                </button>
+                            </form>
+                        @else
+                            {{-- First-time Normal Grade Upload --}}
+                            <form id="uploadForm-normal-{{ $assessment->id }}" action="{{ route('Vacataire.grades.upload') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="assessment_id" value="{{ $assessment->id }}">
+                                <input type="file" name="file" id="fileInput-normal-{{ $assessment->id }}" style="display: none;">
+                                <button type="button" class="upload-button" data-id="{{ $assessment->id }}" data-type="normal">Upload Normal Grade</button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach
