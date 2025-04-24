@@ -1,4 +1,4 @@
-<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#000">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <style>
             .cls-1, .cls-2 {
@@ -6,7 +6,7 @@
                 stroke-linecap: round;
                 stroke-linejoin: bevel;
                 stroke-width: 1.5px;
-                stroke: var(--svg-stroke, currentColor);
+                stroke: --stroke-color;
             }
 
             .cls-2 {

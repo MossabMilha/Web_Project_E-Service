@@ -33,36 +33,6 @@ dropdown.addEventListener('click', function() {
     dropdownContent.style.display = 'none';
 });
 
-// roles customization
-//------------------------------------------------------------------
-
-// TODO: to be remove in the future (general version already exist)
-let roles = document.querySelectorAll('.role');
-
-for (const role of roles) {
-    switch (role.textContent.trim().toLowerCase()) {
-        case 'admin':
-            role.style.background = 'var(--bg-gradient-light)';
-            role.style.color = 'var(--color-primary-darker)';
-            break;
-        case 'professor':
-            role.style.backgroundColor = 'var(--color-secondary-light)';
-            role.style.color = 'var(--color-secondary-darker)';
-            break;
-        case 'department_head':
-            role.style.backgroundColor = 'var(--color-tirnary-light)';
-            role.style.color = 'var(--color-tirnary-darker)';
-            break;
-        case 'vacataire':
-            role.style.backgroundColor = 'var(--color-gray-light)';
-            role.style.color = 'var(--color-gray)';
-            break;
-        case 'coordinator':
-            role.style.backgroundColor = 'var(--color-primary-lighter)';
-            role.style.color = 'var(--color-primary-darker)';
-            break;
-    }
-}
 //Delete User
 window.showDeleteUserSection = function (userId, userName) {
     const deleteSection = document.querySelector('.delete-user-popup');

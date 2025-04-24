@@ -68,7 +68,6 @@
 .filter-dropdown .option.selected-option {
     background-color: var(--color-primary);
     color: var(--color-white);
-    /*font-weight: bold;*/
 }
 
 .filter-dropdown .dropdown-icon{

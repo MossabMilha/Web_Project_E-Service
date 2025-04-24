@@ -45,7 +45,7 @@ class TeachingUnit extends Model
                 return 'assigned';
             }
             if ($assignment->status === 'pending') {
-                return 'pending request';
+                return 'pending';
             }
             // skip 'declined'
         }

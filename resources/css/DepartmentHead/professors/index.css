@@ -10,19 +10,6 @@ body{
     display: flex;
     flex-direction: column;
 }
-/*========================================================*/
-/*====================== modal ======================*/
-/*========================================================*/
-
-
-.modal-overlay, .Add-modal-overlay{
-    width: 100%;
-    color: white;
-    background-color: rgb(21, 21, 21);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
 
 /*========================================================*/
 /*====================== pagination ======================*/
@@ -44,34 +31,11 @@ body{
 /*========================================================*/
 /*========================================================*/
 
-.sort-buttons{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-}
-
-.sort-buttons img{
-    width: .75em;
-    object-fit: cover;
-}
-
-.sort-buttons :last-child img{
-    rotate: 180deg;
-}
-
-.unit-info{
-    display: flex;
-}
-.unit-info label{
-    font-size: 20px;
-    margin-right: 20px;
-}
-
 .text-truncate{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 120px;
+    display: block;          /* Changed from inline-block to block */
+    width: 100%;            /* Explicit width declaration */
+    min-width: 0;
 }

@@ -9,7 +9,7 @@
             }
 
             .cls-1, .cls-2 {
-            stroke: var(--svg-stroke, currentColor);
+            stroke: var(--stroke-color, currentColor);
             }
         </style>
     </defs>

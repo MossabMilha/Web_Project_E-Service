@@ -97,6 +97,7 @@
                         <th><div class="th-wrapper">Description</div></th>
                         <th><div class="th-wrapper">Hours</div></th>
                         <th>
+                            <div class="th-wrapper">
                             <x-filter-select
                                 name="type"
                                 :options="['all' => 'All', 'CM' => 'CM', 'TD' => 'TD', 'TP' => 'TP']"
@@ -104,6 +105,7 @@
                                 default="all"
                                 formId="filters-form"
                             />
+                            </div>
                         </th>
                         <th><div class="th-wrapper">Credits</div></th>
                         <th>
@@ -179,7 +181,8 @@
                                 @elseif($unit->computedStatus == 'unassigned')
                                     <div class="td-wrapper">
                                         <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">
-                                            <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em" stroke="var(--color-primary)" />
+                                            info
+{{--                                            <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em" stroke="var(--color-primary)" />--}}
                                         </a>
                                     </div>
                                 @endif

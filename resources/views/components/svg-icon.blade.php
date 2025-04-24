@@ -1,5 +1,5 @@
 @if($src)
-    <span class="svg-icon-wrapper {{ $class }}" style="--svg-stroke: {{$stroke}}; {{ $style }}">
+    <span class="svg-icon-wrapper {{ $class }}" style="--stroke-color: {{$stroke}}; --fill-color: {{$fill}}; {{ $style }}">
         @php
             // Get the SVG content from the local file path
             $svgContent = @file_get_contents(public_path($src));
