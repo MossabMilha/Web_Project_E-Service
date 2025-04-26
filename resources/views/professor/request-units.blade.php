@@ -1,83 +1,83 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>request units</title>
-</head>
-<body>
-    <form id="units-request-form" action="{{route('professor.units.request.store', $professor->id)}}" method="post">
-        @csrf
-        <label>prof name: </label>
-        <label>{{$professor->name}}</label>
-        <br>
-        <select id="unit-selector" name="unit_id">
-            <option value="0" disabled>select an option</option>
-            @foreach($units as $unit)
-                @php
-                    $units_id_name[$unit->id] = $unit->name;
-                @endphp
-                <option value="{{$unit->id}}">{{$unit->name}}</option>
-            @endforeach
-        </select>
-        <div id="requested-unit-container"></div>
-        <input type="hidden" name="requested_units" id="unitsInput">
-        <input type="hidden" name="semester" value="1">
-        <input type="hidden" name="academic_year" value="2024-2025">
-        <input type="submit" value="submit">
+<x-layout title="request units">
+
+    <x-slot:head>
+        @vite([
+            'resources/css/professor/units-request.css',
+            'resources/js/professor/units-request.js',
+            'resources/css/components/popup.css',
+            'resources/js/components/popup.js'
+        ])
+    </x-slot:head>
+
+    <x-nav/>
+    <body>
+        <div class="main-container">
+
+            <!-- Trigger button -->
+            <button type="button" class="open-popup-btn">
+                Request Units
+            </button>
+
+
+            <x-table>
+                <table>
+                    <tr>
+                        <th><div class="th-wrapper">ID</div></th>
+                        <th><div class="th-wrapper">Unit label</div></th>
+                        <th><div class="th-wrapper">semester</div></th>
+                        <th><div class="th-wrapper">academic year</div></th>
+                        <th><div class="th-wrapper">status</div></th>
+                        <th><div class="th-wrapper">requested At</div></th>
+                    </tr>
+                    @foreach($requests as $request)
+                        <tr>
+                            <td><div class="td-wrapper">{{$request->id}}</div></td>
+                            <td><div class="td-wrapper">{{$request->unit->name}}</div></td>
+                            <td><div class="td-wrapper">{{$request->semester}}</div></td>
+                            <td><div class="td-wrapper">{{$request->academic_year}}</div></td>
+                            <td><div class="td-wrapper">{{$request->status}}</div></td>
+                            <td><div class="td-wrapper">{{$request->requested_at}}</div></td>
+                        </tr>
+                    @endforeach
+                </table>
+            </x-table>
+        </div>
+
+        <x-popup>
+            <form id="units-request-form" action="{{ route('professor.units.request.store', $professor->id) }}" method="post">
+                @csrf
+                <h2>Request Units</h2>
+
+                <div class="form-group">
+                    <label for="unit-selector">Select Unit:</label>
+                    <select id="unit-selector" name="unit_id" class="form-select">
+                        <option value="0" selected disabled>Select a unit</option>
+                        @foreach($units as $unit)
+                            <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="selected-units-header">
+                    <h3>Selected Units:</h3>
+                </div>
+
+                <div id="requested-unit-container" class="requested-units-container"></div>
+
+                <input type="hidden" name="requested_units" id="unitsInput">
+                <input type="hidden" name="semester" value="1">
+                <input type="hidden" name="academic_year" value="2024-2025">
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Submit Request</button>
+                </div>
+            </form>
+        </x-popup>
+
         <script>
-            const units_container = document.getElementById('requested-unit-container');
-            const unit_selector = document.getElementById('unit-selector');
-            unit_selector.value = "0";
-
-            const units = @json($units_id_name);
-            let requested_units = {};
-
-            unit_selector.addEventListener("change", function() {
-                let selectedValue = this.value;
-
-                if (!requested_units[selectedValue]) {
-                    requested_units[selectedValue] = units[this.value];
-
-                    let unit_container = document.createElement("div");
-
-                    let unit_element = document.createElement("p");
-                    unit_element.innerHTML = `${requested_units[selectedValue]}`;
-                    unit_element.setAttribute('id', `${selectedValue}`);
-
-                    // remove the selected option form the list
-                    let selectedOption = unit_selector.options[unit_selector.selectedIndex];
-                    selectedOption.remove();
-                    unit_selector.value = "0"; // reset the value of selector
-
-                    let remove_btn = document.createElement("button");
-                    remove_btn.textContent = "remove";
-                    remove_btn.addEventListener("click", function (){
-                        let option = document.createElement('option');
-                        option.setAttribute('value', `${selectedValue}`);
-                        option.textContent = `${requested_units[selectedValue]}`;
-
-                        unit_selector.appendChild(option);
-                        unit_container.remove();
-
-                        delete requested_units[selectedValue];
-                    });
-
-                    unit_container.appendChild(unit_element);
-                    unit_container.appendChild(remove_btn);
-                    units_container.appendChild(unit_container);
-                }
-                console.log(Object.keys(requested_units));
-            });
-
-            document.getElementById("units-request-form").addEventListener("submit", function () {
-                document.getElementById("unitsInput").value = JSON.stringify(Object.keys(requested_units));
-            });
-
+            window.unitsData = @json($units->pluck('name', 'id'));
         </script>
-    </form>
 
-</body>
-</html>
+    </body>
+
+</x-layout>

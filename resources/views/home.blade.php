@@ -103,6 +103,15 @@
                         Easily plan and manage course schedules, classrooms, and instructor availability.
                     </x-card>
                 </div>
+                {{--   ========================================================    --}}
+                {{--    professor section    --}}
+                {{--   ========================================================    --}}
+            @elseif(auth()->user()->role == "professor")
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/dead.jpg'" :card_title="'requests'" :card_link="'professor.units.request'" :link_param="['id' => auth()->user()->id]" >
+                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                    </x-card>
+                </div>
             @endif
             </div>
         </section>

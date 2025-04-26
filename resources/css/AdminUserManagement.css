@@ -172,7 +172,7 @@ body{
     }
 }
 /*================================================================*/
-.delete-user-popup{
+.popup{
     display: none;
     justify-items: center;
     align-content: center;

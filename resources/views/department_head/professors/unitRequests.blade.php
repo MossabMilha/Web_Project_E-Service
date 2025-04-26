@@ -55,16 +55,34 @@
                                 <div class="td-wrapper">
                                     <form action="{{route('department-head.professors.unit.request.handle', $unit_request->id)}}" method="POST" style="display: inline;">
                                         @csrf
-                                        <button type="submit" name="action" value="approve" class="btn btn-primary">approve</button>
+                                        <button type="submit" name="action" value="approve" class="btn"
+                                                style="display: flex; align-items: center">
+                                            <x-svg-icon src="svg/correct-icon.svg" width="32px" stroke="var(--color-success)" fill="var(--color-success)"
+                                                        style="--stroke-color-dark: var(--color-success-dark); --fill-color-dark: var(--color-success-dark)"/>
+                                        </button>
                                     </form>
                                     <form action="{{route('department-head.professors.unit.request.handle', $unit_request->id)}}" method="POST" style="display: inline;">
                                         @csrf
-                                        <button type="submit" name="action" value="reject" class="btn btn-danger">reject</button>
+                                        <button type="submit" name="action" value="reject" class="btn"
+                                                style="display: flex; align-items: center">
+                                            <x-svg-icon src="svg/wrong-icon.svg" width="32px" stroke="var(--color-danger)" fill="var(--color-danger)"
+                                                        style="--stroke-color-dark: var(--color-danger-dark); --fill-color-dark: var(--color-danger-dark)"/>
+                                        </button>
                                     </form>
                                 </div>
                             </td>
                         </tr>
                     @endforeach
+                    @if(!$unit_requests || $unit_requests->isEmpty())
+                        <tr>
+                            <td colspan="11">
+                                <div class="empty-table flex justify-center p-12">
+                                    <img src="{{asset('png/no-data-found.jpg')}}" alt="no data found img">
+                                    <p><span><strong>Oops,</strong></span><br>No Data Found!</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
                 </table>
             </x-table>
         </div>

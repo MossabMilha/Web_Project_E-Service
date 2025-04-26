@@ -97,6 +97,11 @@ class TeachingUnit extends Model
         return $this->hasMany(Grade::class, 'unit_id');
     }
 
+    public function unitsRequest()
+    {
+        return $this->hasMany(UnitsRequest::class , 'unit_id');
+    }
+
 
 
 }

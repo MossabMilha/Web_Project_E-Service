@@ -11,6 +11,6 @@
     <!-- Card Body -->
     <div class="card-body">
         <p class="card-text">{{$slot}}</p>
-        <a href="{{route($cardLink)}}" class="btn btn-primary">manage</a>
+        <a href="{{route($cardLink, $linkParam ?? [])}}" class="btn btn-primary">manage</a>
     </div>
 </div>

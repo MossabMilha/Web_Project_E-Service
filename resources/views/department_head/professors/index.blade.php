@@ -142,23 +142,8 @@
     <style>
         /* Nested table styles */
         .nested-row {
-            background-color: var(--color-secondary);
+            background-color: var(--color-white);
         }
-
-        /*.nested-row > td{*/
-        /*    padding: 0 !important;*/
-        /*    border: none !important;*/
-        /*}*/
-
-        .nested-content {
-
-        }
-
-        /*.nested-units-table {*/
-        /*    padding: 0 !important;*/
-        /*    border: none !important;*/
-        /*}*/
-
 
         .nested-units-table th {
             background-color: #e9ecef;

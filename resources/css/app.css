@@ -41,9 +41,13 @@
     --color-tirnary-darker : #3516a1;
 
     --color-success: #0ba84f;
+    --color-success-dark: #047c36;
     --color-info: #406dfa;
+    --color-info-dark: #17389f;
     --color-warning: #ffc107;
+    --color-warning-dark: #ad850e;
     --color-danger: #f44336 ;
+    --color-danger-dark: #b21f14;
 
     --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
     --bg-gradient-2: linear-gradient(-45deg, rgba(153,125,255,1) 0%, rgba(255,204,242,1) 100%);

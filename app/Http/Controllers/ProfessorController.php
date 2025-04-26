@@ -129,22 +129,27 @@ class ProfessorController extends Controller
     //professor methods
     public function unitRequestForm($id)
     {
-        // TODO: Dynamically pass the professor's ID based on the logged-in user
-        $professor = User::find($id);
-        $professor_id = $professor->id;
-        $department_id = DepartmentMember::where('professor_id', $professor_id)->value('department_id');
-        $filiere = Filiere::where('department_id', $department_id)->get();
 
-        $professor = User::find($professor_id);
+        $professor = User::find($id);
+        $department_id = DepartmentMember::where('professor_id', $professor->id)->value('department_id');
+        $filiere = Filiere::where('department_id', $department_id)->get();
 
         // TODO: return units that are not requested by the same professor
         $units = TeachingUnit::
         whereDoesntHave('assignments')
+            ->whereDoesntHave('unitsRequest')
             ->whereHas('filiere', function($q) use($filiere){
                 $q->whereIn('id', $filiere->pluck('id'));
             })
             ->get();
-        return view('professor.request-units', compact('professor'), compact('units'));
+
+        $requests = UnitsRequest::
+        whereHas('professor', function($q) use($professor){
+            $q->where('id', $professor->id);
+            })
+            ->with('unit')
+            ->get();
+        return view('professor.request-units', compact('professor', 'units', 'requests'));
     }
 
     public  function storeRequest(Request $request, $professor_id)

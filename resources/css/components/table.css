@@ -2,14 +2,15 @@
     width: 100%;
     border-radius: var(--border-radius-smaller);
     background-color: var(--color-white);
-    border: 1px solid var(--color-gray);
+    border: 1px solid var(--color-primary);
     overflow: hidden;
 }
 
 .table-container table th {
     font-weight: 600;
     padding: 0.75em 0.5em;
-    background-color: var(--color-gray-light);
+    background-color: var(--color-secondary);
+    border-bottom: 2px solid var(--color-primary);
 }
 
 .table-container table .th-wrapper {
@@ -23,7 +24,7 @@
 
 .table-container table td {
     padding: 0.75em 0.5em;
-    border: 1px solid var(--color-gray);
+    border: 1px solid var(--color-primary-lighter);
 }
 
 .table-container table .td-wrapper {
@@ -48,4 +49,17 @@
     font-size: 12px;
     text-align: center;
     max-width: 140px;
+}
+
+.table-container .empty-table{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
+.table-container .empty-table p{
+    color: var(--color-primary);
+    font-size: 32px;
 }

@@ -1,0 +1,111 @@
+body{
+    background-color: var(--color-primary);
+}
+
+.main-container{
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+#units-request-form{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#units-request-form > h2 {
+    font-size: 24px;
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+#unit-selector{
+    border-radius: 0.25em;
+    padding: 0.5em;
+    background-color: var(--color-gray-light);
+    font-size: 0.95em;
+}
+
+/* Selected units container - scrollable */
+.requested-units-container {
+    max-height: 178px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background: var(--color-gray-light);
+    scrollbar-width: thin; /* For Firefox */
+}
+
+/* Individual unit items */
+.requested-unit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Scrollbar styling (WebKit browsers) */
+.requested-units-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.requested-units-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.requested-units-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.requested-units-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.requested-unit button {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.btn-submit {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.open-popup-btn {
+    background: #2196F3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
