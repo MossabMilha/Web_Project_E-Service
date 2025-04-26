@@ -5,7 +5,7 @@
             fill: var(--fill-color, #000);
         }
 
-        #Approved:hover .cls-1{
+        svg:hover .cls-1{
             stroke: var(--stroke-color-dark, #000);
             fill: var(--fill-color-dark, #000);
         }

@@ -15,6 +15,7 @@
         <x-table>
                 <table>
                     <tr>
+                        <th><div class="th-wrapper"></div></th>
                         <th><div class="th-wrapper">professor id</div></th>
                         <th><div class="th-wrapper">professor name</div></th>
                         <th><div class="th-wrapper">unit id</div></th>
@@ -30,8 +31,15 @@
                         <th><div class="th-wrapper">Action</div></th>
                     </tr>
                     @foreach($unit_requests as $unit_request)
-                        <tr @if($unit_request->underloaded) style="background-color: #ffe5e5;" @endif>
-                            <td><div class="td-wrapper">{{$unit_request->professor_id}}</div></td>
+                        <tr @if($unit_request->underloaded) style="background: var(--bg-gradient-2)" @endif>
+                            <td><div class="td-wrapper">
+                                    @if($unit_request->underloaded) <img width="75px" src="{{asset('svg/warning.svg')}}" alt=""/> @endif
+                                </div>
+                            </td>
+                            <td><div class="td-wrapper">
+                                    {{$unit_request->professor_id}}
+                                </div>
+                            </td>
                             <td><div class="td-wrapper">{{$unit_request->professor->name}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->unit_id}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->unit->name}}</div></td>
@@ -75,8 +83,8 @@
                     @endforeach
                     @if(!$unit_requests || $unit_requests->isEmpty())
                         <tr>
-                            <td colspan="11">
-                                <div class="empty-table flex justify-center p-12">
+                            <td class="colspan-all">
+                                <div class="empty-table">
                                     <img src="{{asset('png/no-data-found.jpg')}}" alt="no data found img">
                                     <p><span><strong>Oops,</strong></span><br>No Data Found!</p>
                                 </div>

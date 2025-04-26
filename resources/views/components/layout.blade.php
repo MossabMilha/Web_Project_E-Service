@@ -16,6 +16,7 @@
         'resources/css/app.css',
         'resources/css/components/nav.css',
         'resources/css/components/table.css',
+        'resources/js/components/table.js',
     // js files
         'resources/js/app.js'
         ])

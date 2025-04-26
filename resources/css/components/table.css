@@ -57,6 +57,7 @@
     align-items: center;
     justify-content: center;
     gap: 1em;
+    padding: 2em;
 }
 
 .table-container .empty-table p{
