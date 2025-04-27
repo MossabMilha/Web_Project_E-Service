@@ -39,11 +39,12 @@ window.showDeleteUserSection = function (userId, userName) {
     const deleteForm = document.getElementById('deleteForm');
     let deleteMsg = deleteSection.querySelector('.delete-message');
 
-    deleteSection.style.display = 'block'; // Show the delete section
+    deleteSection.style.display = 'block'; // Show the popup
 
     deleteMsg.innerHTML = `You are about to delete the <strong>${userName}</strong> account with ID <strong>#${userId}</strong>. This action is irreversible. Are you sure you want to proceed?`;
 
-    deleteForm.setAttribute('action', `/delete-user/${userId}`);
+    // Correctly set the action to match your Laravel route
+    deleteForm.setAttribute('action', `/Admin/UserManagement/DeleteUser/${userId}`);
 }
 
 window.hideDeleteUserModal = function () {

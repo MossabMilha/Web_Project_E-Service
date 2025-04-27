@@ -85,7 +85,7 @@ class AdminController extends Controller
         }
 
         $user->delete();
-        return redirect()->route('UserManagement.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('UserManagement.search')->with('success', 'User deleted successfully.');
     }
 
     // Delete assignment
