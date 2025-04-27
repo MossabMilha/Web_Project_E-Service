@@ -24,3 +24,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the base form action URL
+    const form = document.getElementById('units-assignment-form');
+    const baseAction = form.action;
+
+    // Handle button clicks to update professor ID
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('open-assign-popup-btn')) {
+            const professorId = e.target.dataset.professorId;
+
+            // Replace the placeholder or existing ID in the URL
+            if (baseAction.includes('PROFESSOR_ID')) {
+                form.action = baseAction.replace('PROFESSOR_ID', professorId);
+            } else {
+                // Fallback for if the placeholder isn't there
+                form.action = baseAction.replace(/professors\/[^\/]+\/units/, `professors/${professorId}/units`);
+            }
+
+            // Optional: Add hidden professor_id field if needed
+            if (!document.getElementById('form-professor-id')) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'professor_id';
+                hiddenInput.id = 'form-professor-id';
+                hiddenInput.value = professorId;
+                form.appendChild(hiddenInput);
+            } else {
+                document.getElementById('form-professor-id').value = professorId;
+            }
+        }
+    });
+
+    // Initialize your UnitAssignment class
+    if (typeof UnitAssignment !== 'undefined') {
+        new UnitAssignment();
+    }
+
+    // Initialize your Popup class if it exists
+    if (typeof Popup !== 'undefined') {
+        new Popup();
+    }
+});

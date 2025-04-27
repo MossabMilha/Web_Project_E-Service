@@ -27,6 +27,7 @@ class ProfessorController extends Controller
             })
             ->with('departmentMember')
             ->get();
+
         $profsWithUnits = [];
 
         foreach ($professors as $professor) {
@@ -38,7 +39,6 @@ class ProfessorController extends Controller
                     ->get();
             } else {
                 $units = collect();
-                //$assignedUnits = collect();
             }
             $profsWithUnits[] = [
                 'professor' => $professor,
@@ -46,7 +46,14 @@ class ProfessorController extends Controller
             ];
         }
 
-        return view('department_head.professors.index', compact('profsWithUnits'));
+        $unitsToAssign = TeachingUnit::whereDoesntHave('assignments')
+            ->whereDoesntHave('unitsRequest')
+            ->whereHas('filiere', function($q) use ($department_id) {
+                $q->where('department_id', $department_id);
+            })
+            ->get();
+
+        return view('department_head.professors.index', compact( 'profsWithUnits', 'unitsToAssign'));
     }
 
     public function assign($id)
@@ -134,7 +141,6 @@ class ProfessorController extends Controller
         $department_id = DepartmentMember::where('professor_id', $professor->id)->value('department_id');
         $filiere = Filiere::where('department_id', $department_id)->get();
 
-        // TODO: return units that are not requested by the same professor
         $units = TeachingUnit::
         whereDoesntHave('assignments')
             ->whereDoesntHave('unitsRequest')
@@ -148,7 +154,8 @@ class ProfessorController extends Controller
             $q->where('id', $professor->id);
             })
             ->with('unit')
-            ->get();
+            ->orderByDesc('requested_at')
+            ->paginate(10)->appends(request()->query());
         return view('professor.request-units', compact('professor', 'units', 'requests'));
     }
 

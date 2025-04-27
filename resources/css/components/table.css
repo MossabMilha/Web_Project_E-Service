@@ -64,3 +64,16 @@
     color: var(--color-primary);
     font-size: 32px;
 }
+
+.pagination{
+    flex-grow: 1;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    color: var(--color-white);
+}
+
+.pagination .prev-btn.disabled,
+.pagination .next-btn.disabled{
+    color: var(--color-gray);
+}

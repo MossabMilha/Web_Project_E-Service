@@ -1,0 +1,51 @@
+/* Chip System */
+.chip {
+    --chip-color: var(--color-gray-light);
+    --text-color: var(--color-gray-dark);
+    --icon-color: var(--color-gray);
+    --border-color: var(--color-gray-dark);
+
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem 0.25rem 2rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    position: relative;
+    background-color: var(--chip-color);
+    color: var(--text-color);
+    margin: 0.25rem;
+}
+
+/* Icon using ::before pseudo-element */
+.chip::before {
+    content: '';
+    position: absolute;
+    left: 0.65rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background-color: var(--icon-color);
+}
+
+/* Status Variants */
+.chip[data-status="overload"],
+.chip[data-status="rejected"]{
+    --chip-color: var(--color-danger-lighter);
+    --text-color: var(--color-danger-dark);
+    --icon-color: var(--color-danger-light);
+}
+
+.chip[data-status="underload"],
+.chip[data-status="pending"]{
+    --chip-color: var(--color-warning-lighter);
+    --text-color: var(--color-warning-dark);
+    --icon-color: var(--color-warning-light);
+}
+
+.chip[data-status="ok"],
+.chip[data-status="approved"]{
+    --chip-color: var(--color-success-lighter);
+    --text-color: var(--color-success-dark);
+    --icon-color: var(--color-success-light);
+}

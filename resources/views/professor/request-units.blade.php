@@ -5,7 +5,9 @@
             'resources/css/professor/units-request.css',
             'resources/js/professor/units-request.js',
             'resources/css/components/popup.css',
-            'resources/js/components/popup.js'
+            'resources/js/components/popup.js',
+            'resources/css/components/chips.css',
+            'resources/js/components/chips.js',
         ])
     </x-slot:head>
 
@@ -35,11 +37,26 @@
                             <td><div class="td-wrapper">{{$request->unit->name}}</div></td>
                             <td><div class="td-wrapper">{{$request->semester}}</div></td>
                             <td><div class="td-wrapper">{{$request->academic_year}}</div></td>
-                            <td><div class="td-wrapper">{{$request->status}}</div></td>
+                            <td>
+                                <div class="td-wrapper">
+                                    <span class="chip" data-status="{{ strtolower($request->status) }}">
+                                        {{ $request->status }}
+                                    </span>
+                                </div>
+                            </td>
                             <td><div class="td-wrapper">{{$request->requested_at}}</div></td>
                         </tr>
                     @endforeach
                 </table>
+                @if ($requests->hasPages())
+                    <div class="pagination">
+                        <a href="{{ $requests->previousPageUrl() }}"
+                           class="prev-btn {{ $requests->onFirstPage() ? 'disabled' : '' }}">← previous</a>
+                        <span class="page-info">{{ $requests->currentPage() }} | {{ $requests->lastPage() }}</span>
+                        <a href="{{ $requests->nextPageUrl() }}"
+                           class="next-btn {{ $requests->hasMorePages() ? '' : 'disabled' }}">next →</a>
+                    </div>
+                @endif
             </x-table>
         </div>
 
