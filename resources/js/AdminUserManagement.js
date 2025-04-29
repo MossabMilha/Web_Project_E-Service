@@ -35,11 +35,8 @@ dropdown.addEventListener('click', function() {
 
 //Delete User
 window.showDeleteUserSection = function (userId, userName) {
-    const deleteSection = document.querySelector('.delete-user-popup');
     const deleteForm = document.getElementById('deleteForm');
-    let deleteMsg = deleteSection.querySelector('.delete-message');
-
-    deleteSection.style.display = 'block'; // Show the popup
+    let deleteMsg = deleteForm.querySelector('.delete-message');
 
     deleteMsg.innerHTML = `You are about to delete the <strong>${userName}</strong> account with ID <strong>#${userId}</strong>. This action is irreversible. Are you sure you want to proceed?`;
 
@@ -47,6 +44,6 @@ window.showDeleteUserSection = function (userId, userName) {
     deleteForm.setAttribute('action', `/Admin/UserManagement/DeleteUser/${userId}`);
 }
 
-window.hideDeleteUserModal = function () {
-    document.querySelector('.delete-user-popup').style.display = 'none';
-}
+// window.hideDeleteUserModal = function () {
+//     document.querySelector('.delete-user-popup').style.display = 'none';
+// }

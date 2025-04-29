@@ -3,9 +3,11 @@
         @vite([
             // css files
             'resources/css/AdminUserManagement.css',
+            'resources/css/components/popup.css',
             // js files
-            // 'resources/js/components/user-role-styling.js' // TODO: use this instead of AdminUserManagement.js
+            'resources/js/components/user-role-styling.js',
             'resources/js/AdminUserManagement.js',
+            'resources/js/components/popup.js',
         ])
     </x-slot:head>
 
@@ -35,7 +37,7 @@
                 <button class="add-btn" type="submit">+ Add New User</button>
             </form>
         </div>
-        <x-table> {{--TODO: think of a way to make a table component. You can do better :)--}}
+        <x-table>
             <table>
                 <tr>
                     <th>User Id</th>
@@ -67,9 +69,12 @@
                                 <a href="{{ route('UserManagement.user', $user->id) }}">
                                     <x-svg-icon src="svg/edit-profile-icon.svg" width="32px" stroke="none" fill="var(--color-warning)"/>
                                 </a>
-                                <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">
+{{--                                <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">--}}
+{{--                                    <x-svg-icon src="svg/delete-profile-icon.svg" fill="var(--color-danger)"/>--}}
+{{--                                </a>--}}
+                                <button type="button" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')" class="open-popup-btn">
                                     <x-svg-icon src="svg/delete-profile-icon.svg" fill="var(--color-danger)"/>
-                                </a>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -85,7 +90,7 @@
         </x-table>
 
 
-        <div class="delete-user-popup popup">
+        <x-popup>
             <form id="deleteForm" method="POST" action="{{ route('UserManagement.deleteUser', ['id' => $user->id]) }}">
                 @csrf
                 @method('DELETE')
@@ -108,10 +113,10 @@
                 </div>
                 <div class="button-container">
                     <button type="submit">Delete User</button>
-                    <button type="button" onclick="hideDeleteUserModal()">Cancel</button>
+                    <button type="button">Cancel</button>
                 </div>
             </form>
-        </div>
+        </x-popup>
 
     </div>
 </x-layout>

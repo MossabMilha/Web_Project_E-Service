@@ -10,7 +10,7 @@ class Popup {
     init() {
         // Event listeners
         document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('open-popup-btn')) {
+            if (e.target.closest('.open-popup-btn')) {
                 this.open();
             }
         });
