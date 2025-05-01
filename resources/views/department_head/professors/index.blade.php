@@ -188,27 +188,4 @@
             </script>
     </body>
 
-{{--    <style>--}}
-{{--        /* Nested table styles */--}}
-{{--        .nested-row {--}}
-{{--            background-color: var(--color-white);--}}
-{{--        }--}}
-
-{{--        .nested-units-table th {--}}
-{{--            background-color: #e9ecef;--}}
-{{--            font-weight: 500;--}}
-{{--        }--}}
-
-{{--        .nested-units-table tr:nth-child(even) {--}}
-{{--            background-color: #f8f9fa;--}}
-{{--        }--}}
-
-{{--        .nested-units-table tr:hover {--}}
-{{--            background-color: #e9ecef;--}}
-{{--        }--}}
-
-
-{{--    </style>--}}
-
-
 </x-layout>

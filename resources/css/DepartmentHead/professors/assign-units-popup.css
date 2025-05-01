@@ -1,9 +1,12 @@
 /* Assignment Form Styles */
 #units-assignment-form {
+    background-color: var(--color-white);
+    padding: 1em;
     min-width: 420px;
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 2em;
+    border-radius: 10px;
 }
 
 #units-assignment-form > h2 {
