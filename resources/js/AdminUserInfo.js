@@ -34,17 +34,3 @@ window.toggleEditMode = function() {
     }
 }
 
-// Submit Function
-window.submit_function = function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const fields = ['name', 'phone','email', 'specialization', 'role'];
-
-    // Log current values before submitting
-    fields.forEach(field => {
-        console.log(`${field}: ${document.getElementById(`edit-${field}`).value}`);
-    });
-
-    // Submit the form
-    document.getElementById('user-info-form').submit();
-}

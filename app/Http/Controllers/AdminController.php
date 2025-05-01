@@ -135,7 +135,33 @@ class AdminController extends Controller
             'role' => 'required|string|in:admin,department_head,coordinator,professor,vacataire',
         ]);
 
-        $user->update($validatedData);
+        // Custom validation checks
+        $errors = [];
+
+        if (($result = User::validName($validatedData['name'])) !== true) {
+            $errors['name'] = $result;
+        }
+
+        if (($result = User::validEmail($validatedData['email'], $id)) !== true) {
+            $errors = array_merge($errors, $result);
+        }
+
+        if (($result = User::validPhoneNumber($validatedData['phone'], $id)) !== true) {
+            $errors = array_merge($errors, $result);
+        }
+
+
+        if (!empty($errors)) {
+            return back()->withErrors($errors)->withInput();
+        }
+
+        // Only update the fields that have changed
+        foreach ($validatedData as $field => $value) {
+            if ($user->$field !== $value) {
+
+                User::updateField($id, $field, $value);
+            }
+        }
 
         return redirect()->route('UserManagement.user', $id)->with('success', 'User updated successfully.');
     }

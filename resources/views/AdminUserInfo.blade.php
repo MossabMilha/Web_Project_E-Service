@@ -10,6 +10,15 @@
 
     <!-- Personal-Information -->
     <div class="main-container">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <h1>Personal Information</h1>
         <div class="user-details-section">
 

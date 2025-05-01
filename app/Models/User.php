@@ -78,7 +78,7 @@ class User extends Authenticatable{
         $messages = [];
 
         if (!preg_match('/^\+\d{1,3}[-\s]?\d{7,12}$/', $phone)) {
-            $messages['phone.valid'] = 'Invalid phone number format.';
+            $messages['phone.valid'] = 'Invalid phone number format. (+xxx xxxxxxxxx)';
         }
 
 
