@@ -9,7 +9,7 @@
 <body>
 <div class="login-container">
     <div class="img-container">
-        <x-svg-icon src="svg/ecore_2.svg" height="300px" width="300px" style="--fill-color-1" />
+        <img src="{{asset('png/ecore-v4.png')}}" alt="ecore logo">
     </div>
     <div class="info-container">
         <h2 class="title">Login</h2>

@@ -44,23 +44,6 @@ body{
 /*========================================================*/
 /*========================================================*/
 
-.sort-buttons{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2px;
-}
-
-.sort-buttons img{
-    width: .75em;
-    object-fit: cover;
-}
-
-.sort-buttons :last-child img{
-    rotate: 180deg;
-}
-
 .unit-info{
     display: flex;
 }

@@ -10,8 +10,14 @@ class Popup {
     init() {
         // Event listeners
         document.addEventListener('click', (e) => {
+            // Open popup
             if (e.target.closest('.open-popup-btn')) {
                 this.open();
+            }
+
+            // Close popup with additional close button class
+            if (e.target.closest('.close-popup-btn')) {
+                this.close();
             }
         });
 
@@ -23,6 +29,8 @@ class Popup {
                 this.close();
             }
         });
+
+
 
         // Close with Escape key
         document.addEventListener('keydown', (e) => {

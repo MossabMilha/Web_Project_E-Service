@@ -16,7 +16,7 @@ body{
 }
 .img-container{
     width: 50%;
-    background-color: var(--color-tirnary);
+    background: var(--bg-gradient-light);
 
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@ body{
 }
 
 .img-container img{
-    width: 50%;
+    width: 75%;
 }
 
 .info-container{

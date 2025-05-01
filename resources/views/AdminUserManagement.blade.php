@@ -40,41 +40,48 @@
         <x-table>
             <table>
                 <tr>
-                    <th>User Id</th>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Specialisation</th>
-                    <th>Account Created At</th>
-                    <th>Last Updated</th>
-                    <th>Actions</th>
+                    <th><div class="th-wrapper">User Id</div></th>
+                    <th><div class="th-wrapper">Full Name</div></th>
+                    <th><div class="th-wrapper">Email</div></th>
+                    <th><div class="th-wrapper">Role</div></th>
+                    <th><div class="th-wrapper">Specialisation</div></th>
+                    <th><div class="th-wrapper">Account Created At</div></th>
+                    <th><div class="th-wrapper">Last Updated</div></th>
+                    <th><div class="th-wrapper">Actions</div></th>
                 </tr>
                 @foreach($users as $user)
                     <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td><div class="role">{{$user->role}}</div></td>
+                        <td><div class="td-wrapper"> {{ $user->id }}</div></td>
+                        <td><div class="td-wrapper"> {{ $user->name }}</div></td>
+                        <td><div class="td-wrapper"> {{ $user->email }}</div></td>
                         <td>
-                            @if($user->specialization == null)
-                                N/A
-                            @else
-                                {{ $user->specialization }}
-                            @endif
+                            <div class="td-wrapper">
+                                <div class="role">{{$user->role}}</div>
+                            </div>
                         </td>
-                        <td>{{ $user->created_at }}</td>
-                        <td>{{ $user->updated_at }}</td>
                         <td>
-                            <div class="icons-wrapper flex">
-                                <a href="{{ route('UserManagement.user', $user->id) }}">
-                                    <x-svg-icon src="svg/edit-profile-icon.svg" width="32px" stroke="none" fill="var(--color-warning)"/>
-                                </a>
-{{--                                <a href="#" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')">--}}
-{{--                                    <x-svg-icon src="svg/delete-profile-icon.svg" fill="var(--color-danger)"/>--}}
-{{--                                </a>--}}
-                                <button type="button" onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')" class="open-popup-btn">
-                                    <x-svg-icon src="svg/delete-profile-icon.svg" fill="var(--color-danger)"/>
-                                </button>
+                            <div class="td-wrapper">
+                                @if($user->specialization == null)
+                                    N/A
+                                @else
+                                    {{ $user->specialization }}
+                                @endif
+                            </div>
+                        </td>
+                        <td><div class="td-wrapper"> {{ $user->created_at }}</div></td>
+                        <td><div class="td-wrapper"> {{ $user->updated_at }}</div></td>
+                        <td>
+                            <div class="td-wrapper">
+                                <div class="icons-wrapper flex">
+                                    <a href="{{ route('UserManagement.user', $user->id) }}">
+                                        <x-svg-icon src="svg/edit-profile-icon.svg" width="32px" stroke="none" fill="var(--color-warning)"/>
+                                    </a>
+                                    <button type="button"
+                                            onclick="showDeleteUserSection({{ $user->id }}, '{{ $user->name }}')"
+                                            class="open-popup-btn">
+                                        <x-svg-icon src="svg/delete-profile-icon.svg" fill="var(--color-danger)"/>
+                                    </button>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -113,7 +120,7 @@
                 </div>
                 <div class="button-container">
                     <button type="submit">Delete User</button>
-                    <button type="button">Cancel</button>
+                    <button class="close-popup-btn" type="button">Cancel</button>
                 </div>
             </form>
         </x-popup>

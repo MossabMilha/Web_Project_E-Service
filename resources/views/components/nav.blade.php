@@ -1,6 +1,6 @@
 {{--styled by resources/css/components/nav.css--}}
 <nav class="nav">
-    <img class="nav-logo" src="{{asset('svg/ecore-logo.svg')}}" alt="Ecore logo">
+    <img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo">
     <ul class="">
         <li><x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link></li>
         <li><x-nav-link href="courses" :active="request()->is('courses')">Courses</x-nav-link></li>

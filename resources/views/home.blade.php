@@ -33,12 +33,12 @@
             @if(auth()->user()->role == "admin")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/users.jpg'" :card_title="'Users'" :card_link="'UserManagement.search'">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                        Manage user accounts, roles, and access permissions to ensure secure and organized system usage.
                     </x-card>
                 </div>
                 <div class="flex justify-center">
                 <x-card :card_img="'png/logs.jpg'" :card_title="'Logs'" :card_link="'logs.sort'">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, voluptates, voluptatibus.
+                    Track and review system activity logs to maintain transparency, accountability, and troubleshoot issues efficiently.
                 </x-card>
                 </div>
             {{--   ========================================================    --}}
@@ -47,7 +47,7 @@
             @elseif(auth()->user()->role == "department_head")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/units.jpg'" :card_title="'Professors Units'" :card_link="'department-head.professors.index'">
-                        Easily oversee and assign academic units to professors, ensuring optimal distribution and alignment with their expertise.
+                        Oversee and assign academic units to professors, ensuring optimal distribution and alignment with their expertise.
                     </x-card>
                 </div>
                 <div class="flex justify-center">
@@ -71,7 +71,7 @@
             @elseif(auth()->user()->role == "coordinator")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/units.jpg'" :card_title="'Teaching Unit Management'" :card_link="'Coordinator.teachingUnits'">
-                        Teaching Unit Management helps coordinators handle course content, assign instructors, and keep everything on schedule in one place.
+                        Handle course content, assign instructors, and keep everything on schedule in one place.
                     </x-card>
                 </div>
                 <div class="flex justify-center">
@@ -81,7 +81,7 @@
                 </div>2
                 <div class="flex justify-center">
                     <x-card :card_img="'png/schedule.jpg'" :card_title="'Schedule Management'" :card_link="'Coordinator.ScheduleManagement'">
-                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                        plan and manage course schedules, classrooms, and instructor availability.
                     </x-card>
                 </div>
                 <div class="flex justify-center">

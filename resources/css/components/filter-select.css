@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-white);
+    background-color: var(--color-secondary);
     border-radius: 4px;
 }
 
@@ -19,7 +19,7 @@
     user-select: none;
     font-size: 1em;
     color: var(--color-primary);
-    background: #fff;
+    background-color: var(--color-secondary);
 }
 
 .filter-dropdown .selected {
@@ -34,21 +34,21 @@
     font-size: 0.75em;
     text-align: start;
     transform: translateY(-50%);
-    background-color: var(--color-white);
+    background-color: var(--color-secondary);
     color: var(--color-primary);
 }
-
+/*TODO: fix the visibility of option in the options list*/
 .filter-dropdown .options {
     display: none;
     position: absolute;
     top: 110%;
     left: 0;
     right: 0;
-    background: #fff;
+    background-color: var(--color-white);
     border: 1px solid var(--color-primary);
     border-radius: 4px;
     z-index: 1000;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 .filter-dropdown .options.show {
@@ -77,5 +77,26 @@
 .filter-dropdown .dropdown-icon img{
     width: .75em;
     object-fit: cover;
+    rotate: 180deg;
+}
+
+/*=====================================*/
+/* sort-buttons */
+/*=====================================*/
+
+.sort-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+.sort-buttons img{
+    width: .75em;
+    object-fit: cover;
+}
+
+.sort-buttons :last-child img{
     rotate: 180deg;
 }

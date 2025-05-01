@@ -10,7 +10,7 @@ window.selectOption=function(option) {
 }
 
 
-// dropdown
+// search dropdown
 //------------------------------------------------------------------
 var dropdown = document.querySelector('.dropdown');
 var dropdownContent = document.querySelector('.dropdown-content');
@@ -34,6 +34,7 @@ dropdown.addEventListener('click', function() {
 });
 
 //Delete User
+//------------------------------------------------------------------
 window.showDeleteUserSection = function (userId, userName) {
     const deleteForm = document.getElementById('deleteForm');
     let deleteMsg = deleteForm.querySelector('.delete-message');
