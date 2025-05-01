@@ -16,9 +16,12 @@
         'resources/css/app.css',
         'resources/css/components/nav.css',
         'resources/css/components/table.css',
-        'resources/js/components/table.js',
+        'resources/css/components/profile-dropdown.css',
     // js files
-        'resources/js/app.js'
+        'resources/js/app.js',
+        'resources/js/components/table.js',
+        'resources/js/components/profile-dropdown.js',
+
         ])
 
     {{-- Optional extra head content --}}

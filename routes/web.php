@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::get('/login', [LoginProcesse::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
+Route::post('/logout', [LoginProcesse::class, 'logout'])->name('logout');
 
 
 Route::middleware('admin')->group(function () {

@@ -1,0 +1,107 @@
+/* Profile Dropdown Component Styles */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem .5rem;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+}
+
+.profile-button:hover {
+    background-color: rgba(42, 84, 255, 0.1);
+}
+
+.profile-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(42, 84, 255, 0.15);
+    width: 240px;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-header {
+    padding: 0.75rem 1rem;
+}
+
+.dropdown-header h6 {
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+.dropdown-header small {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: #232323;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: rgba(42, 84, 255, 0.05);
+}
+
+.dropdown-item img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: rgba(42, 84, 255, 0.1);
+    margin: 0.5rem 0;
+}
+
+.badge {
+    background-color: var(--color-danger);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 50px;
+    margin-left: auto;
+}

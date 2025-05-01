@@ -12,6 +12,15 @@
 {{--    TODO: change the icons and the style--}}
     <div class="flex gap-4">
         <a href=""><i class="flex justify-center items-center text-2xl text-blue-600 bi bi-bell"></i></a>
-        <a href="profile"><i class="flex justify-center items-center text-2xl text-blue-600 bi bi-person-circle "></i></a>
+{{--        <a href="{{route('Profile')}}"></a>--}}
+        <x-profile-dropdown
+            name="{{auth()->user()->name}}"
+            image="{{asset('png/dead.jpg')}}"
+            email="{{auth()->user()->email}}"
+            :items="[
+            ['image' => asset('png/profile-icon.jpg'), 'text' => 'profile', 'url' => route('Profile')],
+            'divider',
+            ['image' => asset('png/logout-icon.jpg'), 'text' => 'logout' , 'url' => route('logout'), 'method' => 'POST']
+            ]" />
     </div>
 </nav>

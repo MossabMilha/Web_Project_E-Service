@@ -39,6 +39,7 @@ class LoginProcesse extends Controller
 
     public function logout()
     {
+        Auth::logout();
         Session::flush(); // Destroy the session
         return redirect()->route('login');
     }
