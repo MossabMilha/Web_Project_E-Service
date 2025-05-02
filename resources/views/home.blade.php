@@ -24,7 +24,7 @@
             {{--    TODO: make h2 and p dynamic depending on the user--}}
             <h2 class=" m-2 text-2xl font-semibold mb-2 text-gray-800">Academic Management Tools</h2>
             <p class=" m-2 text-gray-600 mb-6">
-                Manage key academic operations including teaching units, contractual staff, and schedule planning.
+                Explore the features and services tailored to your role to manage academic tasks efficiently.
             </p>
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
             {{--   ========================================================    --}}
@@ -108,8 +108,8 @@
                 {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "professor")
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/dead.jpg'" :card_title="'requests'" :card_link="'professor.units.request'" :link_param="['id' => auth()->user()->id]" >
-                        Easily plan and manage course schedules, classrooms, and instructor availability.
+                    <x-card :card_img="'png/request.jpg'" :card_title="'requests'" :card_link="'professor.units.request'" :link_param="['id' => auth()->user()->id]" >
+                        Submit new requests and track the status of your existing ones with ease.
                     </x-card>
                 </div>
             @endif
