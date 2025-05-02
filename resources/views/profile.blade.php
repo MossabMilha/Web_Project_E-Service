@@ -1,59 +1,69 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Welcome To Your Profile  {{auth()->user()->name}}</h1>
-    <section class="user-Information">
-        <img src="{{ asset('png/user-icon-big.png') }}" alt="Logo">
-        <table>
+<x-layout title="profile">
 
-            <tr>
-                <th>Full Name</th>
-                <td>{{auth()->user()->name}}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{auth()->user()->email}}</td>
-            </tr>
-            <tr>
-                <th>Phone</th>
-                <td>{{auth()->user()->phone}}</td>
-            </tr>
+    <x-slot:head>
+        @vite([
+            // css files
+            'resources/css/profile.css',
+            'resources/js/components/user-role-styling.js'
 
-            <tr>
-                <th>Role</th>
-                <td>{{auth()->user()->role}}</td>
-            </tr>
-            <tr>
-                <th>Specialization</th>
-                <td>
+            // js files
+        ])
+    </x-slot:head>
+
+    <x-nav/>
+
+    <div class="main-container">
+        <header>
+
+        </header>
+        <div class="profile-container">
+
+
+            <section class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-banner">
+                        <img src="{{ asset('png/users.jpg') }}" alt="Profile Picture" class="profile-avatar">
+                    </div>
+                    <h2 class="profile-name">{{auth()->user()->name}}</h2>
+                    <span class="role">{{ucfirst(auth()->user()->role)}}</span>
+                </div>
+
+                <div class="profile-details">
+{{--                    <div class="detail-row">--}}
+{{--                        <span class="detail-label">Full Name</span>--}}
+{{--                        <span class="detail-value">{{auth()->user()->name}}</span>--}}
+{{--                    </div>--}}
+
+                    <div class="detail-row">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">{{auth()->user()->email}}</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Phone</span>
+                        <span class="detail-value">{{auth()->user()->phone ?: 'N/A'}}</span>
+                    </div>
+
                     @if(auth()->user()->role == 'professor' || auth()->user()->role == 'vacataire')
-                        {{auth()->user()->speciality}}
-                    @else
-                        N/A
+                        <div class="detail-row">
+                            <span class="detail-label">Specialization</span>
+                            <span class="detail-value">{{auth()->user()->speciality ?: 'N/A'}}</span>
+                        </div>
                     @endif
-                </td>
-            </tr>
-            <tr>
-                <th>Member Of Since </th>
-                <td>{{auth()->user()->created_at}}</td>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    @if(auth()->user()->role == 'admin')
-                        <button>Edit Profile Information</button>
-                    @else
-                        <h3>If You Want To Edit Your Information Contact One OF The Admin</h3>
+
+                    <div class="detail-row">
+                        <span class="detail-label">Member Since</span>
+                        <span class="detail-value">{{auth()->user()->created_at->format('M d, Y')}}</span>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    @if(auth()->user()->role != 'admin')
+                        <p class="contact-admin-note">To update your information, please contact an administrator.</p>
                     @endif
-                </th>
-            </tr>
-        </table>
+                </div>
+            </section>
+        </div>
+    </div>
 
-    </section>
-
-</body>
-</html>
+</x-layout>

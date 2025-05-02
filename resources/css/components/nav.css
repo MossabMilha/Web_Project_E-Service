@@ -6,12 +6,12 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding-inline: var(--gap-x);
-    padding: 1em 1.5em;
-    background: #fff;
+    padding: .5rem 1.5rem;
+    background: var(--color-white);
 }
 
 .nav-logo{
-    width: 42px;
+    width: 48px;
 }
 
 nav ul{

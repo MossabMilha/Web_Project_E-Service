@@ -78,7 +78,7 @@
                     <x-card :card_img="'png/part-time.jpg'" :card_title="'Vacatire Management'" :card_link="'VacataireAccount'">
                         Manage part-time instructors, their assignments, and teaching hours with ease.
                     </x-card>
-                </div>2
+                </div>
                 <div class="flex justify-center">
                     <x-card :card_img="'png/schedule.jpg'" :card_title="'Schedule Management'" :card_link="'Coordinator.ScheduleManagement'">
                         plan and manage course schedules, classrooms, and instructor availability.
