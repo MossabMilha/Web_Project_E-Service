@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exports\LogsExport;
 use App\Models\Assignment;
+use App\Models\Department;
 use App\Models\LogModel;
+use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,11 +32,18 @@ class AdminController extends Controller
         return view('AdminUserInfo', compact('user'));
     }
 
-    // Show Add User form
+
     public function AddUser()
     {
         LogModel::track('visit_add_user_form', "Admin (ID: " . Auth::user()->id . ") visited Add User form");
-        return view('AdminAddUser');
+        $specializations = Specialization::with('department')->get();
+
+        foreach ($specializations as $specialization) {
+            if ($specialization->department) {
+                $specialization->department->load('filieres');
+            }
+        }
+        return view('AdminAddUser',compact('specializations'));
     }
 
     // Search users
@@ -105,17 +114,49 @@ class AdminController extends Controller
     public function AddUserDb(Request $request)
     {
         LogModel::track('add_user', "Admin (ID: " . Auth::user()->id . ") added a new user with email: {$request->email}");
+
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|string|max:255',
             'role' => 'required|string|in:admin,department_head,coordinator,professor,vacataire',
-            'specialization' => 'nullable|string',
+            'specialization' => $request->role != 'admin' ? 'nullable|exists:specializations,id' : 'nullable',
+            'filiere' => 'nullable',
         ]);
+        dd($request->all());
+        // Check if the role is department_head
+        if ($request->role == 'department_head') {
+            // Fetch the department associated with the selected specialization
+            $specialization = Specialization::find($request->specialization);
+
+            if ($specialization && $specialization->department_id) {
+                // Get the department associated with the specialization
+                $department = Department::where('id', $specialization->department_id)->first();
+
+                if ($department && $department->head_id !== null) {
+
+                    return redirect()->back()->withErrors([
+                        'specialization' => 'This department already has a department head.',
+                    ]);
+                }
+            }
+
+        } elseif ($request->role == 'admin') {
+            $request->merge(['specialization' => null]);
+        }else{
+
+        }
 
         $user = new User($validatedData);
         $user->password = Hash::make('test'); // Default password (should be changed later)
         $user->save();
+        if ($request->role == 'department_head') {
+            $department = Department::where('id', $specialization->department_id)->first();
+            if ($department) {
+                $department->head_id = $user->id;
+                $department->save();
+            }
+        }
 
         return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully.');
     }

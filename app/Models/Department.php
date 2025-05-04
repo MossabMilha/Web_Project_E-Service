@@ -37,4 +37,13 @@ class Department extends Model
     public function departmentMember(){
         return $this->hasMany(DepartmentMember::class);
     }
+
+    public function specializations()
+    {
+        return $this->hasMany(Specialization::class);
+    }
+    public function filieres()
+    {
+        return $this->hasMany(Filiere::class);
+    }
 }
