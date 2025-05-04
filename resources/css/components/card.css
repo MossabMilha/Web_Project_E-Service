@@ -8,7 +8,7 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(10, 40, 200, 0.1);
     transition: all 0.3s ease-in-out;
-    width: 320px; /* Set card width */
+    /*width: 320px; !* Set card width *!*/
 }
 
 /* Card Image */

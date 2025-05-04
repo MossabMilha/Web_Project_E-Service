@@ -21,11 +21,151 @@
     {{--    main --}}
     <main class="p-2">
         <section class="tools-section">
-            {{--    TODO: make h2 and p dynamic depending on the user--}}
-            <h2 class=" m-2 text-2xl font-semibold mb-2 text-gray-800">Academic Management Tools</h2>
-            <p class=" m-2 text-gray-600 mb-6">
-                Explore the features and services tailored to your role to manage academic tasks efficiently.
-            </p>
+            @if(auth()->user()->role == "admin")
+                @php
+                    $totalUsers = App\Models\User::count();
+                    $activeSessions = DB::table('sessions')->count();
+                    $totalLogs = App\Models\LogModel::count();
+                @endphp
+                <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Total Users</h5>
+                            <span class="text-4xl">{{ $totalUsers ?? 'N/A' }}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
+                                                                              src="{{asset('png/total-users.png')}}"
+                                                                              alt="dead image"></div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col gap-y-1.5 justify-around text-blue-600">
+                            <h5 class="text-2xl">Active Sessions</h5>
+                            <span class="text-4xl">{{ $activeSessions ?? 'N/A' }}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
+                                                                              src="{{asset('png/sessions.png')}}"
+                                                                              alt="dead image"></div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Total Logs</h5>
+                            <span class="text-4xl">{{ $totalLogs ?? 'N/A' }}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
+                                                                              src="{{asset('png/log.png')}}"
+                                                                              alt="dead image"></div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Error Reports</h5>
+                            <span class="text-4xl">{{ $errorReports ?? 'N/A' }}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
+                                                                              src="{{asset('png/dead-v2.png')}}"
+                                                                              alt="dead image"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-4">
+                    <div class="flex flex-col p-4 rounded-lg" style="background-color: var(--color-primary);">
+                        <h5 class="text-2xl text-white mb-4">Daily Login Activity</h5>
+                        <canvas class="rounded-md p-4" style="background-color: var(--color-white)" id="loginChart"></canvas>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const ctx = document.getElementById('loginChart').getContext('2d');
+
+                                // Get last 7 days
+                                const labels = Array.from({length: 7}, (_, i) => {
+                                    const d = new Date();
+                                    d.setDate(d.getDate() - i);
+                                    return d.toLocaleDateString();
+                                }).reverse();
+
+                                const data = {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Login Count',
+                                        data: {!! App\Models\LogModel::where('action', 'login_success')
+                                            ->where('created_at', '>=', now()->subDays(7))
+                                            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                                            ->groupBy('date')
+                                            ->pluck('count') !!},
+                                        fill: true,
+                                        borderColor: '#f7adff',
+                                        backgroundColor: 'rgba(232,171,255,0.1)',
+                                        tension: 0.4
+                                    }]
+                                };
+
+                                new Chart(ctx, {
+                                    type: 'line',
+                                    data: data,
+                                    options: {
+                                        responsive: true,
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                ticks: {
+                                                    stepSize: 5,
+                                                    color: '#2a54ff',
+                                                    font: {
+                                                        size: 12
+                                                    }
+                                                },
+                                                grid: {
+                                                    color: 'rgba(113,81,255,0.1)',
+                                                    drawBorder: false
+                                                }
+                                            },
+                                            x: {
+                                                ticks: {
+                                                    color: '#2a54ff',
+                                                    font: {
+                                                        size: 12
+                                                    }
+                                                },
+                                                grid: {
+                                                    display: false,
+                                                    color: 'rgba(113,81,255,0.1)',
+                                                    drawBorder: false
+                                                }
+                                            }
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                display: false
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
+                    </div>
+                    <div class="p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <h5 class="text-2xl text-blue-600 mb-4">Recent Logs</h5>
+                        <div class="space-y-2">
+                            @foreach(App\Models\LogModel::latest()->take(7)->get() as $log)
+                                <div class="flex items-center justify-between p-2 bg-white rounded">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-600">{{ $log->created_at }}</span>
+                                        <span class="text-gray-800">{{ $log->action }}</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500">{{ $log->user->name ?? 'System' }}</span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md mb-2" style="background-color: var(--color-tirnary);">
+                <h2 style="color: var(--color-white);" class="text-2xl font-semibold ">Academic Management Tools</h2>
+                <p  style="color: var(--color-white);">
+                    Explore the features and services tailored to your role to manage academic tasks efficiently.
+                </p>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
             {{--   ========================================================    --}}
             {{--    admin section    --}}

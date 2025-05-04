@@ -3,6 +3,12 @@
     <img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo">
     <ul class="">
         <li><x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home2</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home3</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home4</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home5</x-nav-link></li>
+        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home6</x-nav-link></li>
+
     </ul>
 {{--    TODO: change the icons and the style--}}
     <div class="flex items-center gap-4">
