@@ -14,15 +14,91 @@ body{
 /*====================== modal ======================*/
 /*========================================================*/
 
-
-.modal-overlay, .Add-modal-overlay{
-    width: 100%;
-    color: white;
-    background-color: rgb(21, 21, 21);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+#add-units-form{
+    background-color: var(--color-white);
+    min-width: 600px;
+    padding: 1rem;
 }
+
+.popup-img-top {
+    height: 350px;
+    object-fit: cover;
+    border-radius: 4px 4px 0 0;
+}
+
+#add-units-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#add-units-form .form-group label {
+    display: block;
+    font-weight: 500;
+}
+
+#add-units-form .form-group input[type="text"],
+#add-units-form .form-group input[type="number"],
+#add-units-form .form-group textarea,
+#add-units-form .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#add-units-form .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-actions button[type="submit"],
+.form-actions button[type="button"] {
+    flex-grow: .5;
+}
+
+#add-units-form #add-type{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: var(--color-secondary-light);
+    font-size: 0.95em;
+}
+
+#add-type .option{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#add-units-form .btn-submit {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-units-form .btn-submit:hover {
+    background-color: var(--color-primary-dark);
+}
+
+#add-units-form .close-popup-btn {
+    background-color: var(--color-gray);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-units-form .close-popup-btn:hover {
+    background-color: var(--color-gray-dark);
+}
+
 
 /*========================================================*/
 /*====================== pagination ======================*/

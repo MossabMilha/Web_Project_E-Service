@@ -1,5 +1,6 @@
 document.getElementById('vacataire').addEventListener('change', function() {
     const vacataireId = this.value;
+    const passwordGroup = document.getElementById('password-group');
 
     if (vacataireId) {
         fetch(`/vacataire/${vacataireId}`)
@@ -14,10 +15,16 @@ document.getElementById('vacataire').addEventListener('change', function() {
 
                 document.getElementById('selected-vacataire-id').value = data.id;
 
-                document.getElementById('vacataire-info').style.display = 'table'; // Show the table
+                document.getElementById('vacataire-info').style.display = 'table';
+                if (passwordGroup) {
+                    passwordGroup.style.display = 'block';
+                }
             })
             .catch(error => console.error('Error:', error));
     } else {
-        document.getElementById('vacataire-info').style.display = 'none'; // Hide the table if no vacataire is selected
+        document.getElementById('vacataire-info').style.display = 'none';
+        if (passwordGroup) {
+            passwordGroup.style.display = 'none';
+        }
     }
 });

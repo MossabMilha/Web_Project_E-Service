@@ -1,85 +1,91 @@
 <x-layout>
     <x-slot:head>
-    @vite([
-        'resources/js/Coordinator/TeachingUnits.js',
-        'resources/js/components/filter-select.js',
-
-        'resources/css/Coordinator/TeachingUnits.css',
-        'resources/css/components/filter-select.css',
-
+        @vite([
+            'resources/js/Coordinator/TeachingUnits.js',
+            'resources/js/components/filter-select.js',
+            'resources/js/components/popup.js',
+            'resources/css/Coordinator/TeachingUnits.css',
+            'resources/css/components/filter-select.css',
+            'resources/css/components/popup.css',
         ])
     </x-slot:head>
 
     <x-nav/>
 
     <div class="main-container">
-        <div class="Add-modal-overlay" id="Add-modal-overlay" style="display: none;">
-            <div class="Add-Teaching-Unite" >
-                <form method="POST" action="{{ route('Coordinator.AddUnit') }}">
-                    @csrf
-                    <h1>Add New Unit</h1>
+        <x-popup>
+            <form id="add-units-form" method="POST" action="{{ route('Coordinator.AddUnit') }}">
+                @csrf
 
-                    <div class="add-unit-info">
-                        <label for="add-name">Name: </label>
-                        <input type="text" name="add-name" id="add-name" required>
-                    </div>
+                <img src="{{asset('png/request.jpg')}}" alt="add units" class="popup-img-top">
+                <h2 class="text-2xl p-2 mb-4" style="background-color: var(--color-secondary-light); color: var(--color-primary); font-weight: 600">Add New Unit</h2>
 
-                    <div class="add-unit-info">
-                        <label for="add-description">Description: </label>
-                        <textarea name="add-description" id="add-description" required></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="add-name">Name: </label>
+                    <input type="text" name="add-name" id="add-name" required>
+                </div>
 
-                    <div class="add-unit-info">
-                        <label for="add-hours">Hours: </label>
-                        <input type="number" name="add-hours" id="add-hours" required>
-                    </div>
+                <div class="form-group">
+                    <label for="add-description">Description: </label>
+                    <textarea name="add-description" id="add-description" required></textarea>
+                </div>
 
-                    <div class="add-unit-info">
-                        <label for="add-type">Type: </label>
-                        <div id="add-type">
+                <div class="form-group">
+                    <label for="add-hours">Hours: </label>
+                    <input type="number" name="add-hours" id="add-hours" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-type">Type: </label>
+                    <div id="add-type">
+                        <div class="option">
                             <input type="radio" name="add-type" id="add-cm" value="CM" required>
                             <label for="add-cm">CM</label>
+                        </div>
 
+                        <div class="option">
                             <input type="radio" name="add-type" id="add-td" value="TD">
                             <label for="add-td">TD</label>
+                        </div>
 
+                        <div class="option">
                             <input type="radio" name="add-type" id="add-tp" value="TP">
                             <label for="add-tp">TP</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="add-unit-info">
-                        <label for="add-credits">Credits: </label>
-                        <input type="number" name="add-credits" id="add-credits" required>
-                    </div>
+                <div class="form-group">
+                    <label for="add-credits">Credits: </label>
+                    <input type="number" name="add-credits" id="add-credits" required>
+                </div>
 
-                    <div class="add-unit-info">
-                        <label for="add-filiere">Filiere: </label>
-                        <select name="add-filiere" id="add-filiere" required>
-                            @foreach($filieres as $filiere)
-                                <option value="{{$filiere->id}}">{{$filiere->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="add-filiere">Filiere: </label>
+                    <select name="add-filiere" id="add-filiere" required>
+                        @foreach($filieres as $filiere)
+                            <option value="{{$filiere->id}}">{{$filiere->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-                    <div class="add-unit-info">
-                        <label for="add-semester">Semester: </label>
-                        <select name="add-semester" id="add-semester" required>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label for="add-semester">Semester: </label>
+                    <select name="add-semester" id="add-semester" required>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
 
-                    <div>
-                        <button type="button" id="add-Unit-Cancel" >Cancel</button>
-                        <button type="submit" id="add-Unit">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                <div class="form-actions">
+                    <button type="button" class="close-popup-btn">Cancel</button>
+                    <button type="submit" class="btn-submit">Save</button>
+                </div>
+            </form>
+        </x-popup>
 
         <x-table class="ShowTeachingUnits">
-            <button id="add-unit-btn">Add New Unit</button>
+            <button id="add-unit-btn" class="open-popup-btn">Add New Unit</button>
 
             <form method="GET" action="{{ route('Coordinator.teachingUnits') }}" id="filters-form">
                 <table>
