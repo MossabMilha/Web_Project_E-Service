@@ -7,6 +7,8 @@
             'resources/css/Coordinator/TeachingUnits.css',
             'resources/css/components/filter-select.css',
             'resources/css/components/popup.css',
+            'resources/css/components/chips.css',
+            'resources/js/components/chips.js'
         ])
     </x-slot:head>
 
@@ -85,7 +87,7 @@
         </x-popup>
 
         <x-table class="ShowTeachingUnits">
-            <button id="add-unit-btn" class="open-popup-btn">Add New Unit</button>
+            <button id="add-unit-btn" class="open-popup-btn">Add new unit</button>
 
             <form method="GET" action="{{ route('Coordinator.teachingUnits') }}" id="filters-form">
                 <table>
@@ -94,8 +96,8 @@
                             <div class="th-wrapper">
                                 <span>Id</span>
                                 <div class="sort-buttons">
-                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'asc'])) }}"><img src="{{asset('png/arrow up 2.png')}}"></a>
-                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'desc'])) }}"><img src="{{asset('png/arrow up 2.png')}}"></a>
+                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'asc'])) }}"><img src="{{asset('png/arrow up 2.png')}}" alt="arrow up"></a>
+                                    <a href="{{ route('Coordinator.teachingUnits', array_merge(request()->all(), ['sort_by' => 'id', 'sort_direction' => 'desc'])) }}"><img src="{{asset('png/arrow up 2.png')}}" alt="arrow down"></a>
                                 </div>
                             </div>
                         </th>
@@ -170,7 +172,13 @@
                             <td><div class="td-wrapper">{{ $unit->credits }}</div></td>
                             <td><div class="td-wrapper">{{ $unit->filiere->name ?? 'N/A' }}</div></td>
                             <td><div class="td-wrapper">{{ $unit->semester }}</div></td>
-                            <td><div class="td-wrapper">{{ $unit->computedStatus }}</div></td>
+                            <td>
+                                <div class="td-wrapper">
+                                    <span class="chip" data-status="<?php echo e($unit->computedStatus); ?>">
+                                        <?php echo e($unit->computedStatus); ?>
+                                    </span>
+                                </div>
+                            </td>
                             <td><div class="td-wrapper">{{ $unit->created_at }}</div></td>
                             <td><div class="td-wrapper">{{ $unit->updated_at }}</div></td>
                             <td>
@@ -187,8 +195,7 @@
                                 @elseif($unit->computedStatus == 'unassigned')
                                     <div class="td-wrapper">
                                         <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">
-                                            info
-{{--                                            <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em" stroke="var(--color-primary)" />--}}
+                                            <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em" stroke="var(--color-primary)" />
                                         </a>
                                     </div>
                                 @endif

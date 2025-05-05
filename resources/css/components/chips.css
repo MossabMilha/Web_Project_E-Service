@@ -30,7 +30,8 @@
 
 /* Status Variants */
 .chip[data-status="overload"],
-.chip[data-status="rejected"]{
+.chip[data-status="rejected"],
+.chip[data-status="unassigned"]{
     --chip-color: var(--color-danger-lighter);
     --text-color: var(--color-danger-dark);
     --icon-color: var(--color-danger-light);
@@ -44,7 +45,8 @@
 }
 
 .chip[data-status="ok"],
-.chip[data-status="approved"]{
+.chip[data-status="approved"],
+.chip[data-status="assigned"]{
     --chip-color: var(--color-success-lighter);
     --text-color: var(--color-success-dark);
     --icon-color: var(--color-success-light);

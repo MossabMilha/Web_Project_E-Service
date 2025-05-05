@@ -12,13 +12,19 @@
 
 <body>
     <div class="main-container">
-        <form class="add-user-form" method="GET" action="{{ route('VacataireAccount.addVacataire') }}">
-            <button class="add-btn" type="submit">+ Add New User</button>
-        </form>
-        <form method="GET" action="{{ route('export.users') }}">
-            <input type="hidden" name="role" value="Vacataire">
-            <button type="submit">Export All Vacataire Users</button>
-        </form>
+        <div class="buttons-container">
+            <div class="add-user-container">
+                <form class="add-user-form" method="GET" action="{{ route('VacataireAccount.addVacataire') }}">
+                    <button class="add-btn" type="submit">Add New User</button>
+                </form>
+            </div>
+            <div class="export-users-container">
+                <form method="GET" action="{{ route('export.users') }}">
+                    <input type="hidden" name="role" value="Vacataire">
+                    <button type="submit">Export All Vacataire Users</button>
+                </form>
+            </div>
+        </div>
         <x-table class="table-container">
             <table>
                 <tr>
