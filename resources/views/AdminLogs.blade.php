@@ -15,7 +15,7 @@
     {{--  body  --}}
     <div class="main-container">
         <form method="GET" action="{{ route('logs.sort') }}" id="filters-form">
-            <button type="submit" formaction="{{ route('logs.export') }}">
+            <button class="log-export-button" type="submit" formaction="{{ route('logs.export') }}">
                 <img src="{{asset('png/excel.png')}}" alt="excel image">
                 <span>Export current logs</span>
             </button>

@@ -3,12 +3,23 @@
     <img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo">
     <ul class="">
         <li><x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link></li>
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home2</x-nav-link></li>
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home3</x-nav-link></li>
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home4</x-nav-link></li>
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home5</x-nav-link></li>
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('')">Home6</x-nav-link></li>
-
+        @if(auth()->user()->role == 'admin')
+            <li><x-nav-link href="{{route('UserManagement.search')}}" :active="request()->routeIs('UserManagement.search')">Users</x-nav-link></li>
+            <li><x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs</x-nav-link></li>
+        @elseif(auth()->user()->role == 'department_head')
+            <li><x-nav-link href="{{route('department-head.professors.index')}}" :active="request()->routeIs('department-head.professors.index')">Professors Units</x-nav-link></li>
+            <li><x-nav-link href="{{route('department-head.professors.unit.requests')}}" :active="request()->routeIs('department-head.professors.unit.requests')">Professors Requests</x-nav-link></li>
+            <li><x-nav-link href="{{route('department-head.workload.overview')}}" :active="request()->routeIs('department-head.workload.overview')">Workload</x-nav-link></li>
+        @elseif(auth()->user()->role == 'coordinator')
+            <li><x-nav-link href="{{route('Coordinator.teachingUnits')}}" :active="request()->routeIs('Coordinator.teachingUnits')">Units</x-nav-link></li>
+            <li><x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">Vacataires</x-nav-link></li>
+            <li><x-nav-link href="{{route('Coordinator.ScheduleManagement')}}" :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules</x-nav-link></li>
+        @elseif(auth()->user()->role == 'professor')
+            <li><x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}" :active="request()->routeIs('professor.units.request')">Units Requests</x-nav-link></li>
+        @elseif(auth()->user()->role == 'vacataire')
+            <li><x-nav-link href="{{route('Vacataire.assignedUnit')}}" :active="request()->routeIs('Vacataire.assignedUnit')">Units</x-nav-link></li>
+            <li><x-nav-link href="{{route('Vacataire.assessments')}}" :active="request()->routeIs('Vacataire.assessments')">Assessments</x-nav-link></li>
+        @endif
     </ul>
 {{--    TODO: change the icons and the style--}}
     <div class="flex items-center gap-4">

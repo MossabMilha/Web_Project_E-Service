@@ -33,36 +33,28 @@
                             <h5 class="text-2xl">Total Users</h5>
                             <span class="text-4xl">{{ $totalUsers ?? 'N/A' }}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
-                                                                              src="{{asset('png/total-users.png')}}"
-                                                                              alt="dead image"></div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;" src="{{asset('png/total-users.png')}}" alt="dead image"></div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <div class="flex-3/5 flex flex-col gap-y-1.5 justify-around text-blue-600">
                             <h5 class="text-2xl">Active Sessions</h5>
                             <span class="text-4xl">{{ $activeSessions ?? 'N/A' }}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
-                                                                              src="{{asset('png/sessions.png')}}"
-                                                                              alt="dead image"></div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;" src="{{asset('png/sessions.png')}}" alt="dead image"></div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <div class="flex-3/5 flex flex-col justify-around text-blue-600">
                             <h5 class="text-2xl">Total Logs</h5>
                             <span class="text-4xl">{{ $totalLogs ?? 'N/A' }}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
-                                                                              src="{{asset('png/log.png')}}"
-                                                                              alt="dead image"></div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image"></div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <div class="flex-3/5 flex flex-col justify-around text-blue-600">
                             <h5 class="text-2xl">Error Reports</h5>
                             <span class="text-4xl">{{ $errorReports ?? 'N/A' }}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;"
-                                                                              src="{{asset('png/dead-v2.png')}}"
-                                                                              alt="dead image"></div>
+                        <div class="flex-2/5 flex items-end justify-end"><img style="height: 48px;" src="{{asset('png/dead-v2.png')}}" alt="dead image"></div>
                     </div>
                 </div>
 
@@ -200,11 +192,6 @@
                         Monitor and balance professors’ teaching workloads for fair distribution and effective academic planning.
                     </x-card>
                 </div>
-                <div class="flex justify-center">
-                    <x-card :card_img="'png/dead.jpg'" :card_title="'he is dead'" :card_link="'department-head.professors.index'">
-                        Don't revive him X_X
-                    </x-card>
-                </div>
             {{--   ========================================================    --}}
             {{--    coordinator section    --}}
             {{--   ========================================================    --}}
@@ -222,11 +209,6 @@
                 <div class="flex justify-center">
                     <x-card :card_img="'png/schedule.jpg'" :card_title="'Schedule Management'" :card_link="'Coordinator.ScheduleManagement'">
                         plan and manage course schedules, classrooms, and instructor availability.
-                    </x-card>
-                </div>
-                <div class="flex justify-center">
-                    <x-card :card_img="'png/dead.jpg'" :card_title="'he is dead'" :card_link="'Coordinator.ScheduleManagement'">
-                        Don't revive him X_X
                     </x-card>
                 </div>
             {{--   ========================================================    --}}
