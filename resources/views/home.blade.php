@@ -6,8 +6,10 @@
             'resources/css/components/header.css',
             'resources/css/components/card.css',
             // js files
+            'resources/js/home.js',
             'resources/js/components/user-role-styling.js'
         ])
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </x-slot:head>
 
     {{--    nav bar --}}
@@ -62,77 +64,6 @@
                     <div class="flex flex-col p-4 rounded-lg" style="background-color: var(--color-primary);">
                         <h5 class="text-2xl text-white mb-4">Daily Login Activity</h5>
                         <canvas class="rounded-md p-4" style="background-color: var(--color-white)" id="loginChart"></canvas>
-                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function () {
-                                const ctx = document.getElementById('loginChart').getContext('2d');
-
-                                // Get last 7 days
-                                const labels = Array.from({length: 7}, (_, i) => {
-                                    const d = new Date();
-                                    d.setDate(d.getDate() - i);
-                                    return d.toLocaleDateString();
-                                }).reverse();
-
-                                const data = {
-                                    labels: labels,
-                                    datasets: [{
-                                        label: 'Login Count',
-                                        data: {!! App\Models\LogModel::where('action', 'login_success')
-                                            ->where('created_at', '>=', now()->subDays(7))
-                                            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
-                                            ->groupBy('date')
-                                            ->pluck('count') !!},
-                                        fill: true,
-                                        borderColor: '#f7adff',
-                                        backgroundColor: 'rgba(232,171,255,0.1)',
-                                        tension: 0.4
-                                    }]
-                                };
-
-                                new Chart(ctx, {
-                                    type: 'line',
-                                    data: data,
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                ticks: {
-                                                    stepSize: 5,
-                                                    color: '#2a54ff',
-                                                    font: {
-                                                        size: 12
-                                                    }
-                                                },
-                                                grid: {
-                                                    color: 'rgba(113,81,255,0.1)',
-                                                    drawBorder: false
-                                                }
-                                            },
-                                            x: {
-                                                ticks: {
-                                                    color: '#2a54ff',
-                                                    font: {
-                                                        size: 12
-                                                    }
-                                                },
-                                                grid: {
-                                                    display: false,
-                                                    color: 'rgba(113,81,255,0.1)',
-                                                    drawBorder: false
-                                                }
-                                            }
-                                        },
-                                        plugins: {
-                                            legend: {
-                                                display: false
-                                            }
-                                        }
-                                    }
-                                });
-                            });
-                        </script>
                     </div>
                     <div class="p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <h5 class="text-2xl text-blue-600 mb-4">Recent Logs</h5>
@@ -149,6 +80,44 @@
                         </div>
                     </div>
                 </div>
+            @elseif(auth()->user()->role == 'department_head')
+                @php
+                    // TODO: display only what belong to the head department and not all.
+                    $totalTUs = App\Models\TeachingUnit::count() ?? 'N/A';
+                    $assignedTUs = App\Models\TeachingUnit::whereHas('assignments')->count() ?? 'N/A';
+                    $totalProfs = App\Models\User::where('role', 'professor')->count() ?? 'N/A';
+                    $flaggedProfessors = $flaggedProfessors ?? 2;
+                @endphp
+
+                <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Total Units</h5>
+                            <span class="text-4xl">{{$totalTUs}}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end">
+{{--                            <img style="height: 48px;" src="{{asset('png/total-users.png')}}" alt="dead image">--}}
+                        </div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col gap-y-1.5 justify-around text-blue-600">
+                            <h5 class="text-2xl">Assigned Units</h5>
+                            <span class="text-4xl">{{$assignedTUs}}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end">
+{{--                            <img style="height: 48px;" src="{{asset('png/sessions.png')}}" alt="dead image">--}}
+                        </div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Total Professors</h5>
+                            <span class="text-4xl">{{$totalProfs}}</span>
+                        </div>
+                        <div class="flex-2/5 flex items-end justify-end">
+{{--                            <img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image">--}}
+                        </div>
+                    </div>
+                </div>
             @endif
 
             <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md mb-2" style="background-color: var(--color-tirnary);">
@@ -159,9 +128,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2">
-            {{--   ========================================================    --}}
-            {{--    admin section    --}}
-            {{--   ========================================================    --}}
+
             @if(auth()->user()->role == "admin")
                 <div class="flex justify-center">
                     <x-card :card_img="'png/users.jpg'" :card_title="'Users'" :card_link="'UserManagement.search'">
