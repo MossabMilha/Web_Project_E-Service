@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Show or hide specialization
             if (selectedValue === 'professor' || selectedValue === 'vacataire') {
-                specWrapper.style.display = 'block';
+                specWrapper.style.display = 'flex';
             } else {
                 specWrapper.style.display = 'none';
             }

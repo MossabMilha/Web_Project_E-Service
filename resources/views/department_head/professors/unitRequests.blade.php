@@ -4,7 +4,10 @@
     <x-slot:head>
         @vite([
         'resources/css/DepartmentHead/professors/unit-requests.css',
-        'resources/js/department-head/professors/unit-requests.js'
+        'resources/js/department-head/professors/unit-requests.js',
+        'resources/css/components/chips.css',
+        'resources/js/components/chips.js',
+
         ])
     </x-slot:head>
 
@@ -31,9 +34,9 @@
                         <th><div class="th-wrapper">Action</div></th>
                     </tr>
                     @foreach($unit_requests as $unit_request)
-                        <tr @if($unit_request->underloaded) style="background: var(--bg-gradient-2)" @endif>
+                        <tr @if($unit_request->underloaded) style="background-color: #fff6f5" @endif>
                             <td><div class="td-wrapper">
-                                    @if($unit_request->underloaded) <img width="75px" src="{{asset('svg/warning.svg')}}" alt=""/> @endif
+                                    @if($unit_request->underloaded) <img width="48px" src="{{asset('svg/warning.svg')}}" alt=""/> @endif
                                 </div>
                             </td>
                             <td><div class="td-wrapper">
@@ -43,7 +46,13 @@
                             <td><div class="td-wrapper">{{$unit_request->professor->name}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->unit_id}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->unit->name}}</div></td>
-                            <td><div class="td-wrapper">{{$unit_request->status}}</div></td>
+                            <td>
+                                <div class="td-wrapper">
+                                    <span class="chip" data-status="{{ strtolower($unit_request->status) }}">
+                                        {{ $unit_request->status }}
+                                    </span>
+                                </div>
+                            </td>
                             <td><div class="td-wrapper">{{$unit_request->semester}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->academic_year}}</div></td>
                             <td><div class="td-wrapper">{{$unit_request->assigned_hours}}</div></td>

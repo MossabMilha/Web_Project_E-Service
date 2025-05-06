@@ -11,6 +11,10 @@ body{
     flex-direction: column;
 }
 
+.unit-info-container{
+    padding: 1rem;
+}
+
 .unit-info-container h1,
 .vacataire-section h1 {
     margin-bottom: 1.5rem;
@@ -49,6 +53,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem;
 }
 
 .vacataire-select,

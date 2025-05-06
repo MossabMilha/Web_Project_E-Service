@@ -35,3 +35,79 @@ body{
     background: var(--color-gray-light);
     color: var(--color-primary-dark);
 }
+
+/*form */
+
+#deleteAssignmentForm {
+    max-width: 380px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+    border-radius: var(--border-radius-medium);
+    background-color: var(--color-white);
+}
+
+#deleteAssignmentForm .popup-img-top {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+#deleteAssignmentForm .content {
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    gap: 16px;
+}
+
+#deleteAssignmentForm .button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 0 1rem;
+}
+
+#deleteAssignmentForm .password-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#deleteAssignmentForm label[for="password"] {
+    font-size: 0.9em;
+}
+
+#deleteAssignmentForm input[name="password"] {
+    font-size: 0.9em;
+    border-radius: 0.25em;
+    padding: .25em .5em;
+    border: 1px solid black;
+    width: 100%;
+}
+
+#deleteAssignmentForm button[type="submit"],
+#deleteAssignmentForm button[type="button"] {
+    border-radius: var(--border-radius-smaller);
+    border: 1px solid #ff4646;
+    padding: .25em .5em;
+}
+
+#deleteAssignmentForm button[type="submit"] {
+    width: 75%;
+    color: var(--color-white);
+    background-color: #ff4433;
+}
+
+#deleteAssignmentForm button[type="submit"]:hover {
+    background-color: #da2e1e;
+}
+
+#deleteAssignmentForm button[type="button"] {
+    width: 25%;
+    color: #ff4433;
+}

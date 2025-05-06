@@ -41,19 +41,19 @@
 
                     <div class="detail-row">
                         <span class="detail-label">Phone</span>
-                        <span class="detail-value">{{auth()->user()->phone ?: 'N/A'}}</span>
+                        <span class="detail-value">{{auth()->user()->phone ?? 'N/A'}}</span>
                     </div>
 
                     @if(auth()->user()->role == 'professor' || auth()->user()->role == 'vacataire')
                         <div class="detail-row">
                             <span class="detail-label">Specialization</span>
-                            <span class="detail-value">{{auth()->user()->speciality ?: 'N/A'}}</span>
+                            <span class="detail-value">{{auth()->user()->speciality ?? 'N/A'}}</span>
                         </div>
                     @endif
 
                     <div class="detail-row">
                         <span class="detail-label">Member Since</span>
-                        <span class="detail-value">{{auth()->user()->created_at->format('M d, Y')}}</span>
+                        <span class="detail-value">{{auth()->user()->created_at ? auth()->user()->created_at->format('M d, Y') : "N/A"}}</span>
                     </div>
                 </div>
 

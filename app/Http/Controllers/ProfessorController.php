@@ -102,6 +102,7 @@ class ProfessorController extends Controller
                 return [
                     'professor_id' => $professor_id,
                     'unit_id' => $unit_id,
+                    'status' => 'approved',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -247,21 +248,22 @@ class ProfessorController extends Controller
             Assignment::updateOrInsert(
                 [
                     'professor_id' => $unit_request->professor_id,
-                    'unit_id' => $unit_request->unit_id
+                    'unit_id' => $unit_request->unit_id,
                 ],
                 [
+                    'status' => 'approved',
                     'created_at' => now(),
-                    'updated_at' => now()
+                    'updated_at' => now(),
                 ]
             );
+            $unit_request->save();
+            return redirect()->back()->with('success', 'Unit request approved and assignment created.');
         } elseif ($action === 'reject') {
             $unit_request->status = 'rejected';
+            $unit_request->save();
+            return redirect()->back()->with('info', 'Unit request rejected.');
         }
-
-        $unit_request->reviewed_at = now();
-        $unit_request->save();
-
-        return redirect()->back()->with('success', "Request has been {$action}ed.");
+        return redirect()->back()->with('error', 'Invalid action.');
     }
 
 }

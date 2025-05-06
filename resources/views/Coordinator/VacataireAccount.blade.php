@@ -4,7 +4,9 @@
         @vite([
         'resources/js/vacataire-account.js',
         'resources/css/Coordinator/vacataire-account.css',
-        'resources/js/components/user-role-styling.js'
+        'resources/js/components/user-role-styling.js',
+        'resources/css/components/popup.css',
+        'resources/js/components/popup.js',
         ])
     </x-slot:head>
 
@@ -56,10 +58,13 @@
                         <td><div class="td-wrapper"> {{ $user->updated_at }}</div></td>
                         <td>
                             <div class="td-wrapper">
-                                <a href="{{ route('VacataireAccount.user',['id' => $user->id]) }}">
+{{--                                <a href="{{ route('VacataireAccount.user',['id' => $user->id]) }}">--}}
 
-                                </a>
-                                <button onclick="document.getElementById('delete-user').style.display='block'; document.getElementById('user_id').value = {{$user->id}};">
+{{--                                </a>--}}
+{{--                                <button onclick="document.getElementById('delete-user').style.display='block'; document.getElementById('user_id').value = {{$user->id}};">--}}
+{{--                                    <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em" fill="var(--color-danger)" />--}}
+{{--                                </button>--}}
+                                <button type="button" class="open-popup-btn">
                                     <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em" fill="var(--color-danger)" />
                                 </button>
                                 <a href="{{ route('export.users', ['id' => $user->id]) }}">
@@ -70,14 +75,14 @@
                     </tr>
                 @endforeach
             </table>
-            <form id="delete-user" style="display:none;" method="POST" action="{{ route('VacataireAccount.deleteVacataire') }}">
-                @csrf
-                @method('DELETE')
-                <h3>Enter your password to confirm deletion:</h3>
-                <label>Password : </label><input type="password" name="password" placeholder="Password" required><br>
-                <input type="hidden" name="user_id" id="user_id" value="">
-                <button type="submit">Confirm Delete</button>
-            </form>
+{{--            <form id="delete-user" method="POST" action="{{ route('VacataireAccount.deleteVacataire') }}">--}}
+{{--                @csrf--}}
+{{--                @method('DELETE')--}}
+{{--                <h3>Enter your password to confirm deletion:</h3>--}}
+{{--                <label>Password : </label><input type="password" name="password" placeholder="Password" required><br>--}}
+{{--                <input type="hidden" name="user_id" id="user_id" value="">--}}
+{{--                <button type="submit">Confirm Delete</button>--}}
+{{--            </form>--}}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -88,6 +93,27 @@
                 </div>
             @endif
         </x-table>
+
+        <x-popup>
+            <form id="deleteAssignmentForm" method="POST" action="{{ route('VacataireAccount.deleteVacataire') }}">
+                @csrf
+                @method('DELETE')
+                <img src="{{asset('png/warning.jpg')}}" alt="alert image" class="popup-img-top">
+                <div class="content">
+                    <p class="delete-message">Enter your password to confirm deletion:</p>
+                    <div class="password-container">
+                        <label for="assignment-password">Password :</label>
+                        <input type="password" name="password" id="assignment-password" placeholder="Password" required>
+                    </div>
+                    <input type="hidden" name="user_id" id="user_id" value="">
+                </div>
+                <div class="button-container">
+                    <button type="submit">Delete Assignment</button>
+                    <button class="close-popup-btn" type="button">Cancel</button>
+                </div>
+            </form>
+        </x-popup>
+
     </div>
 </body>
 </x-layout>

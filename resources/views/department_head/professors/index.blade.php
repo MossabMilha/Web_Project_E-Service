@@ -72,7 +72,7 @@
                         <td><div class="td-wrapper">{{ $professor->specialization }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->created_at }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->updated_at }}</div></td>
-                        <td><div  class="td-wrapper toggle-units">more</div></td>
+                        <td><div  class="td-wrapper toggle-units">{{$units->isNotEmpty() ? 'more' : 'empty' }} </div></td>
                     </tr>
 
                     <!-- Nested Units Table -->
