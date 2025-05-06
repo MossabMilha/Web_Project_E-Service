@@ -1,17 +1,13 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/js/AdminAddUser.js', 'resources/css/AddUser.css'])
-    <title>Add User</title>
-    <style>
-        #specWrapper {
-            display: none;
-        }
-    </style>
-</head>
-<body>
+<x-layout title="Add User">
+    <x-slot:head>
+        @vite([
+            'resources/js/AdminAddUser.js',
+            'resources/css/AddUser.css'
+        ])
+    </x-slot:head>
+
+    <x-nav/>
+
     <div class="main-container">
         <h1>Add User Information</h1>
 
@@ -90,8 +86,9 @@
             </div>
         </form>
     </div>
+
     <script>
         const specializationsData = @json($specializations);
     </script>
-</body>
-</html>
+
+</x-layout>

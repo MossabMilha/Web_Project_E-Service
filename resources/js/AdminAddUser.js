@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const addUserForm = document.querySelector('.add-user-form');
     const dropdown = document.querySelector('.role-dropdown');
     const selected = dropdown.querySelector('.selected');
     const dropdownOptions = dropdown.querySelector('.dropdown-options');
@@ -43,9 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Show or hide specialization based on the role
             if (selectedValue !== 'admin') {
-                specWrapper.style.display = 'block';
+                specWrapper.style.display = 'flex';
+                addUserForm.style.gap = '1rem';
             } else {
                 specWrapper.style.display = 'none';
+                addUserForm.style.gap = '2rem';
             }
 
 
@@ -85,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (selectedRole === 'coordinator') {
-                filiereWrapper.style.display = 'block';
+                filiereWrapper.style.display = 'flex';
             }
         } else {
             filiereWrapper.style.display = 'none';
