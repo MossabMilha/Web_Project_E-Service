@@ -68,19 +68,23 @@
     --bg-gradient-2: linear-gradient(-45deg, rgba(153,125,255,1) 0%, rgba(255,204,242,1) 100%);
     --bg-gradient-light: linear-gradient(-45deg, #adcaff 0%, rgb(201, 187, 255) 50%, rgb(255, 215, 245) 100%);
 
-    --border-radius-larger: 32px;
-    --border-radius-large: 16px;
-    --border-radius-medium: 12px;
-    --border-radius-small: 8px;
-    --border-radius-smaller: 4px;
+    --border-radius-larger: 2rem;
+    --border-radius-large: 1rem;
+    --border-radius-medium: 0.75rem;
+    --border-radius-small: 0.5rem;
+    --border-radius-smaller: 0.25rem;
 
-    --font-size-2xs: 8px;
-    --font-size-xs: 12px;
-    --font-size-sm: 16px;
-    --font-size-md: 20px;
-    --font-size-lg: 24px;
-    --font-size-xl: 32px;
-    --font-size-2xl: 48px;
+    --font-size-3xs: 0.375rem;
+    --font-size-2xs: 0.625rem;
+    --font-size-xs: 0.7rem;
+    --font-size-sm: 0.75rem;
+    --font-size-md: 0.75rem;
+    --font-size-lg: 0.9rem;
+    --font-size-xl: 1rem;
+    --font-size-2xl: 2.25rem;
+    --font-size-3xl: 3rem;
+    --font-size-4xl: 3.75rem;
+    --font-size-5xl: 4.5rem;
 
     --card-width: 480px;
     --card-height: 360px;
@@ -212,7 +216,8 @@ body{
         --card-date-font-size: var(--font-size-xs);
         --identity-container-height: 180px;
     }
-    .info-card:last-child{
+
+    .info-card:last-child {
         width: 100%;
     }
 }
@@ -225,7 +230,6 @@ body{
         --card-title-font-size: var(--font-size-sm);
         --card-date-font-size: var(--font-size-sm);
     }
-
 }
 
 /* Large devices (lg - ≥1024px) */
@@ -235,7 +239,8 @@ body{
         --card-width: calc((var(--container-width) - var(--gap)) / 2);
         --card-title-font-size: var(--font-size-sm);
     }
-    .info-card table td{
+
+    .info-card table td {
         text-align: left;
     }
 }

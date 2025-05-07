@@ -1,4 +1,8 @@
 /* Chip System */
+:root {
+    --chip-text: 0.8rem;
+}
+
 .chip {
     --chip-color: var(--color-gray-light);
     --text-color: var(--color-gray-dark);
@@ -7,38 +11,40 @@
 
     display: inline-flex;
     align-items: center;
-    padding: 0.25rem 0.75rem 0.25rem 2rem;
+    padding: 0.2rem 0.6rem 0.2rem 1.4rem;  /* tighter padding */
     border-radius: 100px;
-    font-size: 0.8rem;
     font-weight: 500;
     position: relative;
     background-color: var(--chip-color);
     color: var(--text-color);
-    /*margin: 0.25rem;*/
+    white-space: nowrap;
 }
 
-/* Icon using ::before pseudo-element */
 .chip::before {
     content: '';
     position: absolute;
-    left: 0.65rem;
-    width: 0.6rem;
-    height: 0.6rem;
+    left: 0.4rem;
+    width: 0.45rem;
+    height: 0.45rem;
     border-radius: 50%;
     background-color: var(--icon-color);
+}
+
+.chip span{
+    font-size: var(--chip-text);
 }
 
 /* Status Variants */
 .chip[data-status="overload"],
 .chip[data-status="rejected"],
-.chip[data-status="unassigned"]{
+.chip[data-status="unassigned"] {
     --chip-color: var(--color-danger-lighter);
     --text-color: var(--color-danger-dark);
     --icon-color: var(--color-danger-light);
 }
 
 .chip[data-status="underload"],
-.chip[data-status="pending"]{
+.chip[data-status="pending"] {
     --chip-color: var(--color-warning-lighter);
     --text-color: var(--color-warning-dark);
     --icon-color: var(--color-warning-light);
@@ -46,8 +52,70 @@
 
 .chip[data-status="ok"],
 .chip[data-status="approved"],
-.chip[data-status="assigned"]{
+.chip[data-status="assigned"] {
     --chip-color: var(--color-success-lighter);
     --text-color: var(--color-success-dark);
     --icon-color: var(--color-success-light);
+}
+
+/* Breakpoints */
+
+/* ≤480px (small mobile) */
+@media (max-width: 480px) {
+    :root {
+        --chip-text: 0.5rem;
+    }
+    .chip {
+        padding: 0.15rem 0.5rem 0.15rem 1.2rem;
+    }
+    .chip::before {
+        left: 0.35rem;
+        width: 0.4rem;
+        height: 0.4rem;
+    }
+}
+
+/* ≤768px (mobile/tablet) */
+@media (max-width: 768px) {
+    :root {
+        --chip-text: 0.65rem;
+    }
+    .chip {
+        padding: 0.18rem 0.55rem 0.18rem 1.3rem;
+    }
+    .chip::before {
+        left: 0.38rem;
+        width: 0.42rem;
+        height: 0.42rem;
+    }
+}
+
+/* ≤1024px (tablet/laptop) */
+@media (max-width: 1024px) {
+    :root {
+        --chip-text: 0.7rem;
+    }
+    .chip {
+        padding: 0.2rem 0.6rem 0.2rem 1.4rem;
+    }
+    .chip::before {
+        left: 0.4rem;
+        width: 0.45rem;
+        height: 0.45rem;
+    }
+}
+
+/* ≥1440px (large screens) */
+@media (min-width: 1440px) {
+    :root {
+        --chip-text: 0.8rem;
+    }
+    .chip {
+        padding: 0.22rem 0.7rem 0.22rem 1.6rem;
+    }
+    .chip::before {
+        left: 0.45rem;
+        width: 0.5rem;
+        height: 0.5rem;
+    }
 }

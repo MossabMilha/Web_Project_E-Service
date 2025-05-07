@@ -9,7 +9,7 @@
             'resources/js/home.js',
             'resources/js/components/user-role-styling.js'
         ])
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="//unpkg.com/alpinejs" defer></script>
     </x-slot:head>
 
     {{--    nav bar --}}
@@ -86,35 +86,51 @@
                     $totalTUs = App\Models\TeachingUnit::count() ?? 'N/A';
                     $assignedTUs = App\Models\TeachingUnit::whereHas('assignments')->count() ?? 'N/A';
                     $totalProfs = App\Models\User::where('role', 'professor')->count() ?? 'N/A';
-                    $flaggedProfessors = $flaggedProfessors ?? 2;
+                    $flaggedCount = DB::table('users as p')
+                        ->join('workload_profiles as wp', 'wp.type', '=', 'p.role')
+                        ->leftJoin('assignments as a', 'a.professor_id', '=', 'p.id')
+                        ->leftJoin('teaching_units as u', 'u.id', '=', 'a.unit_id')
+                        ->where('p.role', 'professor')
+                        ->selectRaw("p.id, COALESCE(SUM(u.hours),0) as total_hours, wp.min_hours, wp.max_hours")
+                        ->groupBy('p.id', 'wp.min_hours', 'wp.max_hours')
+                        ->havingRaw('total_hours < wp.min_hours OR total_hours > wp.max_hours')
+                        ->count();
                 @endphp
 
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
-                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                        <div class="flex-3/4 flex flex-col justify-around text-blue-600">
                             <h5 class="text-2xl">Total Units</h5>
                             <span class="text-4xl">{{$totalTUs}}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end">
-{{--                            <img style="height: 48px;" src="{{asset('png/total-users.png')}}" alt="dead image">--}}
+                        <div class="flex-1/4 flex items-end justify-end">
                         </div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
-                        <div class="flex-3/5 flex flex-col gap-y-1.5 justify-around text-blue-600">
+                        <div class="flex-3/4 flex flex-col gap-y-1.5 justify-around text-blue-600">
                             <h5 class="text-2xl">Assigned Units</h5>
                             <span class="text-4xl">{{$assignedTUs}}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end">
-{{--                            <img style="height: 48px;" src="{{asset('png/sessions.png')}}" alt="dead image">--}}
+                        <div class="flex-1/4 flex items-end justify-end">
+                            {{--<img style="height: 48px;" src="{{asset('png/sessions.png')}}" alt="dead image">--}}
                         </div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
-                        <div class="flex-3/5 flex flex-col justify-around text-blue-600">
+                        <div class="flex-3/4 flex flex-col justify-around text-blue-600">
                             <h5 class="text-2xl">Total Professors</h5>
                             <span class="text-4xl">{{$totalProfs}}</span>
                         </div>
-                        <div class="flex-2/5 flex items-end justify-end">
-{{--                            <img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image">--}}
+                        <div class="flex-1/4 flex items-end justify-end">
+                            <img style="height: 48px;" src="{{asset('png/total-users.png')}}" alt="dead image">
+                        </div>
+                    </div>
+                    <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
+                        <div class="flex-3/4 flex flex-col justify-around text-blue-600">
+                            <h5 class="text-2xl">Flagged Professors</h5>
+                            <span class="text-4xl">{{$flaggedCount}}</span>
+                        </div>
+                        <div class="flex-1/4 flex items-end justify-end">
+                            {{-- <img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image">--}}
                         </div>
                     </div>
                 </div>

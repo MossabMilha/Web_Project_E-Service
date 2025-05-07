@@ -48,6 +48,9 @@ body{
 
 /* Selected units container - scrollable */
 .requested-units-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     max-height: 178px;
     overflow-y: auto;
     border: 1px solid #ddd;
@@ -65,7 +68,6 @@ body{
     padding: 0.5rem;
     background: white;
     border-radius: 4px;
-    margin-bottom: 0.5rem;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 

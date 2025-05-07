@@ -1,9 +1,51 @@
 .table-container table {
+    --table-font-size: var(--font-size-xs);
+    --td-wrapper-padding : 0.75rem 0.5em;
+
     width: 100%;
     border-radius: var(--border-radius-smaller);
-    background-color: var(--color-white);
-    border: 1px solid var(--color-primary);
-    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0;
+    /*border: 1px solid var(--color-primary);*/
+    /*overflow: hidden;*/
+}
+
+.table-container table tr{
+    margin: 0;
+}
+
+/* Round ONLY these cells */
+.table-container table tr:first-child th:first-child {
+    border-top-left-radius: var(--border-radius-smaller);
+}
+.table-container table tr:first-child th:last-child {
+    border-top-right-radius: var(--border-radius-smaller);
+}
+.table-container table tr:last-child td:first-child {
+    border-bottom-left-radius: var(--border-radius-smaller);
+}
+.table-container table tr:last-child td:last-child {
+    border-bottom-right-radius: var(--border-radius-smaller);
+}
+
+/* Remove double borders at the edges */
+.table-container table tr:first-child th {
+    border-top: none;
+}
+.table-container table tr:last-child td {
+    border-bottom: none;
+}
+.table-container table tr td:first-child,
+.table-container table tr th:first-child {
+    border-left: none;
+}
+.table-container table tr td:last-child,
+.table-container table tr th:last-child {
+    border-right: none;
+}
+
+.table-container table tr:nth-child(2) td {
+    border-top: none;
 }
 
 .table-container table tr:hover {
@@ -12,27 +54,33 @@
 
 .table-container table th {
     font-weight: 600;
-    padding: 0.75em 0.5em;
     background-color: var(--color-secondary);
     border-bottom: 2px solid var(--color-primary);
 }
 
 .table-container table .th-wrapper {
-    font-size: 0.9em;
+    font-size: var(--table-font-size);
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0.75em 0.5em;
     gap: 0.5em;
     color: var(--color-primary);
 }
 
 .table-container table td {
-    padding: 0.75em 0.5em;
+    /*padding: 0.75em 0.5em;*/
+    background: var(--color-white);
     border: 1px solid var(--color-primary-lighter);
 }
 
+.table-container table td .th-wrapper {
+    display: none;
+}
+
 .table-container table .td-wrapper {
-    font-size: 0.9em;
+    font-size: var(--table-font-size);
+    padding: var(--td-wrapper-padding);
     gap: 0.5em;
     display: flex;
     align-items: center;
@@ -80,4 +128,86 @@
 .pagination .prev-btn.disabled,
 .pagination .next-btn.disabled{
     color: var(--color-gray);
+}
+
+/* Extra small devices (portrait phones, less than 640px) */
+@media (max-width: 639.98px) {
+    .table-container table {
+        --table-font-size: var(--font-size-xs);
+    }
+
+    .table-container table td .th-wrapper {
+        display: flex;
+    }
+}
+
+/* Small devices (landscape phones, 640px and up) */
+@media (min-width: 640px) and (max-width: 767.98px) {
+    .table-container table {
+        --table-font-size: var(--font-size-sm);
+    }
+
+    .table-container table tr:first-of-type {
+        display: none;
+    }
+
+    .table-container table tr {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+    }
+
+    .table-container table .wrappers{
+        height: 100%;
+        display: flex;
+        gap: 1rem;
+    }
+
+    .table-container table .td-wrapper {
+        display: flex;
+    }
+
+    .table-container table .wrappers .th-wrapper {
+        width: 25%;
+        display: flex;
+        background-color: var(--color-secondary);
+        border-right: 2px solid var(--color-primary);
+    }
+
+    /* Round ONLY these cells */
+    .table-container table tr:nth-child(2) td:first-child {
+        border-top-left-radius: var(--border-radius-smaller);
+    }
+    .table-container table tr:nth-child(2) td:last-child {
+        border-top-right-radius: var(--border-radius-smaller);
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+    .table-container table {
+        --table-font-size: var(--font-size-md);
+        --td-wrapper-padding: 0.5rem 0.25rem;
+    }
+}
+
+/* Large devices (laptops, 1024px and up) */
+@media (min-width: 1024px) and (max-width: 1279.98px) {
+    .table-container table {
+        --table-font-size: var(--font-size-lg);
+
+    }
+}
+
+/* Extra large devices (desktops, 1280px and up) */
+@media (min-width: 1280px) and (max-width: 1535.98px) {
+    .table-container table {
+        --table-font-size: var(--font-size-xl);
+    }
+}
+
+/* 2XL devices (large desktops, 1536px and up) */
+@media (min-width: 1536px) {
+
 }
