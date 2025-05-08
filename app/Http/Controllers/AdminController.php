@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\LogsExport;
 use App\Models\Assignment;
 use App\Models\Department;
+use App\Models\Filiere;
 use App\Models\LogModel;
 use App\Models\Specialization;
 use App\Models\User;
@@ -123,31 +124,54 @@ class AdminController extends Controller
             'specialization' => $request->role != 'admin' ? 'nullable|exists:specializations,id' : 'nullable',
             'filiere' => 'nullable',
         ]);
-        dd($request->all());
-        // Check if the role is department_head
-        if ($request->role == 'department_head') {
-            // Fetch the department associated with the selected specialization
+        $password ="";
+
+        if($request->role == 'admin'){
+            $user = new User([
+                'name'=>$validatedData['name'],
+                'email'=>$validatedData['email'],
+                'phone'=>$validatedData['phone'],
+                'role'=>$validatedData['role'],
+                'specialization'=>null
+            ]);
+            $request->merge(['specialization' => null]);
+        }elseif ($request->role == 'department_head') {
             $specialization = Specialization::find($request->specialization);
 
             if ($specialization && $specialization->department_id) {
-                // Get the department associated with the specialization
+
                 $department = Department::where('id', $specialization->department_id)->first();
 
                 if ($department && $department->head_id !== null) {
-
-                    return redirect()->back()->withErrors([
-                        'specialization' => 'This department already has a department head.',
-                    ]);
+                    return redirect()->back()->withErrors(['specialization' => 'This department already has a department head.',]);
                 }
             }
 
-        } elseif ($request->role == 'admin') {
-            $request->merge(['specialization' => null]);
-        }else{
+        }elseif ($request->role == 'coordinator') {
+            $specialization = Specialization::find($request->specialization);
+            $filliere = $request->filiere;
+            if ($specialization && $specialization->department_id) {
+                $matchingFilières = Filiere::where('name', 'like', $filliere . '%')
+                    ->where('department_id', $specialization->department_id)
+                    ->get();
+                $hasCoordinator = $matchingFilières->contains(function ($f) {
+                    return !is_null($f->coordinator_id);
+                });
+                if ($hasCoordinator) {
+                    return redirect()->back()->withErrors(['filiere' => 'This filiere already has a coordinator.']);
+                }
+
+
+            }
 
         }
 
-        $user = new User($validatedData);
+//        }else{
+//
+//        }
+
+
+
         $user->password = Hash::make('test'); // Default password (should be changed later)
         $user->save();
         if ($request->role == 'department_head') {

@@ -137,6 +137,37 @@ class User extends Authenticatable{
         return null; // Return null instead of false
     }
 
+    public static function generateSecurePassword(): string
+    {
+        $length = rand(8, 12); // Random length between 8 and 12
+
+        $upper = chr(rand(65, 90)); // A-Z
+        $lower = chr(rand(97, 122)); // a-z
+        $number = chr(rand(48, 57)); // 0-9
+        $special = chr(rand(33, 47)); // Special characters like ! " # etc.
+
+        // Fill the rest of the password with random characters from all types
+        $all = array_merge(
+            range('a', 'z'),
+            range('A', 'Z'),
+            range('0', '9'),
+            str_split('!@#$%^&*()_+=-{}[]|:;<>,.?')
+        );
+
+        $remainingLength = $length - 4;
+        $rest = [];
+
+        for ($i = 0; $i < $remainingLength; $i++) {
+            $rest[] = $all[array_rand($all)];
+        }
+
+        // Combine all characters and shuffle
+        $passwordArray = array_merge([$upper, $lower, $number, $special], $rest);
+        shuffle($passwordArray);
+
+        return implode('', $passwordArray);
+    }
+
     public static function unassignedVacataires()
     {
         return self::where('role', 'vacataire')
