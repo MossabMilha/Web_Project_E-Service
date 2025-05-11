@@ -8,14 +8,14 @@
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-*{
+* {
     font-family: 'Poppins', sans-serif;
 }
 
-:root{
+:root {
     --color-gray-lighter: #f8fbff;
     --color-gray-light: #e9ecef;
     --color-gray: #bbbcbe;
@@ -34,11 +34,11 @@
     --color-secondary-dark: #ff96e4;
     --color-secondary-darker: #e865c8;
 
-    --color-tirnary-lighter : #ebe7ff;
-    --color-tirnary-light : #cbc4fa;
-    --color-tirnary : #997DFFFF;
+    --color-tertiary-lighter: #ebe7ff;
+    --color-tertiary-light: #cbc4fa;
+    --color-tertiary: #997DFFFF;
 
-    --color-tirnary-darker : #3516a1;
+    --color-tertiary-darker: #3516a1;
 
     --color-success-lighter: #9effbb;
     --color-success-light: #19d96b;
@@ -64,8 +64,8 @@
     --color-danger-lighter: #ffb4b4;
 
 
-    --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153,125,255,1) 50%, rgba(255,204,242,1) 100%);
-    --bg-gradient-2: linear-gradient(-45deg, rgba(153,125,255,1) 0%, rgba(255,204,242,1) 100%);
+    --bg-gradient: linear-gradient(-45deg, #2a54ffff 0%, rgba(153, 125, 255, 1) 50%, rgba(255, 204, 242, 1) 100%);
+    --bg-gradient-2: linear-gradient(-45deg, rgba(153, 125, 255, 1) 0%, rgba(255, 204, 242, 1) 100%);
     --bg-gradient-light: linear-gradient(-45deg, #adcaff 0%, rgb(201, 187, 255) 50%, rgb(255, 215, 245) 100%);
 
     --border-radius-larger: 2rem;
@@ -86,21 +86,20 @@
     --font-size-4xl: 3.75rem;
     --font-size-5xl: 4.5rem;
 
-    --card-width: 480px;
     --card-height: 360px;
     --card-title-font-size: var(--font-size-sm);
     --card-date-font-size: var(--font-size-xs);
     --container-width: 320px;
-    --gap : 16px;
-    --gap-x : 16px;
-    --gap-y : 8px;
+    --gap: 16px;
+    --gap-x: 16px;
+    --gap-y: 8px;
 
     --identity-container-height: 350px;
     --profile-image-height: 250px;
 
 }
 
-body{
+body {
     /*background-color: #0a0a0a;*/
 }
 
@@ -108,21 +107,21 @@ body{
 /*card*/
 /*===============*/
 
-.info-card{
+.info-card {
     border: 1px solid var(--color-primary-light);
     border-radius: var(--border-radius-medium);
     background-color: var(--color-primary-light);
     /*background: var(--bg-gradient);*/
     /*flex-grow: 1;*/
     box-sizing: border-box;
-    width: var(--card-width);
+    width: 100%;
     padding: 12px;
     /*min-height: var(--card-height);*/
     display: flex;
     flex-direction: column;
 }
 
-.info-card .title{
+.info-card .title {
     padding: 8px;
     font-size: var(--card-title-font-size);
     margin-bottom: 8px;
@@ -131,33 +130,34 @@ body{
 
 }
 
-.info-card .table-container{
+.info-card .table-container {
     flex-grow: 1;
     /*background-color: var(--color-primary);*/
 }
 
-.info-card table{
+.info-card table {
     width: 100%;
 }
 
-.info-card table .row{
+.info-card table .row {
     border: 1px solid var(--color-primary-darker);
 }
 
-.info-card table th ,
-.info-card table td{
+.info-card table th,
+.info-card table td {
     font-size: var(--card-date-font-size);
-    padding: 4px 6px ;
+    padding: 4px 6px;
 }
 
-.info-card table th{
+.info-card table th {
     font-weight: normal;
     color: var(--color-gray);
 }
 
-.info-card table td{
+.info-card table td {
     text-align: right;
 }
+
 /*===============*/
 /*profile section*/
 /*===============*/
@@ -180,7 +180,7 @@ body{
     padding: 8px;
 }
 
-.identity-section .img-container{
+.identity-section .img-container {
     margin: 8px;
     height: var(--profile-image-height);
     width: auto;
@@ -195,10 +195,10 @@ body{
     flex-grow: .7;
 }
 
-.identity-section .profile-img{
+.identity-section .profile-img {
 }
 
-.info-section{
+.info-section {
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -211,10 +211,13 @@ body{
 @media (min-width: 640px) {
     :root {
         --container-width: 540px;
-        --card-width: calc((var(--container-width) - var(--gap)) / 2);
         --card-title-font-size: var(--font-size-xs);
         --card-date-font-size: var(--font-size-xs);
         --identity-container-height: 180px;
+    }
+
+    .info-card {
+        width: calc((100% - var(--gap)) / 2);
     }
 
     .info-card:last-child {
@@ -226,7 +229,6 @@ body{
 @media (min-width: 768px) {
     :root {
         --container-width: 720px;
-        --card-width: calc((var(--container-width) - var(--gap)) / 2);
         --card-title-font-size: var(--font-size-sm);
         --card-date-font-size: var(--font-size-sm);
     }
@@ -236,7 +238,6 @@ body{
 @media (min-width: 1024px) {
     :root {
         --container-width: 960px;
-        --card-width: calc((var(--container-width) - var(--gap)) / 2);
         --card-title-font-size: var(--font-size-sm);
     }
 
@@ -249,7 +250,6 @@ body{
 @media (min-width: 1280px) {
     :root {
         --container-width: 1140px;
-        --card-width: calc((var(--container-width) - var(--gap)) / 2);
     }
 }
 
@@ -257,6 +257,5 @@ body{
 @media (min-width: 1536px) {
     :root {
         --container-width: 1320px;
-        --card-width: calc((var(--container-width) - var(--gap)) / 2);
     }
 }

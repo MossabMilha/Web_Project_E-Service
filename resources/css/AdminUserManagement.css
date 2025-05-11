@@ -1,8 +1,8 @@
-body{
+body {
     background-color: var(--color-primary);
 }
 
-.main-container{
+.main-container {
     max-width: var(--container-width);
     border-radius: var(--border-radius-small);
     margin-inline: auto;
@@ -11,27 +11,38 @@ body{
     flex-direction: column;
 }
 
-.search-wrapper{
+/* Search wrapper base styles */
+.search-wrapper {
     border-radius: var(--border-radius-small);
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    gap: 1rem;
 }
 
-.search-wrapper .search-form{
+.search-wrapper .search-form {
     display: flex;
     justify-content: start;
     gap: var(--gap);
     width: 100%;
 }
 
-.search-wrapper .search-form .search-bar{
+/* Search form */
+.search-wrapper .search-form {
+    display: flex;
+    justify-content: start;
+    gap: var(--gap);
+    width: 100%;
+}
+
+.search-wrapper .search-form .search-bar {
     display: flex;
     border-radius: .25em;
 }
 
-.search-wrapper .search-form input{
+/* Search input */
+.search-wrapper .search-form input {
     background-color: var(--color-white);
     border-radius: var(--border-radius-smaller) 0 0 var(--border-radius-smaller);
     padding: .5em;
@@ -47,50 +58,45 @@ body{
     outline: 2px solid var(--color-secondary-dark);
 }
 
-.search-wrapper .search-form .submit-btn{
+/* Submit button */
+.search-wrapper .search-form .submit-btn {
     background-color: var(--color-secondary-dark);
     border-radius: 0 .25em .25em 0;
     padding: .5em;
 }
 
-.search-wrapper .search-form .submit-btn:hover{
+.search-wrapper .search-form .submit-btn:hover {
     background-color: var(--color-secondary-darker);
 }
 
-.search-wrapper .search-form .dropdown{
+/* Dropdown */
+.search-wrapper .search-form .dropdown {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: .9em;
     min-width: 150px;
-    color: var(--color-white);
-    background-color: var(--color-tirnary);
+    color: var(--color-primary);
+    background-color: var(--color-white);
     border-radius: var(--border-radius-smaller);
 }
 
-.search-wrapper .search-form .dropdown:hover{
-    border-radius: var(--border-radius-smaller) var(--border-radius-smaller) 0 0 ;
-}
-
-.search-wrapper .search-form .dropdown:hover .dropdown-content{
-    /*border-top: 2px solid var(--color-secondary);*/
-}
-
-.search-wrapper .search-form .dropdown-content{
+.search-wrapper .search-form .dropdown-content {
     display: none;
     position: absolute;
     overflow: hidden;
     font-size: .9em;
-    background-color: var(--color-tirnary-light);
-    border-radius: 0 0 var(--border-radius-smaller) var(--border-radius-smaller);
+    background-color: var(--color-white);
+    /*border: 2px solid var(--color-secondary);*/
+    border-radius: var(--border-radius-smaller);
     min-width: 150px;
     top: 20px;
     z-index: 1;
 }
 
 .dropdown-content a {
-    color: var(--color-tirnary-darker);
+    color: var(--color-primary);
     text-decoration: none;
     display: block;
     font-size: 1.1em;
@@ -98,10 +104,11 @@ body{
 }
 
 .dropdown-content a:hover {
-    background-color: var(--color-tirnary-lighter);
+    background-color: var(--color-primary-lighter);
 }
 
-.search-wrapper .add-btn{
+/* Add button */
+.search-wrapper .add-btn {
     min-width: 150px;
     font-size: 0.9em;
     border: none;
@@ -112,14 +119,13 @@ body{
     cursor: pointer;
 }
 
-.search-wrapper .add-btn:hover{
+.search-wrapper .add-btn:hover {
     background-color: var(--color-gray-light);
     color: var(--color-primary-dark);
 }
 
-/*pagination*/
-
-.pagination{
+/* Pagination */
+.pagination {
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
@@ -127,57 +133,13 @@ body{
 }
 
 .pagination .prev-btn.disabled,
-.pagination .next-btn.disabled{
+.pagination .next-btn.disabled {
     color: var(--color-gray);
 }
 
-
-/* Extra Small (Phones) */
-@media (max-width: 575px) {
-    .login-container {
-        width: 80%;
-    }
-
-    .info-container {
-        width: 100%;
-    }
-
-    .img-container{
-        display: none;
-    }
-}
-
-@media (min-width: 576px) {
-    .login-container {
-        width: 80%;
-        height: 360px;
-    }
-}
-/* Small Devices (Tablets) */
-@media (min-width: 768px){
-    .login-container {
-        width: 640px;
-        height: 420px;
-    }
-}
-
-/* Medium Devices (Small Laptops) */
-@media (min-width: 1024px) {
-    .login-container {
-        width: 820px;
-        height: 480px;
-    }
-}
-
-/* Large Screens */
-@media (max-width: 1200px) {
-    .main-container {
-        width: 960px;
-    }
-}
 /*================================================================*/
 
-#deleteForm{
+#deleteForm {
     max-width: 380px;
     min-height: 420px;
     display: flex;
@@ -196,14 +158,14 @@ body{
     border-bottom: 1px solid #ddd; /* Optional: add a line below image */
 }
 
-#deleteForm .content{
+#deleteForm .content {
     display: flex;
     flex-direction: column;
     gap: 16px;
     padding: 0 16px;
 }
 
-#deleteForm .button-container{
+#deleteForm .button-container {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -212,18 +174,19 @@ body{
     padding: 16px;
 }
 
-#deleteForm .password-container{
+#deleteForm .password-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
-#deleteForm label[for="password"]{
+
+#deleteForm label[for="password"] {
     font-size: 0.9em;
     display: inline-block;
     align-content: center;
 }
 
-#deleteForm input[name="password"]{
+#deleteForm input[name="password"] {
     font-size: 0.9em;
     border-radius: 0.25em;
     padding: .25em .5em;
@@ -232,19 +195,156 @@ body{
 }
 
 #deleteForm button[type="submit"],
-#deleteForm button[type="button"]{
+#deleteForm button[type="button"] {
     width: 50%;
     border-radius: var(--border-radius-smaller);
     border: 1px solid #ff4646;
     padding: .25em .5em;
 }
-#deleteForm button[type="submit"]{
+
+#deleteForm button[type="submit"] {
     color: var(--color-white);
     background-color: #ff4433;
 }
-#deleteForm button[type="submit"]:hover{
+
+#deleteForm button[type="submit"]:hover {
     background-color: #da2e1e;
 }
+
 #deleteForm button[type="button"] {
     color: #ff4433;
+}
+
+/* Responsive table styles */
+.mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .users-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .user-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 1rem;
+        background: var(--color-gray-lighter);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-id {
+        font-weight: bold;
+        color: var(--color-primary);
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--color-gray-light);
+        font-size: 0.8em;
+    }
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+    .info-row .label {
+        font-weight: 600;
+        width: 120px;
+        color: var(--color-secondary-dark);
+        flex: .3;
+    }
+
+    .info-row .value {
+        flex: .7;
+        text-align: right;
+    }
+
+    .card-footer {
+        padding: 1rem;
+        background: var(--color-gray-lighter);
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .icons-wrapper {
+        gap: 1rem;
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .search-wrapper {
+        flex-direction: column;
+        align-items: normal;
+        gap: 1rem;
+    }
+
+    .search-wrapper .search-form {
+        flex-direction: column;
+        align-content: flex-start;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .search-wrapper .search-form .search-bar {
+        width: 100%;
+    }
+
+    .search-wrapper .search-form input {
+        width: 100%;
+    }
+
+    .search-wrapper .search-form .dropdown {
+        width: 100%;
+        min-width: 100%;
+        padding: .5em 0;
+    }
+
+    .search-wrapper .search-form .dropdown-content {
+        width: 100%;
+        min-width: 100%;
+    }
+
+    .search-wrapper .add-btn {
+        width: 100%;
+        min-width: 100%;
+    }
+}
+
+/* Medium devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .search-wrapper .search-form {
+        flex-wrap: wrap;
+    }
+
+    .search-wrapper .search-form .search-bar {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .search-wrapper .search-form .dropdown {
+        flex: 0 0 auto;
+    }
 }

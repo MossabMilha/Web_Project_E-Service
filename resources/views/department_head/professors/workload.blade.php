@@ -28,12 +28,6 @@
                         <div class="th-wrapper">Type</div>
                     </th>
                     <th>
-                        <div class="th-wrapper">Min Hours</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">Max Hours</div>
-                    </th>
-                    <th>
                         <div class="th-wrapper">Assigned Hours</div>
                     </th>
                     <th>
@@ -54,13 +48,9 @@
                             <div class="td-wrapper"> {{ $prof->role }}</div>
                         </td>
                         <td>
-                            <div class="td-wrapper"> {{ $prof->min_hours }}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper"> {{ $prof->max_hours }}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper" > {{ $prof->assigned_hours }}</div>
+                            <div class="td-wrapper" >
+                                {{ $prof->assigned_hours }}
+                            </div>
                         </td>
                         <td>
                             <div class="td-wrapper">

@@ -4,7 +4,7 @@ body{
     justify-content: center;
     align-content: start;
     height: 100vh;
-    background-color: var(--color-tirnary-lighter);
+    background-color: var(--color-tertiary-lighter);
 }
 
 .main-container{
@@ -70,7 +70,7 @@ body{
     font-size: .9em;
     min-width: 150px;
     color: var(--color-white);
-    background-color: var(--color-tirnary);
+    background-color: var(--color-tertiary);
     border-radius: var(--border-radius-smaller);
 }
 
@@ -87,7 +87,7 @@ body{
     position: absolute;
     overflow: hidden;
     font-size: .9em;
-    background-color: var(--color-tirnary-light);
+    background-color: var(--color-tertiary-light);
     border-radius: 0 0 var(--border-radius-smaller) var(--border-radius-smaller);
     min-width: 150px;
     top: 20px;
@@ -95,7 +95,7 @@ body{
 }
 
 .dropdown-content a {
-    color: var(--color-tirnary-darker);
+    color: var(--color-tertiary-darker);
     text-decoration: none;
     display: block;
     font-size: 1.1em;
@@ -103,7 +103,7 @@ body{
 }
 
 .dropdown-content a:hover {
-    background-color: var(--color-tirnary-lighter);
+    background-color: var(--color-tertiary-lighter);
 }
 
 .search-wrapper .add-btn{
@@ -155,7 +155,7 @@ body{
 
 .table-container table tr td:last-child svg{
     width: 1.25em;
-    fill: var(--color-tirnary);
+    fill: var(--color-tertiary);
 }
 /*pagination*/
 

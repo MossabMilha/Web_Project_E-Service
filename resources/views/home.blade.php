@@ -7,9 +7,9 @@
             'resources/css/components/card.css',
             // js files
             'resources/js/home.js',
-            'resources/js/components/user-role-styling.js'
+            'resources/js/components/user-role-styling.js',
         ])
-        <script src="//unpkg.com/alpinejs" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </x-slot:head>
 
     {{--    nav bar --}}
@@ -28,6 +28,11 @@
                     $totalUsers = App\Models\User::count();
                     $activeSessions = DB::table('sessions')->count();
                     $totalLogs = App\Models\LogModel::count();
+                    $loginData = App\Models\LogModel::where('action', 'login_success')
+                                            ->where('created_at', '>=', now()->subDays(8))
+                                            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                                            ->groupBy('date')
+                                            ->pluck('count')
                 @endphp
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
@@ -64,6 +69,9 @@
                     <div class="flex flex-col p-4 rounded-lg" style="background-color: var(--color-primary);">
                         <h5 class="text-2xl text-white mb-4">Daily Login Activity</h5>
                         <canvas class="rounded-md p-4" style="background-color: var(--color-white)" id="loginChart"></canvas>
+                        <script>
+                            const loginData = @json($loginData);
+                        </script>
                     </div>
                     <div class="p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <h5 class="text-2xl text-blue-600 mb-4">Recent Logs</h5>
@@ -136,7 +144,7 @@
                 </div>
             @endif
 
-            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md mb-2" style="background-color: var(--color-tirnary);">
+            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md mb-2" style="background-color: var(--color-tertiary);">
                 <h2 style="color: var(--color-white);" class="text-2xl font-semibold ">Academic Management Tools</h2>
                 <p  style="color: var(--color-white);">
                     Explore the features and services tailored to your role to manage academic tasks efficiently.

@@ -68,7 +68,7 @@
                         <td><div class="td-wrapper">{{ $professor->id }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->name }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->email }}</div></td>
-                        <td><div class="td-wrapper role">{{ $professor->role }}</div></td>
+                        <td><div class="td-wrapper"><div class="role"> {{ $professor->role }}</div></div></td>
                         <td><div class="td-wrapper">{{ $professor->specialization }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->created_at }}</div></td>
                         <td><div class="td-wrapper">{{ $professor->updated_at }}</div></td>

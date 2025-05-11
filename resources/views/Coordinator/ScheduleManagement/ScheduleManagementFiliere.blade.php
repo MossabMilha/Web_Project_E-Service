@@ -45,7 +45,7 @@
 
 
         <div class="schedule-container">
-            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md " style="background-color: var(--color-tirnary);">
+            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md " style="background-color: var(--color-tertiary);">
                 <h2 style="color: var(--color-white);" class="text-2xl font-semibold ">Semestre 1</h2>
             </div>
             @if($semester1Schedules->isNotEmpty())
@@ -58,7 +58,7 @@
         </div>
 
         <div class="schedule-container">
-            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md " style="background-color: var(--color-tirnary);">
+            <div class="flex flex-col gap-0.5 py-2 px-3 rounded-md " style="background-color: var(--color-tertiary);">
                 <h2 style="color: var(--color-white);" class="text-2xl font-semibold ">Semestre 2</h2>
             </div>
             @if($semester2Schedules->isNotEmpty())

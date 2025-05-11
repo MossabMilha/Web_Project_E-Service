@@ -11,8 +11,8 @@ for (const role of roles) {
             role.style.color = 'var(--color-secondary-darker)';
             break;
         case 'department_head':
-            role.style.backgroundColor = 'var(--color-tirnary-light)';
-            role.style.color = 'var(--color-tirnary-darker)';
+            role.style.backgroundColor = 'var(--color-tertiary-light)';
+            role.style.color = 'var(--color-tertiary-darker)';
             break;
         case 'vacataire':
             role.style.backgroundColor = 'var(--color-gray-light)';

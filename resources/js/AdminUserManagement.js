@@ -9,28 +9,34 @@ window.selectOption=function(option) {
     document.querySelector('.dropdown-content').classList.remove('active'); // Close dropdown
 }
 
-
 // search dropdown
 //------------------------------------------------------------------
 var dropdown = document.querySelector('.dropdown');
 var dropdownContent = document.querySelector('.dropdown-content');
+var isOpen = false;
 
-dropdown.addEventListener('mouseenter', function() {
+dropdown.addEventListener('click', function (e) {
+    e.stopPropagation();
+
     // Ensure dropdown is positioned correctly
     var dropdownPosition = dropdown.getBoundingClientRect();
 
-    dropdownContent.style.display = 'block';
-    dropdownContent.style.position = 'absolute';
-    dropdownContent.style.top = dropdownPosition.height + 'px';
-    dropdownContent.style.left = '0px';
+    if (!isOpen) {
+        dropdownContent.style.display = 'block';
+        dropdownContent.style.position = 'absolute';
+        dropdownContent.style.top = dropdownPosition.height + 8 + 'px';
+        dropdownContent.style.left = '0px';
+        isOpen = true;
+    } else {
+        dropdownContent.style.display = 'none';
+        isOpen = false;
+    }
 });
 
-dropdown.addEventListener('mouseleave', function() {
+// Close dropdown when clicking outside
+document.addEventListener('click', function () {
     dropdownContent.style.display = 'none';
-});
-
-dropdown.addEventListener('click', function() {
-    dropdownContent.style.display = 'none';
+    isOpen = false;
 });
 
 //Delete User
@@ -41,7 +47,7 @@ window.showDeleteUserSection = function (userId, userName) {
 
     deleteMsg.innerHTML = `You are about to delete the <strong>${userName}</strong> account with ID <strong>#${userId}</strong>. This action is irreversible. Are you sure you want to proceed?`;
 
-    // Correctly set the action to match your Laravel route
+    // Set the form's action URL using Laravel's route
     deleteForm.setAttribute('action', `/Admin/UserManagement/DeleteUser/${userId}`);
 }
 
