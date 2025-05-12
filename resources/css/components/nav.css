@@ -1,6 +1,7 @@
 @import url(../app.css);
 
 nav{
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -19,9 +20,60 @@ nav ul{
     gap: var(--gap-x);
 }
 
-nav ul li a:hover,
-nav .active-link
-{
-    color: var(--color-primary);
-    border-bottom: 2px solid var(--color-primary);
+.mobile-menu{
+    display: none;
+}
+
+
+@media screen and (min-width: 768px) {
+   .mobile-menu-button,
+   .mobile-menu{
+       display: none;
+   }
+    nav .desktop-menu ul li a:hover,
+    nav .desktop-menu .active-link
+    {
+        color: var(--color-primary);
+        border-bottom: 2px solid var(--color-primary);
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .mobile-menu-button{
+        display: block;
+    }
+    .desktop-menu{
+        display: none;
+    }
+
+    .mobile-menu.active{
+        display: block;
+        position: absolute;
+        z-index: 1000;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: var(--color-white);
+        box-shadow: 0 4px 12px rgba(42, 84, 255, 0.15);
+        width: 100%;
+    }
+
+    .mobile-menu.active ul{
+        display: block;
+    }
+
+    .mobile-menu.active ul li{
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid var(--color-secondary);
+        text-align: center;
+        font-size: 1.25em;
+    }
+
+    nav .mobile-menu ul li a:hover,
+    nav .mobile-menu .active-link
+    {
+        color: var(--color-primary);
+        border-bottom: none;
+    }
 }

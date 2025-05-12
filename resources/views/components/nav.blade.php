@@ -1,27 +1,155 @@
 {{--styled by resources/css/components/nav.css--}}
 <nav class="nav">
     <img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo">
-    <ul class="">
-        <li><x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link></li>
-        @if(auth()->user()->role == 'admin')
-            <li><x-nav-link href="{{route('UserManagement.search')}}" :active="request()->routeIs('UserManagement.search')">Users</x-nav-link></li>
-            <li><x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs</x-nav-link></li>
-        @elseif(auth()->user()->role == 'department_head')
-            <li><x-nav-link href="{{route('department-head.professors.index')}}" :active="request()->routeIs('department-head.professors.index')">Professors Units</x-nav-link></li>
-            <li><x-nav-link href="{{route('department-head.professors.unit.requests')}}" :active="request()->routeIs('department-head.professors.unit.requests')">Professors Requests</x-nav-link></li>
-            <li><x-nav-link href="{{route('department-head.workload.overview')}}" :active="request()->routeIs('department-head.workload.overview')">Workload</x-nav-link></li>
-        @elseif(auth()->user()->role == 'coordinator')
-            <li><x-nav-link href="{{route('Coordinator.teachingUnits')}}" :active="request()->routeIs('Coordinator.teachingUnits')">Units</x-nav-link></li>
-            <li><x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">Vacataires</x-nav-link></li>
-            <li><x-nav-link href="{{route('Coordinator.ScheduleManagement')}}" :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules</x-nav-link></li>
-        @elseif(auth()->user()->role == 'professor')
-            <li><x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}" :active="request()->routeIs('professor.units.request')">Units Requests</x-nav-link></li>
-        @elseif(auth()->user()->role == 'vacataire')
-            <li><x-nav-link href="{{route('Vacataire.assignedUnit')}}" :active="request()->routeIs('Vacataire.assignedUnit')">Units</x-nav-link></li>
-            <li><x-nav-link href="{{route('Vacataire.assessments')}}" :active="request()->routeIs('Vacataire.assessments')">Assessments</x-nav-link></li>
-        @endif
-    </ul>
-{{--    TODO: change the icons and the style--}}
+    <div class="desktop-menu">
+        <ul class="nav-links">
+            <li>
+                <x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link>
+            </li>
+            @if(auth()->user()->role == 'admin')
+                <li>
+                    <x-nav-link href="{{route('UserManagement.search')}}"
+                                :active="request()->routeIs('UserManagement.search')">Users
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'department_head')
+                <li>
+                    <x-nav-link href="{{route('department-head.professors.index')}}"
+                                :active="request()->routeIs('department-head.professors.index')">Professors Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('department-head.professors.unit.requests')}}"
+                                :active="request()->routeIs('department-head.professors.unit.requests')">Professors
+                        Requests
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('department-head.workload.overview')}}"
+                                :active="request()->routeIs('department-head.workload.overview')">Workload
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'coordinator')
+                <li>
+                    <x-nav-link href="{{route('Coordinator.teachingUnits')}}"
+                                :active="request()->routeIs('Coordinator.teachingUnits')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">
+                        Vacataires
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Coordinator.ScheduleManagement')}}"
+                                :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'professor')
+                <li>
+                    <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
+                                :active="request()->routeIs('professor.units.request')">Units Requests
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'vacataire')
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assignedUnit')}}"
+                                :active="request()->routeIs('Vacataire.assignedUnit')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assessments')}}"
+                                :active="request()->routeIs('Vacataire.assessments')">Assessments
+                    </x-nav-link>
+                </li>
+            @endif
+        </ul>
+    </div>
+
+    <!-- Mobile navigation -->
+    <div id="mobile-menu" class="mobile-menu">
+        <ul class="">
+            <li>
+                <x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link>
+            </li>
+            @if(auth()->user()->role == 'admin')
+                <li>
+                    <x-nav-link href="{{route('UserManagement.search')}}"
+                                :active="request()->routeIs('UserManagement.search')">Users
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'department_head')
+                <li>
+                    <x-nav-link href="{{route('department-head.professors.index')}}"
+                                :active="request()->routeIs('department-head.professors.index')">Professors Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('department-head.professors.unit.requests')}}"
+                                :active="request()->routeIs('department-head.professors.unit.requests')">Professors
+                        Requests
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('department-head.workload.overview')}}"
+                                :active="request()->routeIs('department-head.workload.overview')">Workload
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'coordinator')
+                <li>
+                    <x-nav-link href="{{route('Coordinator.teachingUnits')}}"
+                                :active="request()->routeIs('Coordinator.teachingUnits')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">
+                        Vacataires
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Coordinator.ScheduleManagement')}}"
+                                :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'professor')
+                <li>
+                    <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
+                                :active="request()->routeIs('professor.units.request')">Units Requests
+                    </x-nav-link>
+                </li>
+            @elseif(auth()->user()->role == 'vacataire')
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assignedUnit')}}"
+                                :active="request()->routeIs('Vacataire.assignedUnit')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assessments')}}"
+                                :active="request()->routeIs('Vacataire.assessments')">Assessments
+                    </x-nav-link>
+                </li>
+            @endif
+        </ul>
+    </div>
+
+    <button class="mobile-menu-button">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+    </button>
+
+    {{--    TODO: change the icons and the style--}}
     <div class="flex items-center gap-4">
         <a href=""><i class="flex justify-center items-center text-2xl text-blue-600 bi bi-bell"></i></a>
         <x-profile-dropdown
@@ -32,6 +160,47 @@
             ['image' => asset('png/profile-icon.jpg'), 'text' => 'profile', 'url' => route('Profile')],
             'divider',
             ['image' => asset('png/logout-icon.jpg'), 'text' => 'logout' , 'url' => route('logout'), 'method' => 'POST']
-            ]" />
+            ]"/>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuButton = document.querySelector('.mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const profileDropdownButton = document.querySelector('.profile-dropdown-button');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        mobileMenuButton.addEventListener('click', function (e) {
+            e.stopPropagation(); // Prevent triggering document click
+            mobileMenu.classList.toggle('active');
+            // Toggle icons
+            const icons = mobileMenuButton.querySelectorAll('svg');
+            icons.forEach(icon => icon.classList.toggle('hidden'));
+        });
+
+        // Prevent clicks inside mobile menu from closing it
+        mobileMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // Global click handler
+        document.addEventListener('click', function(e) {
+            // Handle mobile menu
+            if (!mobileMenuButton.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                // Reset hamburger icon
+                const icons = mobileMenuButton.querySelectorAll('svg');
+                icons[0].classList.remove('hidden');
+                icons[1].classList.add('hidden');
+            }
+
+            // Handle profile dropdown
+            if (profileDropdownButton && dropdownMenu) {
+                if (!profileDropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('active');
+                }
+            }
+        });
+    });
+</script>

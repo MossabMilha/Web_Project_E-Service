@@ -28,6 +28,7 @@
 }
 
 .profile-name {
+    display: block;
     font-weight: 500;
     color: var(--color-primary);
 }
@@ -104,4 +105,10 @@
     padding: 0.2rem 0.5rem;
     border-radius: 50px;
     margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .profile-name {
+        display: none;
+    }
 }
