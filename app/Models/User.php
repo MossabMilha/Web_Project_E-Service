@@ -191,6 +191,9 @@ class User extends Authenticatable{
     }
 
 
-
+    public function specialization()
+    {
+        return $this->belongsTo(Specialization::class, 'specialization', 'id');
+    }
 
 }

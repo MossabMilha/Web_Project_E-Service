@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfessorController;
 use App\Http\Controllers\TeachingStaffController;
 use App\Http\Controllers\TeachingUnitController;
 use App\Http\Controllers\VacataireController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -145,6 +146,9 @@ Route::post('/Vacataire/Grades', [VacataireController::class, 'ExportGrade'])->n
 
 
 Route::get('/home', function () {
+    if (!Auth::check()){
+        return redirect()->route('login')->withErrors(['error' => 'Access denied']);
+    }
     return view('home');
 })->name('home');
 
