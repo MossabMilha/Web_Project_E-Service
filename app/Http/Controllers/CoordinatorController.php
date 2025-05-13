@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\ScheduleExport;
 use App\Exports\UserExport;
 use App\Models\Assignment;
+use App\Models\DepartmentMember;
 use App\Models\Filiere;
 use App\Models\Schedule;
 use App\Models\TeachingUnit;
@@ -259,8 +260,16 @@ class CoordinatorController extends Controller
         return redirect()->route('VacataireAccount')->with('success', 'User added successfully!');
     }
     public function VacataireAccount(){
+        $departmentId = Filiere::where('coordinator_id', Auth::id())->value('department_id');
+        $userIds = DepartmentMember::where('department_id', $departmentId)
+            ->pluck('professor_id');
+        $users = User::whereIn('id', $userIds)->where('role', 'vacataire')->get();
+
+
+
         LogModel::track('visit_vacataire_account', "Coordinator (ID: " . Auth::user()->id . ") visited Vacataire Account list.");
-        $users = User::where('role', 'vacataire')->get();
+
+
         return view('/Coordinator/VacataireAccount',compact('users'));
     }
     public function VacataireInformation($id)

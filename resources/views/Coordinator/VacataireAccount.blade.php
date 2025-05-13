@@ -47,10 +47,10 @@
                         <td><div class="td-wrapper"><div class="role">{{$user->role}}</div></div></td>
                         <td>
                             <div class="td-wrapper">
-                                @if($user->specialization == null)
+                                @if(\App\Models\Specialization::find($user->specialization) == null)
                                     N/A
                                 @else
-                                    {{ $user->specialization }}
+                                    {{\App\Models\Specialization::find($user->specialization)->name}}
                                 @endif
                             </div>
                         </td>

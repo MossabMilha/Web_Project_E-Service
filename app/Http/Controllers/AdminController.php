@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\LogsExport;
 use App\Models\Assignment;
 use App\Models\Department;
+use App\Models\DepartmentMember;
 use App\Models\Filiere;
 use App\Models\LogModel;
 use App\Models\Specialization;
@@ -18,7 +19,7 @@ use function Illuminate\Events\queueable;
 
 class AdminController extends Controller
 {
-    // Apply middleware to ensure the user is authenticated and is an admin
+
     public function __construct()
     {
         $this->middleware('auth');  // Ensure the user is authenticated
@@ -114,7 +115,6 @@ class AdminController extends Controller
     // Add user to the database
     public function AddUserDb(Request $request)
     {
-        LogModel::track('add_user', "Admin (ID: " . Auth::user()->id . ") added a new user with email: {$request->email}");
 
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
@@ -124,29 +124,45 @@ class AdminController extends Controller
             'specialization' => $request->role != 'admin' ? 'nullable|exists:specializations,id' : 'nullable',
             'filiere' => 'nullable',
         ]);
-        $password ="";
 
         if($request->role == 'admin'){
+            $password = User::generateSecurePassword();
             $user = new User([
-                'name'=>$validatedData['name'],
-                'email'=>$validatedData['email'],
-                'phone'=>$validatedData['phone'],
-                'role'=>$validatedData['role'],
-                'specialization'=>null
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+                'role' => $validatedData['role'],
+                'specialization' => null,
+                'password' => Hash::make($password), // Step 3: Hash the password
             ]);
-            $request->merge(['specialization' => null]);
+
         }elseif ($request->role == 'department_head') {
             $specialization = Specialization::find($request->specialization);
-
             if ($specialization && $specialization->department_id) {
 
                 $department = Department::where('id', $specialization->department_id)->first();
 
                 if ($department && $department->head_id !== null) {
                     return redirect()->back()->withErrors(['specialization' => 'This department already has a department head.',]);
+                }else{
+                    $password = User::generateSecurePassword();
+                    $user = new User([
+                        'name' => $validatedData['name'],
+                        'email' => $validatedData['email'],
+                        'phone' => $validatedData['phone'],
+                        'role' => $validatedData['role'],
+                        'specialization' => $request->specialization,
+                        'password' => Hash::make($password)
+                    ]);
+                    dd($user);
+                    $user->save();
+
+
+                    $department->head_id = $user->id;
+                    $department->save();
+
                 }
             }
-
         }elseif ($request->role == 'coordinator') {
             $specialization = Specialization::find($request->specialization);
             $filliere = $request->filiere;
@@ -160,28 +176,50 @@ class AdminController extends Controller
                 if ($hasCoordinator) {
                     return redirect()->back()->withErrors(['filiere' => 'This filiere already has a coordinator.']);
                 }
+                $password = User::generateSecurePassword();
 
+                $user = new User([
+                    'name' => $validatedData['name'],
+                    'email' => $validatedData['email'],
+                    'phone' => $validatedData['phone'],
+                    'role' => $validatedData['role'],
+                    'specialization' => $request->specialization,
+                    'password' => Hash::make($password),
+                ]);
 
+                $user->save();
+                foreach ($matchingFilières as $filiere) {
+                    $filiere->coordinator_id = $user->id;
+                    $filiere->save();
+                }
+            }
+        }elseif($request->role == 'vacataire' || $request->role == 'professor') {
+            $specialization = Specialization::find($request->specialization);
+
+            if (!$specialization || !$specialization->department_id) {
+                return redirect()->back()->withErrors(['specialization' => 'Invalid specialization or missing department.']);
             }
 
+            $password = User::generateSecurePassword();
+
+            $user = new User([
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+                'role' => $request->role,
+                'specialization' => $request->specialization,
+                'password' => Hash::make($password),
+            ]);
+
+            $user->save();
+
+            DepartmentMember::create([
+                'professor_id' => $user->id,
+                'department_id' => $specialization->department_id,
+            ]);
+
         }
-
-//        }else{
-//
-//        }
-
-
-
-        $user->password = Hash::make('test'); // Default password (should be changed later)
-        $user->save();
-        if ($request->role == 'department_head') {
-            $department = Department::where('id', $specialization->department_id)->first();
-            if ($department) {
-                $department->head_id = $user->id;
-                $department->save();
-            }
-        }
-
+        LogModel::track('add_user', "Admin (ID: " . Auth::user()->id . ") added a new user with email: {$request->email}");
         return redirect()->route('UserManagement.adduserDB')->with('success', 'User added successfully.');
     }
 
