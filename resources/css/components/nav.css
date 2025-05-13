@@ -21,13 +21,28 @@ nav ul{
 }
 
 .mobile-menu{
-    display: none;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-white);
+    box-shadow: 0 4px 12px rgba(42, 84, 255, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
 }
 
+.mobile-menu.active{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
 @media screen and (min-width: 768px) {
-   .mobile-menu-button,
-   .mobile-menu{
+   .mobile-menu-button{
        display: none;
    }
     nav .desktop-menu ul li a:hover,
@@ -47,23 +62,11 @@ nav ul{
         display: none;
     }
 
-    .mobile-menu.active{
-        display: block;
-        position: absolute;
-        z-index: 1000;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background-color: var(--color-white);
-        box-shadow: 0 4px 12px rgba(42, 84, 255, 0.15);
-        width: 100%;
-    }
-
-    .mobile-menu.active ul{
+    .mobile-menu ul{
         display: block;
     }
 
-    .mobile-menu.active ul li{
+    .mobile-menu ul li{
         padding: 0.5rem 1rem;
         border-bottom: 1px solid var(--color-secondary);
         text-align: center;

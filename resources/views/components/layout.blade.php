@@ -19,6 +19,7 @@
         'resources/css/components/profile-dropdown.css',
     // js files
         'resources/js/app.js',
+        'resources/js/components/nav.js',
         'resources/js/components/table.js',
         'resources/js/components/profile-dropdown.js',
 
