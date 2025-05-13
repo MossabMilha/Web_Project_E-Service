@@ -122,11 +122,11 @@
             </x-table>
         </div>
         <div class="mobile">
-            <div class="users-grid">
+            <div class="cards-grid">
                 @foreach($users as $user)
-                    <div class="user-card">
+                    <div class="card">
                         <div class="card-header">
-                            <div class="user-id">#{{ $user->id }}</div>
+                            <div class="card-id">#{{ $user->id }}</div>
                             <div class="user-role">
                                 <div class="role">{{$user->role}}</div>
                             </div>
