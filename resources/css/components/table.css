@@ -180,7 +180,7 @@
     }
 
     .card-body {
-        padding: 1rem;
+        padding: 0 1rem;
     }
 
     .info-row {
@@ -215,5 +215,9 @@
 
     .icons-wrapper {
         gap: 1rem;
+    }
+
+    .icons-wrapper .label {
+        font-size: 0.9rem;
     }
 }

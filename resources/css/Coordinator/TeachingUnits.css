@@ -16,7 +16,7 @@ body{
 
 #add-units-form{
     background-color: var(--color-white);
-    min-width: 600px;
+    max-width: 620px;
     padding: 1rem;
 }
 
@@ -108,7 +108,35 @@ body{
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 1rem;
+    width: 150px;
 }
+
+@media screen and (max-width: 639.5px) {
+    .open-popup-btn{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #add-units-form{
+        max-width: 420px;
+        padding: .5rem;
+    }
+
+    .popup-img-top {
+        height: 250px;
+    }
+}
+@media screen and (max-width: 420px) {
+    #add-units-form{
+        max-width: 320px;
+    }
+
+    .popup-img-top {
+        height: 210px;
+    }
+}
+
 
 /*========================================================*/
 /*====================== pagination ======================*/
