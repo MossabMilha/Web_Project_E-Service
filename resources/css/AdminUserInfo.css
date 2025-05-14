@@ -1,84 +1,90 @@
 body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     background-color: var(--color-primary);
 }
 
 .main-container{
-    display: inline-flex;
-    background-color: var(--color-white);
-    /*max-width: var(--container-width);*/
-    border-radius: var(--border-radius-small);
-    margin-inline: auto;
-    padding: 1em 1.5em;
-    gap: 3em;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
+    max-width: var(--container-width);
+    border-radius: var(--border-radius-small);
+    margin-inline: auto;
+    display: flex;
+    gap: 24px;
 }
 
-.main-container h1{
-    font-size: 2em;
-}
-
-.main-container form {
+.edit-user-form{
+    margin-top: 1.5rem;
+    background-color: var(--color-white);
+    border-radius: var(--border-radius-small);
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: start;
-    gap: 2em;
-    width: 420px;
+    gap: 0.5rem;
+    min-width: 420px;
 }
 
-.main-container .info-item{
+.edit-user-form h1{
+    font-size: 2em;
+    text-align: center;
+}
+
+.edit-user-form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1.5em;
+}
+
+.edit-user-form .info-item{
     display: flex;
     flex-direction: column;
     align-items: start;
 }
 
-.main-container #role-container{
+.edit-user-form #role-container{
     display: inline;
 }
 
-.main-container label,
-.main-container span,
-.main-container input{
+.edit-user-form label,
+.edit-user-form span,
+.edit-user-form input{
     border-radius: .25em;
 }
 
-.main-container span,
-.main-container input,
-.main-container select{
+.edit-user-form span,
+.edit-user-form input,
+.edit-user-form select{
     width: 100%;
     padding: .25em .5em;
     background-color: var(--color-gray-light);
 }
 
-.main-container label{
-    font-size: .8em;
+.edit-user-form label{
+    font-size: .9em;
     margin-bottom: .5em;
 }
 
 /*to keep the height of an empty input*/
-.main-container span {
+.edit-user-form span {
     min-height: 2em;
     color: #727e94;
 }
 
-.main-container span.role{
+.edit-user-form span.role{
     width: auto;
 }
 
-.main-container input:focus{
+.edit-user-form input:focus{
     color: #0a0a0a;
     outline: 2px solid var(--color-secondary-dark);
     background-color: var(--color-secondary);
     border-color: var(--color-secondary);
 }
 
-
 .text-danger{
-    color: red;
+    color: var(--color-danger);
 }
 
 .btns-wrapper{
@@ -103,6 +109,5 @@ body{
 }
 
 .btns-wrapper button[type="button"]{
-    border-radius: .25em;
     width: 100%;
 }

@@ -9,7 +9,6 @@
     <x-nav/>
 
     <div class="main-container">
-        <h1>Add User Information</h1>
 
         @if ($errors->any())
             <div class="error-messages-holder">
@@ -27,6 +26,7 @@
         <form class="add-user-form" action="{{ route('UserManagement.adduserDB') }}" method="post">
             @csrf
 
+            <h1>Add User Information</h1>
             <div class="name-wrapper wrapper">
                 <label for="name">Full Name:</label>
                 @if($errors->has('name'))
