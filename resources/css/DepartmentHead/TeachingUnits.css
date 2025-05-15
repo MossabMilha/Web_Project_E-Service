@@ -1,10 +1,7 @@
-@import url(../app.css);
-
 body{
     justify-content: center;
     align-content: start;
-    height: 100vh;
-    background-color: var(--color-tertiary-lighter);
+    background-color: var(--color-primary);
 }
 
 .main-container{
@@ -116,102 +113,4 @@ body{
 
 .search-wrapper .add-btn:hover{
     background-color: var(--color-primary-dark);
-}
-
-/*table section*/
-.table-container table{
-    border-radius: var(--border-radius-small);
-    overflow: hidden;
-    width: 100%;
-}
-
-.table-container table tr{
-    background-color: var(--color-white);
-    border-bottom: 1px solid var(--color-gray-lighter);
-}
-
-.table-container table tr th{
-    background-color: var(--color-white);
-    color: var(--color-gray);
-    font-weight: 500;
-
-}
-
-.table-container table tr > *{
-    text-align: left;
-    padding: .75em 0.5em;
-    font-size: .9em;
-    /*padding: .5em .25em;*/
-}
-
-.table-container table tr td:first-child{
-    text-align: center;
-}
-
-.table-container table tr td:last-child{
-    display: flex;
-    justify-content: center;
-}
-
-.table-container table tr td:last-child svg{
-    width: 1.25em;
-    fill: var(--color-tertiary);
-}
-/*pagination*/
-
-.pagination{
-    flex-grow: 1;
-    display: flex;
-    justify-content: space-between;
-    padding: 12px;
-}
-
-.pagination .prev-btn.disabled,
-.pagination .next-btn.disabled{
-    color: var(--color-gray);
-}
-
-
-/* Extra Small (Phones) */
-@media (max-width: 575px) {
-    .login-container {
-        width: 80%;
-    }
-
-    .info-container {
-        width: 100%;
-    }
-
-    .img-container{
-        display: none;
-    }
-}
-
-@media (min-width: 576px) {
-    .login-container {
-        width: 80%;
-        height: 360px;
-    }
-}
-/* Small Devices (Tablets) */
-@media (min-width: 768px){
-    .login-container {
-        width: 640px;
-        height: 420px;
-    }
-}
-
-/* Medium Devices (Small Laptops) */
-@media (min-width: 1024px) {
-    .login-container {
-        width: 820px;
-        height: 480px;
-    }
-}
-
-/* Large Screens */
-@media (max-width: 1200px) {
-    .main-container {
-        width: 960px;
-    }
 }

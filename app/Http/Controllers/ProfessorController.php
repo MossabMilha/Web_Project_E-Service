@@ -12,6 +12,7 @@ use App\Models\UnitsRequest;
 use App\Models\User;
 use App\Models\WorkloadProfile;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class ProfessorController extends Controller
@@ -207,13 +208,20 @@ class ProfessorController extends Controller
 
     public function indexUnitRequests()
     {
-        $unit_requests = UnitsRequest::with(['professor', 'unit'])->where('status', 'pending')->get();
+        $perPage = 10;
 
-        // Map with workload status
-        $unit_requests = $unit_requests->map(function ($request) {
+        // First, get paginated requests with eager-loaded relationships
+        $paginatedRequests = UnitsRequest::with(['professor', 'unit'])
+            ->where('status', 'pending')
+            ->paginate($perPage)
+            ->appends(request()->query());
+
+        // Map the items while preserving the pagination structure
+        $modifiedItems = $paginatedRequests->getCollection()->map(function ($request) {
             $professor = $request->professor;
+
             $assigned_hours = Assignment::
-                join('teaching_units', 'assignments.unit_id', '=', 'teaching_units.id')
+            join('teaching_units', 'assignments.unit_id', '=', 'teaching_units.id')
                 ->where('assignments.professor_id', $professor->id)
                 ->sum('teaching_units.hours');
 
@@ -226,9 +234,14 @@ class ProfessorController extends Controller
             return $request;
         });
 
-        // Sort so underloaded professors come first
-        $unit_requests = $unit_requests->sortByDesc('underloaded');
-
+        // Replace original collection with modified one
+        $unit_requests = new LengthAwarePaginator(
+            $modifiedItems,
+            $paginatedRequests->total(),
+            $paginatedRequests->perPage(),
+            $paginatedRequests->currentPage(),
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
         return view('department_head.professors.unitRequests', compact('unit_requests'));
     }
 

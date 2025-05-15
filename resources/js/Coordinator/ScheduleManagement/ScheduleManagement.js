@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const select = document.getElementById('filiereSelect');
     const filiereOptions = select.querySelectorAll('.filiere-option');
-    const form = document.getElementById('form');
+    const form = document.getElementById('filiere-select-form');
     const filiereIdInput = document.getElementById('filiere_id');
 
     let filiereName;

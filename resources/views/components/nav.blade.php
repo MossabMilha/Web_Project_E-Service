@@ -18,13 +18,18 @@
                 </li>
             @elseif(auth()->user()->role == 'department_head')
                 <li>
+                    <x-nav-link href="{{route('department-head.teaching-units.index')}}"
+                                :active="request()->routeIs('department-head.teaching-units.index')">Units
+                    </x-nav-link>
+                </li>
+                <li>
                     <x-nav-link href="{{route('department-head.professors.index')}}"
-                                :active="request()->routeIs('department-head.professors.index')">Professors Units
+                                :active="request()->routeIs('department-head.professors.index')">Professors
                     </x-nav-link>
                 </li>
                 <li>
                     <x-nav-link href="{{route('department-head.professors.unit.requests')}}"
-                                :active="request()->routeIs('department-head.professors.unit.requests')">Professors
+                                :active="request()->routeIs('department-head.professors.unit.requests')">
                         Requests
                     </x-nav-link>
                 </li>
@@ -88,14 +93,18 @@
                 </li>
             @elseif(auth()->user()->role == 'department_head')
                 <li>
+                    <x-nav-link href="{{route('department-head.teaching-units.index')}}"
+                                :active="request()->routeIs('department-head.teaching-units.index')">Units
+                    </x-nav-link>
+                </li>
+                <li>
                     <x-nav-link href="{{route('department-head.professors.index')}}"
-                                :active="request()->routeIs('department-head.professors.index')">Professors Units
+                                :active="request()->routeIs('department-head.professors.index')">Professors
                     </x-nav-link>
                 </li>
                 <li>
                     <x-nav-link href="{{route('department-head.professors.unit.requests')}}"
-                                :active="request()->routeIs('department-head.professors.unit.requests')">Professors
-                        Requests
+                                :active="request()->routeIs('department-head.professors.unit.requests')">Requests
                     </x-nav-link>
                 </li>
                 <li>

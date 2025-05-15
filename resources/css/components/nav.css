@@ -28,7 +28,7 @@ nav ul{
 }
 
 .desktop-menu{
-    background-color: #ddecff;
+    background-color: var(--color-secondary-light);
     padding: 0.25rem 1rem;
     border-radius: 1.5rem;
 }

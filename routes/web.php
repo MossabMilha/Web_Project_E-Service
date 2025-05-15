@@ -1,19 +1,22 @@
 <?php
 
+use App\Http\Controllers\{
+    AdminController,
+    CoordinatorController,
+    DepartmentHeadController,
+    LoginProcesse,
+    ProfessorController,
+    TeachingStaffController,
+    TeachingUnitController,
+    VacataireController
+};
+use Illuminate\Support\Facades\{Auth, Route};
 
-use App\Http\Controllers\CoordinatorController;
-use App\Http\Controllers\DepartmentHeadController;
-use App\Http\Controllers\LoginProcesse;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ProfessorController;
-use App\Http\Controllers\TeachingStaffController;
-use App\Http\Controllers\TeachingUnitController;
-use App\Http\Controllers\VacataireController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-
-
-
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,131 +25,142 @@ Route::get('/login', [LoginProcesse::class, 'showLoginForm'])->name('login.form'
 Route::post('/login', [LoginProcesse::class, 'login'])->name('login');
 Route::post('/logout', [LoginProcesse::class, 'logout'])->name('logout');
 
-
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware('admin')->group(function () {
-    Route::get('/Admin/UserManagement', [AdminController::class, 'search'])->name('UserManagement.search');
-    Route::get('/Admin/UserManagement/user/{id}', [AdminController::class, 'UserInformation'])->name('UserManagement.user');
-    Route::put('/Admin/UserManagement/user/{id}/edit', [AdminController::class, 'EditUser'])->name('UserManagement.editUser');
-    Route::get('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUser'])->name('UserManagement.adduser');
-    Route::post('/Admin/UserManagement/AddUser', [AdminController::class, 'AddUserDb'])->name('UserManagement.adduserDB');
-    Route::delete('/Admin/UserManagement/DeleteUser/{id}', [AdminController::class, 'DeleteUser'])->name('UserManagement.deleteUser');
-    Route::delete('/Admin/UserManagement/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('UserManagement.deleteAssignment');
+    // User Management
+    Route::prefix('Admin/UserManagement')->name('UserManagement.')->group(function () {
+        Route::get('/', [AdminController::class, 'search'])->name('search');
+        Route::get('/user/{id}', [AdminController::class, 'UserInformation'])->name('user');
+        Route::put('/user/{id}/edit', [AdminController::class, 'EditUser'])->name('editUser');
+        Route::get('/AddUser', [AdminController::class, 'AddUser'])->name('adduser');
+        Route::post('/AddUser', [AdminController::class, 'AddUserDb'])->name('adduserDB');
+        Route::delete('/DeleteUser/{id}', [AdminController::class, 'DeleteUser'])->name('deleteUser');
+        Route::delete('/assignment/{id}', [AdminController::class, 'DeleteAssignment'])->name('deleteAssignment');
+    });
 
-    //Logs
-
-
+    // Logs Management
     Route::get('/Admin/logs', [AdminController::class, 'sort'])->name('logs.sort');
     Route::get('/logs/export', [AdminController::class, 'export'])->name('logs.export');
 });
 
-
-// Group all routes under '/department-head/'
-Route::middleware('departmenthead')->group(function () {
-    Route::prefix('department-head')->name('department-head.')->group(function () {
-        // ----------------------- Department Head Routes ----------------------
-        // show professors workload
+/*
+|--------------------------------------------------------------------------
+| Department Head Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware('departmenthead')
+    ->prefix('department-head')
+    ->name('department-head.')
+    ->group(function () {
+        // Workload Management
         Route::get('professors/workload', [DepartmentHeadController::class, 'workloadOverview'])->name('workload.overview');
-        // ----------------------- Teaching units Routes -----------------------
 
-        // not implemented
-        // Show the list of all teaching units that belongs to the same department of department head (the id here is not implemented yet!)
-        // Route::get('/teaching-units', [TeachingUnitController::class, 'index'])->name('teaching-units.index');
+        // Teaching Units Management
+        Route::get('/teaching-units', [TeachingUnitController::class, 'index'])->name('teaching-units.index');
+        Route::get('/teaching-units/search', [TeachingUnitController::class, 'search'])->name('teaching-units.search');
 
-        // not implemented
-        // Route::get('/teaching-units/search', [TeachingUnitController::class, 'search'])->name('teaching-units.search');
-
-        // ----------------------- Professors Routes -----------------------
-        // Show the list of all professors that belongs to the same department of department head (needs id to be passed)
-        Route::get('/professors', [ProfessorController::class, 'index'])->name('professors.index');
-
-        // not implemented
-        // Route::get('/professors/{id}', [ProfessorController::class, 'show'])->name('professors.show');
-
-        // Show the form to assign a professor to a teaching unit or more
-        Route::get('/professors/{id}/assign', [ProfessorController::class, 'assign'])->name('professors.assign');
-
-        // Store the assignment of a professor to a teaching unit or more
-        Route::post('/professors/{id}/assign', [ProfessorController::class, 'storeAssignment'])->name('professors.units.store');
-
-        // Remove the assignment of a professor from a teaching unit
-        Route::delete('/professors/{professor_id}/units/{unit_id}', [ProfessorController::class, 'destroyAssignment'])->name('professors.units.destroy');
-
-        // show professors units requests
-        Route::get('/professors/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('professors.unit.requests');
-
-        // handle(accept or reject) professor unit request
-        Route::post('/professors/{unit_request_id}/handle', [ProfessorController::class, 'handleUnitRequests'])->name('professors.unit.request.handle');
-
+        // Professors Management
+        Route::prefix('professors')->name('professors.')->group(function () {
+            Route::get('/', [ProfessorController::class, 'index'])->name('index');
+            Route::get('/{id}/assign', [ProfessorController::class, 'assign'])->name('assign');
+            Route::post('/{id}/assign', [ProfessorController::class, 'storeAssignment'])->name('units.store');
+            Route::delete('/{professor_id}/units/{unit_id}', [ProfessorController::class, 'destroyAssignment'])->name('units.destroy');
+            Route::get('/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('unit.requests');
+            Route::post('/{unit_request_id}/handle', [ProfessorController::class, 'handleUnitRequests'])->name('unit.request.handle');
+        });
     });
-});
 
+/*
+|--------------------------------------------------------------------------
+| Coordinator Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['coordinator'])
+    ->prefix('Coordinator')
+    ->name('Coordinator.')
+    ->group(function () {
+        // Teaching Units Management
+        Route::prefix('teachingUnits')->group(function () {
+            Route::get('/', [CoordinatorController::class, 'teachingUnits'])->name('teachingUnits');
+            Route::post('/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('AddUnit');
+            Route::post('/EditUnit', [CoordinatorController::class, 'EdtUnit'])->name('EditUnit');
+            Route::get('/AssignedTeachingUnit/{id}', [CoordinatorController::class, 'AssignedTeachingUnit'])->name('AssignedTeachingUnit');
+            Route::post('/AssignedTeachingUnit', [CoordinatorController::class, 'AssignedTeachingUnitDB'])->name('AssignedTeachingUnitDB');
+            Route::get('/ReAssignedTeachingUnit/{id}', [CoordinatorController::class, 'ReAssignedTeachingUnit'])->name('ReAssignedTeachingUnit');
+            Route::post('/ReAssignedTeachingUnit', [CoordinatorController::class, 'ReAssignedTeachingUnitDB'])->name('ReAssignedTeachingUnitDB');
+        });
 
-Route::middleware(['coordinator'])->group(function () {
+        // Vacataire Management
+        Route::prefix('VacataireAccount')->name('VacataireAccount.')->group(function () {
+            Route::get('/', [CoordinatorController::class, 'VacataireAccount'])->name('index');
+            Route::get('/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('user');
+            Route::get('/AddVacataire', [CoordinatorController::class, 'AddVacataire'])->name('addVacataire');
+            Route::post('/AddVacataire', [CoordinatorController::class, 'AddVacataireDb'])->name('addVacataireDB');
+            Route::delete('/DeleteVacataire', [CoordinatorController::class, 'DeleteVacataire'])->name('deleteVacataire');
+        });
 
-    Route::get('/Coordinator/teachingUnits', [CoordinatorController::class, 'teachingUnits'])->name('Coordinator.teachingUnits');
-    Route::post('/Coordinator/teachingUnits/AddUnit', [CoordinatorController::class, 'AddUnit'])->name('Coordinator.AddUnit');
-    Route::post('/Coordinator/teachingUnits/EditUnit', [CoordinatorController::class, 'EdtUnit'])->name('Coordinator.EditUnit');
+        // Schedule Management
+        Route::prefix('ScheduleManagement')->group(function () {
+            Route::get('/', [CoordinatorController::class, 'ScheduleManagement'])->name('ScheduleManagement');
+            Route::get('/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('ScheduleManagementFiliere');
+            Route::post('/{filiere}/import', [CoordinatorController::class, 'ScheduleManagementFiliereImport'])->name('ScheduleManagementFiliere.import');
+        });
 
-    Route::get('/vacataire/{id}', [CoordinatorController::class, 'getVacataireDetails']);
+        // Export Routes
+        Route::get('/export-user/{id?}', [CoordinatorController::class, 'exportUsers'])->name('export.users');
+        Route::get('/schedule/export/{filiere}/{semester}', [CoordinatorController::class, 'exportSchedule'])->name('ScheduleManagementFiliere.export');
+    });
 
-    Route::get('/Coordinator/teachingUnits/AssignedTeachingUnit/{id}', [CoordinatorController::class, 'AssignedTeachingUnit'])->name('Coordinator.AssignedTeachingUnit');
-    Route::post('/Coordinator/teachingUnits/AssignedTeachingUnit', [CoordinatorController::class, 'AssignedTeachingUnitDB'])->name('Coordinator.AssignedTeachingUnitDB');
-
-    Route::get('/Coordinator/teachingUnits/ReAssignedTeachingUnit/{id}', [CoordinatorController::class, 'ReAssignedTeachingUnit'])->name('Coordinator.ReAssignedTeachingUnit');
-    Route::post('/Coordinator/teachingUnits/ReAssignedTeachingUnit', [CoordinatorController::class, 'ReAssignedTeachingUnitDB'])->name('Coordinator.ReAssignedTeachingUnitDB');
-
-    Route::get('/Coordinator/VacataireAccount', [CoordinatorController::class, 'VacataireAccount'])->name('VacataireAccount');
-    Route::get('/Coordinator/VacataireAccount/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('VacataireAccount.user');
-
-    Route::get('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataire'])->name('VacataireAccount.addVacataire');
-    Route::post('/Coordinator/AddVacataire', [CoordinatorController::class, 'AddVacataireDb'])->name('VacataireAccount.addVacataireDB');
-    Route::delete('/Coordinator/VacataireAccount/DeleteVacataire', [CoordinatorController::class, 'DeleteVacataire'])->name('VacataireAccount.deleteVacataire');
-
-    //ScheduleManagement Routes
-    Route::get('/Coordinator/ScheduleManagement', [CoordinatorController::class, 'ScheduleManagement'])->name('Coordinator.ScheduleManagement');
-    Route::get('/coordinator/ScheduleManagement/{name}', [CoordinatorController::class, 'ScheduleManagementFiliere'])->name('coordinator.ScheduleManagementFiliere');
-    Route::post('/coordinator/ScheduleManagement/{filiere}/import', [CoordinatorController::class, 'ScheduleManagementFiliereImport'])->name('coordinator.ScheduleManagementFiliere.import');
-
-    //Exporting
-    Route::get('/export-user/{id?}', [CoordinatorController::class, 'exportUsers'])->name('export.users');
-    Route::get('/coordinator/schedule/export/{filiere}/{semester}', [CoordinatorController::class, 'exportSchedule'])->name('coordinator.ScheduleManagementFiliere.export');
-
-
-});
-
+/*
+|--------------------------------------------------------------------------
+| Professor Routes
+|--------------------------------------------------------------------------
+*/
 Route::prefix('professor')
     ->name('professor.')
-//    ->middleware(['auth', 'role:professor'])
     ->group(function () {
-    Route::get('/{id}/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
-    Route::post('/{id}/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
-});
+        Route::get('/{id}/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
+        Route::post('/{id}/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
+    });
 
+/*
+|--------------------------------------------------------------------------
+| Teaching Staff Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 
+/*
+|--------------------------------------------------------------------------
+| Vacataire Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('Vacataire')->name('Vacataire.')->group(function () {
+    // Unit and Assessment Management
+    Route::get('/assignedUnit', [VacataireController::class, 'assignedUnit'])->name('assignedUnit');
+    Route::get('/assessments', [VacataireController::class, 'assessments'])->name('assessments');
+    Route::get('/new-assessments', [VacataireController::class, 'NewAssessments'])->name('AddAssessments');
+    Route::post('/new-assessments/store', [VacataireController::class, 'NewAssessmentsDB'])->name('AddAssessmentsDB');
 
+    // Grades Management
+    Route::post('/NormalGrades', [VacataireController::class, 'UploadNormalGrade'])->name('grades.upload');
+    Route::post('/NewNormalGrades', [VacataireController::class, 'UploadNewNormalGrade'])->name('NewGrades.upload');
+    Route::post('/RetakeGrades', [VacataireController::class, 'UploadRetakeGrade'])->name('Retakegrades.upload');
+    Route::post('/NewRetakeGrades', [VacataireController::class, 'UploadNewRetakeGrade'])->name('NewRetakegrades.upload');
+    Route::post('/Grades', [VacataireController::class, 'ExportGrade'])->name('grades.export');
+});
 
-
-Route::get('/Vacataire/assignedUnit', [VacataireController::class, 'assignedUnit'])->name('Vacataire.assignedUnit');
-Route::get('/Vacataire/assessments', [VacataireController::class, 'assessments'])->name('Vacataire.assessments');
-Route::get('/Vacataire/new-assessments', [VacataireController::class, 'NewAssessments'])->name('Vacataire.AddAssessments');
-Route::post('/Vacataire/new-assessments/store', [VacataireController::class, 'NewAssessmentsDB'])->name('Vacataire.AddAssessmentsDB');
-
-Route::post('/Vacataire/NormalGrades', [VacataireController::class, 'UploadNormalGrade'])->name('Vacataire.grades.upload');
-Route::post('/Vacataire/NewNormalGrades', [VacataireController::class, 'UploadNewNormalGrade'])->name('Vacataire.NewGrades.upload');
-
-Route::post('/Vacataire/RetakeGrades', [VacataireController::class, 'UploadRetakeGrade'])->name('Vacataire.Retakegrades.upload');
-Route::post('/Vacataire/NewRetakeGrades', [VacataireController::class, 'UploadNewRetakeGrade'])->name('Vacataire.NewRetakegrades.upload');
-Route::post('/Vacataire/Grades', [VacataireController::class, 'ExportGrade'])->name('Vacataire.grades.export');
-
-
-
-
-
-
-
+/*
+|--------------------------------------------------------------------------
+| General Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/home', function () {
-    if (!Auth::check()){
+    if (!Auth::check()) {
         return redirect()->route('login')->withErrors(['error' => 'Access denied']);
     }
     return view('home');
@@ -155,10 +169,3 @@ Route::get('/home', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->name('Profile');
-
-
-
-
-
-
-

@@ -58,6 +58,47 @@
     --icon-color: var(--color-success-light);
 }
 
+.chip[data-status="primary"],
+.chip[data-status="ap1"],
+.chip[data-status="gi1"],
+.chip[data-status="gc1"],
+.chip[data-status="gee1"],
+.chip[data-status="geer1"],
+.chip[data-status="id1"],
+.chip[data-status="tdia1"],
+.chip[data-status="mc1"]{
+    --chip-color: var(--color-primary-lighter);
+    --text-color: var(--color-primary-dark);
+    --icon-color: var(--color-primary-light);
+}
+
+.chip[data-status="secondary"],
+.chip[data-status="ap2"],
+.chip[data-status="gi2"],
+.chip[data-status="gc2"],
+.chip[data-status="gee2"],
+.chip[data-status="geer2"],
+.chip[data-status="id2"],
+.chip[data-status="tdia2"],
+.chip[data-status="mc2"]{
+    --chip-color: var(--color-secondary-light);
+    --text-color: var(--color-secondary-dark);
+    --icon-color: var(--color-secondary);
+}
+
+.chip[data-status="tertiary"],
+.chip[data-status="gi3"],
+.chip[data-status="gc3"],
+.chip[data-status="gee3"],
+.chip[data-status="geer3"],
+.chip[data-status="id3"],
+.chip[data-status="tdia3"],
+.chip[data-status="mc3"]{
+    --chip-color: var(--color-tertiary-light);
+    --text-color: var(--color-tertiary-darker);
+    --icon-color: var(--color-tertiary);
+}
+
 /* Breakpoints */
 
 /* ≤480px (small mobile) */

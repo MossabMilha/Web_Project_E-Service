@@ -14,15 +14,33 @@ body{
 .main-container h1{
     margin-bottom: 1.5rem;
     color: var(--color-primary);
+    /*background-color: var(--color-white);*/
+    padding: 0.5rem;
+    border-radius: var(--border-radius-small);
+    text-align: center;
     font-size: 2rem;
 }
 
+@media (max-width: 640px) {
+    .main-container h1 {
+        font-size: 1.5rem;
+    }
+}
 /*================================*/
 /*filiere Selection form*/
 /*================================*/
 
-.filiere-select-container{
+/*#filiere-select-form{*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    !*background-color: var(--color-white);*!*/
+/*    padding: 1rem;*/
+/*}*/
+
+.filiere-select-container {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 1rem;
 }
@@ -31,8 +49,33 @@ body{
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    transition: all 0.2s ease;
+    /*transition: all 0.2s ease;*/
+    width: 100%;
 }
+
+/* Small devices (2 items per line) */
+
+
+@media (min-width: 640px) {
+    .filiere-select-container .filiere-option {
+        width: calc((100% - 1rem) / 2); /* Subtract the gap and divide by 2 */
+    }
+}
+
+/* Medium devices (3 items per line) */
+@media (min-width: 768px) {
+    .filiere-select-container .filiere-option {
+        width: calc((100% - 2rem) / 3); /* Subtract the gaps and divide by 3 */
+    }
+}
+
+/* Large devices (4 items per line) */
+@media (min-width: 1024px) {
+    .filiere-select-container .filiere-option {
+        width: calc((100% - 3rem) / 4); /* Subtract the gaps and divide by 4 */
+    }
+}
+
 
 .filiere-select-container .filiere-option:hover{
     transform: scale(1.02);

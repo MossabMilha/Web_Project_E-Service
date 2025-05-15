@@ -140,16 +140,16 @@
                 @endforeach
                 </tbody>
             </table>
-        {{--    @if ($units->hasPages())--}}
-        {{--        <div class="pagination">--}}
-        {{--            <a href="{{ $units->previousPageUrl() }}" class="prev-btn {{ $units->onFirstPage() ? 'disabled' : '' }}"><--}}
-        {{--                previous</a>--}}
-        {{--            <span class="page-info">{{ $units->currentPage() }} | {{ $units->lastPage() }}</span>--}}
-        {{--            <a href="{{ $units->nextPageUrl() }}" class="next-btn {{ $units->hasMorePages() ? '' : 'disabled' }}">next--}}
-        {{--                ></a>--}}
-        {{--        </div>--}}
-        {{--    @endif--}}
         </x-table>
+{{--        @if ($units->hasPages())--}}
+{{--            <div class="pagination">--}}
+{{--                <a href="{{ $units->previousPageUrl() }}" class="prev-btn {{ $units->onFirstPage() ? 'disabled' : '' }}"><--}}
+{{--                    previous</a>--}}
+{{--                <span class="page-info">{{ $units->currentPage() }} | {{ $units->lastPage() }}</span>--}}
+{{--                <a href="{{ $units->nextPageUrl() }}" class="next-btn {{ $units->hasMorePages() ? '' : 'disabled' }}">next--}}
+{{--                    ></a>--}}
+{{--            </div>--}}
+{{--        @endif--}}
     </div>
     <x-popup>
         <form id="units-assignment-form" action="{{ route('department-head.professors.units.store', 'PROFESSOR_ID') }}" method="post">
