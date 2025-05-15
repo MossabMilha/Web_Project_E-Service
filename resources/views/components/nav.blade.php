@@ -1,6 +1,6 @@
 {{--styled by resources/css/components/nav.css--}}
 <nav class="nav">
-    <img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo">
+    <div class="logo-wrapper"><img class="nav-logo" src="{{asset('png/ecore-v4.png')}}" alt="Ecore logo"></div>
     <div class="desktop-menu">
         <ul class="nav-links">
             <li>
@@ -138,19 +138,20 @@
                 </li>
             @endif
         </ul>
+
     </div>
 
-    <button class="mobile-menu-button">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-        <svg class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-        </svg>
-    </button>
 
     {{--    TODO: change the icons and the style--}}
-    <div class="flex items-center gap-4">
+    <div class="user-navigation-wrapper">
+        <button class="mobile-menu-button">
+            <svg class="w-6 h-6" fill="none" stroke="var(--color-primary)" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg class="hidden w-6 h-6" fill="none" stroke="var(--color-primary)" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
         <a href=""><i class="flex justify-center items-center text-2xl text-blue-600 bi bi-bell"></i></a>
         <x-profile-dropdown
             name="{{auth()->user()->name}}"

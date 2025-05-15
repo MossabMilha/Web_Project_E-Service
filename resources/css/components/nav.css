@@ -7,8 +7,15 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding-inline: var(--gap-x);
-    padding: .5rem 1.5rem;
+    padding: .5rem 1rem;
     background: var(--color-white);
+}
+
+.user-navigation-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--gap-x);
 }
 
 .nav-logo{
@@ -18,6 +25,12 @@ nav{
 nav ul{
     display: flex;
     gap: var(--gap-x);
+}
+
+.desktop-menu{
+    background-color: #ddecff;
+    padding: 0.25rem 1rem;
+    border-radius: 1.5rem;
 }
 
 .mobile-menu{
@@ -45,12 +58,22 @@ nav ul{
    .mobile-menu-button{
        display: none;
    }
-    nav .desktop-menu ul li a:hover,
-    nav .desktop-menu .active-link
+
+    .desktop-menu ul li{
+        color: var(--color-primary-light);
+        text-align: center;
+    }
+
+    .desktop-menu ul li a:hover,
+    .desktop-menu .active-link
     {
         color: var(--color-primary);
-        border-bottom: 2px solid var(--color-primary);
     }
+
+    /*.logo-wrapper,*/
+    /*.user-navigation-wrapper{*/
+    /*    min-width: 210px;*/
+    /*}*/
 
 }
 
@@ -79,4 +102,6 @@ nav ul{
         color: var(--color-primary);
         border-bottom: none;
     }
+
+
 }
