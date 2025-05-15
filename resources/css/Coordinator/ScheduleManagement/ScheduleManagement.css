@@ -1,5 +1,5 @@
 body{
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary-light);
 }
 
 .main-container{
@@ -17,4 +17,25 @@ body{
     font-size: 2rem;
 }
 
+/*filiere Selection form*/
+
+.filiere-select-container{
+    display: flex;
+    gap: 1rem;
+}
+
+.filiere-select-container .filiere-option{
+    display: flex;
+    flex-direction: column;
+    /*gap: 0.5rem;*/
+}
+
+.filiere-select-container .filiere-option span{
+    /*font-weight: 600;*/
+    padding: .25rem;
+    color: var(--color-primary);
+    text-align: end;
+    font-size: 1.25rem;
+    /*background-color: var(--color-white);*/
+}
 

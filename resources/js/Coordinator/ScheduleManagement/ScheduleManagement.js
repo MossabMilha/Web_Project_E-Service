@@ -1,24 +1,26 @@
 document.addEventListener('DOMContentLoaded', function () {
     const select = document.getElementById('filiereSelect');
+    const filiereOptions = select.querySelectorAll('.filiere-option');
     const form = document.getElementById('form');
     const filiereIdInput = document.getElementById('filiere_id');
 
-    select.addEventListener('change', function () {
-        const selectedOption = select.options[select.selectedIndex];
-        const filiereName = selectedOption.getAttribute('data-name');
-        const filiereId = selectedOption.value;
+    let filiereName;
+    let filiereId;
 
-
-        filiereIdInput.value = filiereId;
-
-
-        const slug = filiereName.toLowerCase().replace(/\s+/g, '-');
-        form.action = `/coordinator/ScheduleManagement/${slug}`;
-
-        if (select.value) {
-            form.style.display = 'block';
+    for (const option of filiereOptions) {
+        option.addEventListener('click' ,function (){
+            console.log(option);
+            filiereName = option.dataset.name;
+            filiereId = option.dataset.value;
+            filiereIdInput.value = filiereId;
+        if (filiereName) {
+            const slug = filiereName.toLowerCase().replace(/\s+/g, '-');
+            form.action = `/coordinator/ScheduleManagement/${slug}`;
+            console.log(form.action);
+            form.submit();
         } else {
-            form.style.display = 'none';
+            console.log('no filiere');
         }
-    });
+        });
+    }
 });
