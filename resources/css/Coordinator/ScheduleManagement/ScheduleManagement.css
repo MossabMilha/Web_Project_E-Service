@@ -17,17 +17,25 @@ body{
     font-size: 2rem;
 }
 
+/*================================*/
 /*filiere Selection form*/
+/*================================*/
 
 .filiere-select-container{
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 
 .filiere-select-container .filiere-option{
     display: flex;
     flex-direction: column;
-    /*gap: 0.5rem;*/
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filiere-select-container .filiere-option:hover{
+    transform: scale(1.02);
 }
 
 .filiere-select-container .filiere-option span{
