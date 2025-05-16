@@ -36,19 +36,25 @@ class UnitsRequest {
         }
     }
 
-    createUnitElement(unitId, unitName) {
+    createUnitElement(unitId, unitData) {
         const container = document.createElement('div');
         container.className = 'requested-unit';
 
         const unitElement = document.createElement('span');
-        unitElement.textContent = unitName;
+        unitElement.textContent = unitData.name;
+
+        // Create unit type indicator
+        const typeIndicator = document.createElement('div');
+        typeIndicator.className = 'unit-type-indicator';
+        typeIndicator.textContent = unitData.type;
+        typeIndicator.dataset.type = unitData.type;
 
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
-        removeBtn.textContent = 'Remove';
+        removeBtn.textContent = '⨯';
         removeBtn.addEventListener('click', () => {
             // Add option back to selector
-            const option = new Option(unitName, unitId);
+            const option = new Option(unitData.name, unitId);
             this.unitSelector.add(option);
 
             // Remove from display
@@ -59,7 +65,7 @@ class UnitsRequest {
             this.updateUnitsInput();
         });
 
-        container.append(unitElement, removeBtn);
+        container.append(unitElement, typeIndicator, removeBtn);
         return container;
     }
 

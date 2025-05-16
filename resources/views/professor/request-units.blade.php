@@ -123,8 +123,14 @@
     </x-popup>
 
     <script>
-        window.unitsData = @json($units->pluck('name', 'id'));
-    </script>
+        window.unitsData = @json($units->map(function($unit) {
+        return [
+            'id' => $unit->id,
+            'name' => $unit->name,
+            'type' => $unit->type
+        ];
+    })->keyBy('id'));
+</script>
 
     </body>
 
