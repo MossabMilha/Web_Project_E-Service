@@ -33,7 +33,7 @@ class TeachingUnitController extends Controller
         $units = TeachingUnit::with([
             'filiere:id,name'
         ])
-            ->select(['id', 'name', 'hours', 'type', 'credits', 'semester', 'filiere_id'])
+            ->select(['id', 'name', 'description', 'hours', 'type', 'credits', 'semester', 'filiere_id'])
             ->paginate(10);
 
         // Add `status` manually based on latest assignment

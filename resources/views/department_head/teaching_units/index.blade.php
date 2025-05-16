@@ -96,8 +96,8 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-id">#{{ $unit->id }}</div>
-                        <span class="chip" data-status="{{strtolower(explode(' ', $unit->filiere->name)[0])}}">
-                            {{ $unit->filiere->name }}
+                        <span class="chip" data-status="{{$unit->status}}">
+                            {{ $unit->status}}
                         </span>
                     </div>
 
@@ -130,6 +130,11 @@
                         <div class="info-row">
                             <span class="label">Semester:</span>
                             <span class="value">{{ $unit->semester }}</span>
+                        </div>
+
+                        <div class="info-row">
+                            <span class="label">Major:</span>
+                            <span class="value">{{ $unit->filiere->name }}</span>
                         </div>
 
                         <div class="card-footer">
