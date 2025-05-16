@@ -62,14 +62,14 @@
                         <td><div class="td-wrapper"> {{ $unit->semester }}</div></td>
                         <td>
                             <div class="td-wrapper">
-                                <span class="chip" data-status="{{ $unit->assignmentStatus()}}">
-                                    {{ $unit->assignmentStatus()}}
+                                <span class="chip" data-status="{{ $unit->status}}">
+                                    {{ $unit->status}}
                                 </span>
                             </div>
                         </td>
                         <td>
                             <div class="td-wrapper">
-                                @if($unit->assignmentStatus() == 'assigned')
+                                @if($unit->status == 'assigned')
                                     <form  method="POST" style="display:inline;" action="{{ route('department-head.professors.units.destroy', ['unit_id' => $unit->id]) }}">
                                         @csrf
                                         @method('DELETE')
@@ -77,7 +77,7 @@
                                             <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
                                         </button>
                                     </form>
-                                @elseif($unit->assignmentStatus() == 'unassigned')
+                                @elseif($unit->status == 'unassigned')
                                     <button type="button" class="open-popup-btn open-assign-popup-btn">
                                         <x-svg-icon src="svg/add-paper-icon.svg" stroke="var(--color-primary)"/>
                                     </button>
@@ -134,7 +134,7 @@
 
                         <div class="card-footer">
                             <div class="icons-wrapper flex">
-                                @if($unit->assignmentStatus() == 'assigned')
+                                @if($unit->status == 'assigned')
                                     <form  method="POST" style="display:inline;" action="{{ route('department-head.professors.units.destroy', ['unit_id' => $unit->id]) }}">
                                         @csrf
                                         @method('DELETE')
@@ -142,7 +142,7 @@
                                             <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
                                         </button>
                                     </form>
-                                @elseif($unit->assignmentStatus() == 'unassigned')
+                                @elseif($unit->status == 'unassigned')
                                     <button type="button" class="open-popup-btn open-assign-popup-btn">
                                         <x-svg-icon src="svg/add-paper-icon.svg" stroke="var(--color-primary)"/>
                                     </button>

@@ -11,45 +11,44 @@ class TeachingUnitController extends Controller
 {
     public function index()
     {
-        // Cache the department ID lookup
+        $userId = Auth::id();
+
+        // Cache the department ID lookup for this head
         $departmentId = cache()->remember(
-            'department-head-'.Auth::id(),
+            "department-head-{$userId}",
             now()->addHours(6),
-            fn() => Department::where('head_id', Auth::id())->value('id')
+            fn() => Department::where('head_id', $userId)->value('id')
         );
 
-        if (!$departmentId) {
-            abort(404, 'Department not found');
-        }
+        abort_unless($departmentId, 404, 'Department not found');
 
-        // Optimized professors query
-        $professors = User::query()
+        // Retrieve professors only from the relevant department
+        $professors = User::select('id', 'name')
             ->where('role', 'professor')
             ->whereHas('departmentMember', fn($q) => $q->where('department_id', $departmentId))
-            ->select('id', 'name')
             ->orderBy('name')
             ->get();
 
-        // Optimized units query with proper eager loading
-        $units = TeachingUnit::query()
-            ->select([
-                'id',
-                'name',
-                'hours',
-                'type',
-                'credits',
-                'semester',
-                'filiere_id'
-            ])
-            ->with([
-                'filiere:id,name'
-            ])
+        // Teaching units with eager-loaded filiere, and only required columns
+        $units = TeachingUnit::with([
+            'filiere:id,name'
+        ])
+            ->select(['id', 'name', 'hours', 'type', 'credits', 'semester', 'filiere_id'])
             ->paginate(10);
 
-        return view('department_head.teaching_units.index', [
-            'units' => $units,
-            'professors' => $professors
-        ]);
+        // Add `status` manually based on latest assignment
+        $units->transform(function ($unit) {
+            $latest = $unit->assignments->first(); // already ordered desc
+            $unit->status = match ($latest?->status) {
+                'approved' => 'assigned',
+                'pending' => 'pending',
+                default => 'unassigned',
+            };
+            return $unit;
+        });
+
+
+        return view('department_head.teaching_units.index', compact('units', 'professors'));
     }
 
     public function search(){

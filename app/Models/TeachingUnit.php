@@ -40,16 +40,16 @@ class TeachingUnit extends Model
     }
     public function assignmentStatus()
     {
-        foreach ($this->assignments()->latest()->get() as $assignment) {
-            if ($assignment->status === 'approved') {
-                return 'assigned';
-            }
-            if ($assignment->status === 'pending') {
-                return 'pending';
-            }
-            // skip 'declined'
-        }
-        return 'unassigned';
+        $latest = $this->assignments()
+            ->whereIn('status', ['approved', 'pending'])
+            ->latest()
+            ->first();
+
+        return match ($latest?->status) {
+            'approved' => 'assigned',
+            'pending' => 'pending',
+            default => 'unassigned',
+        };
     }
     public function assignedVacataire()
     {
