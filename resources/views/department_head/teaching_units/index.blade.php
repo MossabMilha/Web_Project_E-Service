@@ -3,8 +3,12 @@
     <x-slot:head>
         @vite([
             'resources/css/DepartmentHead/TeachingUnits.css',
+            'resources/css/components/popup.css',
+            'resources/js/components/popup.js',
             'resources/css/components/chips.css',
             'resources/js/components/chips.js',
+            'resources/css/DepartmentHead/teaching_units/assign-prof-popup.css',
+            'resources/js/department-head/teaching_units/assign-prof-popup.js'
         ])
     </x-slot:head>
 
@@ -40,23 +44,46 @@
                     <th><div class="th-wrapper">id</div></th>
                     <th><div class="th-wrapper">major</div></th>
                     <th><div class="th-wrapper">name</div></th>
-{{--                    <th><div class="th-wrapper">description</div></th>--}}
                     <th><div class="th-wrapper">hours</div></th>
                     <th><div class="th-wrapper">type</div></th>
                     <th><div class="th-wrapper">credits</div></th>
                     <th><div class="th-wrapper">semester</div></th>
-                    {{--                <th>assigned professors</th>--}}
+                    <th><div class="th-wrapper">status</div></th>
+                    <th><div class="th-wrapper">action</div></th>
                 </tr>
                 @foreach($units as $unit)
                     <tr>
                         <td><div class="td-wrapper"> {{ $unit->id }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->filiere->name }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->name }}</div></td>
-{{--                        <td><div class="td-wrapper"> {{ $unit->description }}</div></td>--}}
                         <td><div class="td-wrapper"> {{ $unit->hours }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->type }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->credits }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->semester }}</div></td>
+                        <td>
+                            <div class="td-wrapper">
+                                <span class="chip" data-status="{{ $unit->assignmentStatus()}}">
+                                    {{ $unit->assignmentStatus()}}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="td-wrapper">
+                                @if($unit->assignmentStatus() == 'assigned')
+                                    <form  method="POST" style="display:inline;" action="{{ route('department-head.professors.units.destroy', ['unit_id' => $unit->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
+                                        </button>
+                                    </form>
+                                @elseif($unit->assignmentStatus() == 'unassigned')
+                                    <button type="button" class="open-popup-btn open-assign-popup-btn">
+                                        <x-svg-icon src="svg/add-paper-icon.svg" stroke="var(--color-primary)"/>
+                                    </button>
+                                @endif
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
             </table>
@@ -105,6 +132,24 @@
                             <span class="value">{{ $unit->semester }}</span>
                         </div>
 
+                        <div class="card-footer">
+                            <div class="icons-wrapper flex">
+                                @if($unit->assignmentStatus() == 'assigned')
+                                    <form  method="POST" style="display:inline;" action="{{ route('department-head.professors.units.destroy', ['unit_id' => $unit->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">
+                                            <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
+                                        </button>
+                                    </form>
+                                @elseif($unit->assignmentStatus() == 'unassigned')
+                                    <button type="button" class="open-popup-btn open-assign-popup-btn">
+                                        <x-svg-icon src="svg/add-paper-icon.svg" stroke="var(--color-primary)"/>
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             @endforeach
@@ -118,6 +163,29 @@
             <a href="{{ $units->nextPageUrl() }}" class="next-btn {{ $units->hasMorePages() ? '' : 'disabled' }}">next ></a>
         </div>
     @endif
-</div>
 
+    <x-popup>
+        <form id="profs-assignment-form" method="post" action="{{ route('department-head.professors.units.store')}}">
+            @csrf
+            <h2>Assign Professor</h2>
+
+            <div class="form-group">
+                <label for="professor_id">Select Professor:</label>
+                <select id="professor_id" name="professor_id" class="form-select" required>
+                    <option value="" selected disabled>Select a professor</option>
+                    @foreach($professors as $prof)
+                        <option value="{{ $prof->id }}">{{ $prof->name }}</option>
+                    @endforeach
+            </select>
+        </div>
+
+        <input type="hidden" name="unit_id" class="unit-id-input">
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Assign</button>
+        </div>
+    </form>
+    </x-popup>
+
+</div>
 </x-layout>

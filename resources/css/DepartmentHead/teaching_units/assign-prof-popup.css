@@ -1,0 +1,62 @@
+#profs-assignment-form {
+    background-color: var(--color-white);
+    padding: 1em;
+    min-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    border-radius: 10px;
+}
+
+#profs-assignment-form > h2 {
+    font-size: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.selected-prof {
+    margin: 15px 0;
+}
+
+.assigned-prof {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    margin: 5px 0;
+}
+
+.assigned-prof span {
+    margin-right: 10px;
+}
+
+.assigned-prof button {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.assigned-prof button:hover {
+    background-color: #cc0000;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-select {
+    color: #0a0a0a;
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}

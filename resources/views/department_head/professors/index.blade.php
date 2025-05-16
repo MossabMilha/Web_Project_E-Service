@@ -76,66 +76,66 @@
                     </tr>
 
                     <!-- Nested Units Table -->
-                    @if($units->isNotEmpty())
-                        <tr class="nested-row" id="units-{{ $professor->id }}" style="display: none;">
-                            <td colspan="8">
-                                <div class="nested-content">
-                                    <table class="nested-units-table">
-                                        <thead>
-                                        <tr>
-                                            <th class="nested"><div class="th-wrapper">Unit ID</div></th>
-                                            <th class="nested"><div class="th-wrapper">Unit Name</div></th>
-                                            <th class="nested"><div class="th-wrapper">Unit Hours</div></th>
-                                            <th class="nested"><div class="th-wrapper">Credits</div></th>
-                                            <th class="nested"><div class="th-wrapper">Semester</div></th>
-                                            <th class="nested"><div class="th-wrapper">Status</div></th>
-                                            <th class="nested"><div class="th-wrapper">Action</div></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($units as $unit)
-                                            <tr>
-                                                <td class="nested"><div class="td-wrapper">{{ $unit->id }}</div></td>
-                                                <td class="nested"><div class="td-wrapper">{{ $unit->name }}</div></td>
-                                                <td class="nested"><div class="td-wrapper">{{ $unit->hours }}</div></td>
-                                                <td class="nested"><div class="td-wrapper">{{ $unit->credits }}</div></td>
-                                                <td class="nested"><div class="td-wrapper">{{ $unit->semester }}</div></td>
-                                                <td class="nested">
-                                                    <div class="td-wrapper">
-                                                        <span class="chip" data-status="{{ $unit->assignmentStatus()}}">
-                                                            {{ $unit->assignmentStatus()}}
-                                                        </span>
+{{--                    @if($units->isNotEmpty())--}}
+{{--                        <tr class="nested-row" id="units-{{ $professor->id }}" style="display: none;">--}}
+{{--                            <td colspan="8">--}}
+{{--                                <div class="nested-content">--}}
+{{--                                    <table class="nested-units-table">--}}
+{{--                                        <thead>--}}
+{{--                                        <tr>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Unit ID</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Unit Name</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Unit Hours</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Credits</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Semester</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Status</div></th>--}}
+{{--                                            <th class="nested"><div class="th-wrapper">Action</div></th>--}}
+{{--                                        </tr>--}}
+{{--                                        </thead>--}}
+{{--                                        <tbody>--}}
+{{--                                        @foreach($units as $unit)--}}
+{{--                                            <tr>--}}
+{{--                                                <td class="nested"><div class="td-wrapper">{{ $unit->id }}</div></td>--}}
+{{--                                                <td class="nested"><div class="td-wrapper">{{ $unit->name }}</div></td>--}}
+{{--                                                <td class="nested"><div class="td-wrapper">{{ $unit->hours }}</div></td>--}}
+{{--                                                <td class="nested"><div class="td-wrapper">{{ $unit->credits }}</div></td>--}}
+{{--                                                <td class="nested"><div class="td-wrapper">{{ $unit->semester }}</div></td>--}}
+{{--                                                <td class="nested">--}}
+{{--                                                    <div class="td-wrapper">--}}
+{{--                                                        <span class="chip" data-status="{{ $unit->assignmentStatus()}}">--}}
+{{--                                                            {{ $unit->assignmentStatus()}}--}}
+{{--                                                        </span>--}}
 
-                                                    </div>
-                                                </td>
-                                                <td class="nested">
-                                                    <div class="td-wrapper">
-                                                        <form action="{{ route('department-head.professors.units.destroy', ['professor_id' => $professor->id, 'unit_id' => $unit->id]) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger">
-                                                                <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                            <tr>
-                                                <td colspan="8" class="text-center">
-                                                    <button type="button"
-                                                            class="open-popup-btn open-assign-popup-btn"
-                                                            data-professor-id="{{ $professor->id }}">
-                                                        Assign Unit(s)
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-                    @endif
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                                <td class="nested">--}}
+{{--                                                    <div class="td-wrapper">--}}
+{{--                                                        <form action="{{ route('department-head.professors.units.destroy', ['professor_id' => $professor->id, 'unit_id' => $unit->id]) }}" method="POST" style="display:inline;">--}}
+{{--                                                            @csrf--}}
+{{--                                                            @method('DELETE')--}}
+{{--                                                            <button type="submit" class="btn btn-danger">--}}
+{{--                                                                <x-svg-icon src="svg/remove-paper-icon.svg" stroke="var(--color-danger)"/>--}}
+{{--                                                            </button>--}}
+{{--                                                        </form>--}}
+{{--                                                    </div>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        @endforeach--}}
+{{--                                            <tr>--}}
+{{--                                                <td colspan="8" class="text-center">--}}
+{{--                                                    <button type="button"--}}
+{{--                                                            class="open-popup-btn open-assign-popup-btn"--}}
+{{--                                                            data-professor-id="{{ $professor->id }}">--}}
+{{--                                                        Assign Unit(s)--}}
+{{--                                                    </button>--}}
+{{--                                                </td>--}}
+{{--                                            </tr>--}}
+{{--                                        </tbody>--}}
+{{--                                    </table>--}}
+{{--                                </div>--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                    @endif--}}
 
                 @endforeach
                 </tbody>
@@ -151,6 +151,7 @@
 {{--            </div>--}}
 {{--        @endif--}}
     </div>
+
     <x-popup>
         <form id="units-assignment-form" action="{{ route('department-head.professors.units.store', 'PROFESSOR_ID') }}" method="post">
             @csrf
@@ -182,8 +183,8 @@
         </form>
     </x-popup>
 
-        <script>
-            window.unitsData = @json($unitsToAssign->pluck('name', 'id'));
-        </script>
+    <script>
+        window.unitsData = @json($unitsToAssign->pluck('name', 'id'));
+    </script>
 
 </x-layout>

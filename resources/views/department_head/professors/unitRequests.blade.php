@@ -72,9 +72,9 @@
                                 </td>
                                 <td>
                                     <div class="td-wrapper">
-                                                <span class="chip" data-status="{{ strtolower($unit_request->status) }}">
-                                                    {{ $unit_request->status }}
-                                                </span>
+                                        <span class="chip" data-status="{{ strtolower($unit_request->status) }}">
+                                            {{ $unit_request->status }}
+                                        </span>
                                     </div>
                                 </td>
                                 <td>
@@ -85,8 +85,14 @@
                                 </td>
                                 <td>
                                     <div class="td-wrapper">{{$unit_request->assigned_hours}}
-                                        @if($unit_request->assigned_hours < $unit_request->min_hours)
-                                            <span class="bg-red-200 text-red-600 text-xs py-0.5 px-1.5 rounded-2xl">< {{$unit_request->min_hours}}</span>
+                                        @if($unit_request->underloaded)
+                                            <span class="bg-red-200 text-red-600 text-xs py-0.5 px-1.5 rounded-2xl">
+                                                < {{$unit_request->min_hours}}
+                                            </span>
+                                        @elseif($unit_request->overloaded)
+                                            <span class="bg-red-200 text-red-600 text-xs py-0.5 px-1.5 rounded-2xl">
+                                                > {{$unit_request->max_hours}}
+                                            </span>
                                         @endif
                                     </div>
                                 </td>
@@ -172,8 +178,10 @@
                                     <span class="label">Assigned hours:</span>
                                     <span class="value">
                                         {{$unit_request->assigned_hours}}
-                                        @if($unit_request->assigned_hours < $unit_request->min_hours)
+                                        @if($unit_request->underloaded)
                                             <span class="bg-red-200 text-red-600 text-xs py-0.5 px-1.5 rounded-2xl">< {{$unit_request->min_hours}}</span>
+                                        @elseif($unit_request->overloaded)
+                                            <span class="bg-red-200 text-red-600 text-xs py-0.5 px-1.5 rounded-2xl">> {{$unit_request->max_hours}}</span>
                                         @endif
                                     </span>
                                 </div>

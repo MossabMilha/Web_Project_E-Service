@@ -57,74 +57,48 @@ class ProfessorController extends Controller
         return view('department_head.professors.index', compact( 'profsWithUnits', 'unitsToAssign'));
     }
 
-    public function assign($id)
+//    public function assign($id)
+//    {
+//        $department_id = DepartmentMember::where('professor_id', $id)->value('department_id');
+//        $filiere = Filiere::where('department_id', $department_id)->get();
+//
+//        $professor = User::find($id);
+//        $units = TeachingUnit::
+//        whereDoesntHave('assignments')
+//            ->whereHas('filiere', function($q) use($filiere){
+//                $q->whereIn('id', $filiere->pluck('id'));
+//            })
+//            ->get();
+//
+//        return view('department_head.professors.assign', compact('professor', 'units'));
+//    }
+
+    public function storeAssignment(Request $request)
     {
-        $department_id = DepartmentMember::where('professor_id', $id)->value('department_id');
-        $filiere = Filiere::where('department_id', $department_id)->get();
-
-        $professor = User::find($id);
-        $units = TeachingUnit::
-        whereDoesntHave('assignments')
-            ->whereHas('filiere', function($q) use($filiere){
-                $q->whereIn('id', $filiere->pluck('id'));
-            })
-            ->get();
-
-        return view('department_head.professors.assign', compact('professor', 'units'));
-    }
-
-    public function storeAssignment(Request $request, $professor_id)
-    {
-        $request->merge([
-            'selected_units' => json_decode($request->input('selected_units'), true)
-        ]);
-        // Validate the input to ensure selected_units_id is an array and contains valid unit IDs
         $request->validate([
-            'selected_units' => 'required|array', // Ensure it's an array
-            'selected_units.*' => 'exists:teaching_units,id', // Ensure each unit_id exists in the teaching_units table
+            'professor_id' => 'required|exists:users,id',
+            'unit_id' => 'required|exists:teaching_units,id',
         ]);
 
-        // Retrieve the selected unit IDs from the request
-        $selected_units_ids = $request->input('selected_units');
+        $existingAssignment = Assignment::where('unit_id', $request->unit_id)->exists();
 
-        // Get all existing assignments for the professor and the selected unit IDs in one query
-        $existing_assignments = Assignment::where('professor_id', $professor_id)
-            ->whereIn('unit_id', $selected_units_ids)
-            ->pluck('unit_id') // Only retrieve the unit_ids that already exist
-            ->toArray();
-
-        // Filter out the unit IDs that already have an assignment
-        $units_to_assign = array_diff($selected_units_ids, $existing_assignments);
-
-        // If there are any units left to assign (i.e., no existing assignment for those)
-        if (count($units_to_assign) > 0) {
-            // Prepare an array of assignments for bulk insertion
-            $assignments = array_map(function ($unit_id) use ($professor_id) {
-                return [
-                    'professor_id' => $professor_id,
-                    'unit_id' => $unit_id,
-                    'status' => 'approved',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }, $units_to_assign);
-
-            // Bulk insert the assignments
-            Assignment::insert($assignments);
+        if ($existingAssignment) {
+            return redirect()->back()->with('error', 'This unit is already assigned to a professor.');
         }
 
-        // Redirect with a success or info message
-        if (count($units_to_assign) > 0) {
-            return redirect()->route('department-head.professors.index')->with('success', 'Unit(s) assigned successfully!');
-        } else {
-            return redirect()->route('department-head.professors.index')->with('info', 'The selected unit(s) are already assigned to this professor.');
-        }
+        Assignment::create([
+            'professor_id' => $request->professor_id,
+            'unit_id' => $request->unit_id,
+            'status' => 'approved',
+        ]);
+
+        return redirect()->route('department-head.teaching-units.index')
+            ->with('success', 'Unit assigned successfully!');
     }
 
-    public function destroyAssignment($professor_id, $unit_id)
+    public function destroyAssignment($unit_id)
     {
         $assignment = Assignment::where('unit_id', $unit_id)
-            ->where('professor_id', $professor_id)
             ->first();
 
         if ($assignment) { // Check if assignment exists
@@ -228,8 +202,11 @@ class ProfessorController extends Controller
             $workloadProfile = WorkloadProfile::where('type', $professor->role)->first();
 
             $request->underloaded = $assigned_hours < $workloadProfile->min_hours;
+            $request->overloaded = $assigned_hours > $workloadProfile->max_hours;
             $request->assigned_hours = $assigned_hours;
             $request->min_hours = $workloadProfile->min_hours;
+            $request->max_hours = $workloadProfile->max_hours;
+
 
             return $request;
         });
