@@ -19,42 +19,16 @@ class ProfessorController extends Controller
 {
 
     public function index(){
-        $department = Department::where('head_id', Auth::user()->id)->first();
-        $department_id = $department->id;
+        $department_id = Department::where('head_id', Auth::user()->id)->first()->id;
 
         $professors = User::where('role', 'professor')
             ->whereHas('departmentMember', function ($query) use ($department_id) {
                 $query->where('department_id', $department_id);
             })
             ->with('departmentMember')
-            ->get();
+            ->paginate(10);
 
-        $profsWithUnits = [];
-
-        foreach ($professors as $professor) {
-            if ($professor) {
-                $units = TeachingUnit::
-                wherehas('assignments', function ($q) use ($professor) {
-                    $q->where('professor_id', $professor->id);})
-                    ->with('assignments')
-                    ->get();
-            } else {
-                $units = collect();
-            }
-            $profsWithUnits[] = [
-                'professor' => $professor,
-                'units' => $units,
-            ];
-        }
-
-        $unitsToAssign = TeachingUnit::whereDoesntHave('assignments')
-            ->whereDoesntHave('unitsRequest')
-            ->whereHas('filiere', function($q) use ($department_id) {
-                $q->where('department_id', $department_id);
-            })
-            ->get();
-
-        return view('department_head.professors.index', compact( 'profsWithUnits', 'unitsToAssign'));
+        return view('department_head.professors.index', compact('professors'));
     }
 
 //    public function assign($id)

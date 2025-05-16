@@ -24,8 +24,8 @@ class DepartmentHeadController extends Controller
                 'p.id as professor_id',
                 'p.name',
                 'p.role',
-                'wp.min_hours',
-                'wp.max_hours',
+                'wp.min_hours as min_hours',
+                'wp.max_hours as max_hours',
                 DB::raw('COALESCE(SUM(u.hours), 0) as assigned_hours'),
                 DB::raw("
             CASE

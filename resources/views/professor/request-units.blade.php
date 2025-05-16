@@ -24,67 +24,108 @@
             </button>
         </div>
 
-
-        <x-table>
-            <table>
-                <tr>
-                    <th>
-                        <div class="th-wrapper">ID</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">Unit label</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">semester</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">academic year</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">status</div>
-                    </th>
-                    <th>
-                        <div class="th-wrapper">requested At</div>
-                    </th>
-                </tr>
-                @foreach($requests as $request)
+        <div class="desktop">
+            <x-table>
+                <table>
                     <tr>
-                        <td>
-                            <div class="td-wrapper">{{$request->id}}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper">{{$request->unit->name}}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper">{{$request->semester}}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper">{{$request->academic_year}}</div>
-                        </td>
-                        <td>
-                            <div class="td-wrapper">
-                                    <span class="chip" data-status="{{ strtolower($request->status) }}">
-                                        {{ $request->status }}
-                                    </span>
-                            </div>
-                        </td>
-                        <td>
-                            <div
-                                class="td-wrapper">{{Carbon::parse($request->requested_at)->format('j M Y, H:i')}}</div>
-                        </td>
+                        <th>
+                            <div class="th-wrapper">ID</div>
+                        </th>
+                        <th>
+                            <div class="th-wrapper">Unit label</div>
+                        </th>
+                        <th>
+                            <div class="th-wrapper">semester</div>
+                        </th>
+                        <th>
+                            <div class="th-wrapper">academic year</div>
+                        </th>
+                        <th>
+                            <div class="th-wrapper">status</div>
+                        </th>
+                        <th>
+                            <div class="th-wrapper">requested At</div>
+                        </th>
                     </tr>
+                    @foreach($requests as $request)
+                        <tr>
+                            <td>
+                                <div class="td-wrapper">{{$request->id}}</div>
+                            </td>
+                            <td>
+                                <div class="td-wrapper">{{$request->unit->name}}</div>
+                            </td>
+                            <td>
+                                <div class="td-wrapper">{{$request->semester}}</div>
+                            </td>
+                            <td>
+                                <div class="td-wrapper">{{$request->academic_year}}</div>
+                            </td>
+                            <td>
+                                <div class="td-wrapper">
+                                            <span class="chip" data-status="{{ strtolower($request->status) }}">
+                                                {{ $request->status }}
+                                            </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div
+                                    class="td-wrapper">{{Carbon::parse($request->requested_at)->format('j M Y, H:i')}}</div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </x-table>
+        </div>
+
+        <div class="mobile">
+            <div class="cards-grid">
+                @foreach($requests as $request)
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-id">#{{ $request->id }}</div>
+                            <span class="chip" data-status="{{$request->status}}">
+                            {{ $request->status}}
+                            </span>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="info-row">
+                                <span class="label">Label:</span>
+                                <span class="value">{{ $request->unit->name }}</span>
+                            </div>
+
+                            <div class="info-row">
+                                <span class="label">Semester:</span>
+                                <span class="value">{{ $request->semester }}</span>
+                            </div>
+
+                            <div class="info-row">
+                                <span class="label">Academic year:</span>
+                                <span class="value">{{ $request->academic_year }}</span>
+                            </div>
+
+                            <div class="info-row">
+                                <span class="label">Type:</span>
+                                <span class="value">
+                                    <span class="unit-type-indicator" data-type="{{ $request->unit->type }}"> {{ $request->unit->type }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-            </table>
-            @if ($requests->hasPages())
-                <div class="pagination">
-                    <a href="{{ $requests->previousPageUrl() }}"
-                       class="prev-btn {{ $requests->onFirstPage() ? 'disabled' : '' }}">← previous</a>
-                    <span class="page-info">{{ $requests->currentPage() }} | {{ $requests->lastPage() }}</span>
-                    <a href="{{ $requests->nextPageUrl() }}"
-                       class="next-btn {{ $requests->hasMorePages() ? '' : 'disabled' }}">next →</a>
-                </div>
-            @endif
-        </x-table>
+            </div>
+        </div>
+
+        @if ($requests->hasPages())
+            <div class="pagination">
+                <a href="{{ $requests->previousPageUrl() }}"
+                   class="prev-btn {{ $requests->onFirstPage() ? 'disabled' : '' }}">← previous</a>
+                <span class="page-info">{{ $requests->currentPage() }} | {{ $requests->lastPage() }}</span>
+                <a href="{{ $requests->nextPageUrl() }}"
+                   class="next-btn {{ $requests->hasMorePages() ? '' : 'disabled' }}">next →</a>
+            </div>
+        @endif
     </div>
 
     <x-popup>
@@ -93,6 +134,24 @@
             @csrf
 {{--            <img src="{{asset('png/warning.jpg')}}" alt="alert image" class="popup-img-top">--}}
             <h2>Request Units</h2>
+
+            <div class="form-group">
+                <label for="type">Select Unit Type:</label>
+                <div class="unit-types">
+                    <label for="checkbox">
+                        <input type="checkbox" name="type[]" value="CM">
+                        <span>CM</span>
+                    </label>
+                    <label for="checkbox">
+                        <input type="checkbox" name="type[]" value="TD">
+                        <span>TD</span>
+                    </label>
+                    <label for="checkbox">
+                        <input type="checkbox" name="type[]" value="TP">
+                        <span>TP</span>
+                    </label>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="unit-selector">Select Unit:</label>
@@ -105,30 +164,10 @@
             </div>
 
             <div class="form-group">
-                <label for="type">Select Unit Type:</label>
-                <div class="unit-types">
-                    <label for="">
-                        <input type="checkbox" name="type[]" value="CM">
-                        <span>CM</span>
-                    </label>
-                    <label for="">
-                        <input type="checkbox" name="type[]" value="TD">
-                        <span>TD</span>
-                    </label>
-                    <label for="">
-                        <input type="checkbox" name="type[]" value="TP">
-                        <span>TP</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="form-group">
                 <div class="selected-units-header">
                     <h3>Selected Units:</h3>
                 </div>
-
                 <div id="requested-unit-container" class="requested-units-container"></div>
-
             </div>
 
             <input type="hidden" name="requested_units" id="unitsInput">
