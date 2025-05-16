@@ -105,11 +105,30 @@
             </div>
 
             <div class="form-group">
+                <label for="type">Select Unit Type:</label>
+                <div class="unit-types">
+                    <label for="">
+                        <input type="checkbox" name="type[]" value="CM">
+                        <span>CM</span>
+                    </label>
+                    <label for="">
+                        <input type="checkbox" name="type[]" value="TD">
+                        <span>TD</span>
+                    </label>
+                    <label for="">
+                        <input type="checkbox" name="type[]" value="TP">
+                        <span>TP</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="selected-units-header">
                     <h3>Selected Units:</h3>
                 </div>
 
                 <div id="requested-unit-container" class="requested-units-container"></div>
+
             </div>
 
             <input type="hidden" name="requested_units" id="unitsInput">

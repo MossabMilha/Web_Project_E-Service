@@ -61,6 +61,14 @@ body{
     scrollbar-width: thin; /* For Firefox */
 }
 
+.unit-types{
+    display: flex;
+    gap: 1rem;
+    background-color: var(--color-secondary);
+    padding: .5rem;
+    border-radius: 4px;
+}
+
 /* Individual unit items */
 .requested-unit {
     display: flex;
