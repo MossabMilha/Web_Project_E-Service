@@ -19,11 +19,6 @@
                     <p>&#9888; {{ $error }}</p>
                 @endforeach
             </div>
-            <script>
-                window.onload = function () {
-                    document.getElementById("errorMessage").classList.add("show");
-                };
-            </script>
         @endif
         <form method="POST" action="{{ route('login') }}">
             @csrf

@@ -41,23 +41,21 @@ body{
 
 .info-container .title{
     width: 100%;
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-3xl);
     text-align: left;
+    color: var(--color-primary);
 }
 
 .info-container .error-label{
     width: 100%;
-    max-height: 0;
+    /*max-height: 0;*/
     overflow: hidden;
-    color: #ff4433;
+    color: var(--color-danger);
     border-radius: var(--radius-xs);
-    background: linear-gradient(-30deg, #ffbbbb 0%, #ffd7d3 100%);
+    border: 1px solid var(--color-danger);
+    background: #fff0f0;
     padding: 4px 12px;
-    transition: max-height 0.5s ease-out, padding 0.5s ease-out;
-}
-
-.error-label.show {
-    max-height: 50px;
+    /*transition: max-height 0.5s ease-out, padding 0.5s ease-out;*/
 }
 
 
@@ -76,7 +74,7 @@ body{
 
 .info-container label{
     text-align: left;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-lg);
 }
 
 .info-container input{

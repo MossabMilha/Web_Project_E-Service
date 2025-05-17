@@ -90,7 +90,34 @@
                 </div>
             @elseif(auth()->user()->role == 'department_head')
                 @php
-                    // TODO: display only what belong to the head department and not all.
+                    // Existing queries...
+
+                    // New query for weekly request trend data using reviewed_at column
+                    $weeklyRequestsData = [];
+                    $weeksToShow = 6; // Show data for last 6 weeks
+
+                    for ($i = $weeksToShow - 1; $i >= 0; $i--) {
+                        $weekStart = now()->subWeeks($i)->startOfWeek();
+                        $weekEnd = now()->subWeeks($i)->endOfWeek();
+
+                        // Using reviewed_at as the timestamp for when the request was approved/rejected
+                        $weeklyApproved = App\Models\UnitsRequest::where('status', 'approved')
+                            ->whereBetween('reviewed_at', [$weekStart, $weekEnd])
+                            ->count();
+
+                        $weeklyRejected = App\Models\UnitsRequest::where('status', 'rejected')
+                            ->whereBetween('reviewed_at', [$weekStart, $weekEnd])
+                            ->count();
+
+                        $weeklyRequestsData[] = [
+                            'week' => $weekStart->format('M d') . ' - ' . $weekEnd->format('M d'),
+                            'approved' => $weeklyApproved,
+                            'rejected' => $weeklyRejected
+                        ];
+                    }
+                @endphp
+                @php
+                    // Existing queries
                     $totalTUs = App\Models\TeachingUnit::count() ?? 'N/A';
                     $assignedTUs = App\Models\TeachingUnit::whereHas('assignments')->count() ?? 'N/A';
                     $totalProfs = App\Models\User::where('role', 'professor')->count() ?? 'N/A';
@@ -103,6 +130,16 @@
                         ->groupBy('p.id', 'wp.min_hours', 'wp.max_hours')
                         ->havingRaw('total_hours < wp.min_hours OR total_hours > wp.max_hours')
                         ->count();
+
+                    // New query for request statistics
+                    $approvedRequests = App\Models\UnitsRequest::where('status', 'approved')->count();
+                    $rejectedRequests = App\Models\UnitsRequest::where('status', 'rejected')->count();
+                    $pendingRequests = App\Models\UnitsRequest::where('status', 'pending')->count();
+                    $requestStats = [
+                        'approved' => $approvedRequests,
+                        'rejected' => $rejectedRequests,
+                        'pending' => $pendingRequests
+                    ];
                 @endphp
 
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
@@ -141,6 +178,53 @@
                             {{-- <img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image">--}}
                         </div>
                     </div>
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 mb-2">
+                    <div class="col-span-1 flex flex-col p-4 rounded-lg "
+                         style="background-color: var(--color-primary);">
+                        <h5 class="text-2xl text-white mb-4">Unit Request Status</h5>
+                        <div class="flex items-center justify-center">
+                            <canvas class="rounded-md p-4 bg-white" style="max-height: 250px;" id="requestsChart"></canvas>
+                        </div>
+                        <script>
+                            const requestStats = @json($requestStats);
+                        </script>
+                    </div>
+                    <div class="col-span-3 flex flex-col p-4 rounded-lg"
+                         style="background-color: var(--color-secondary);">
+                        <h5 class="text-2xl text-blue-600 mb-4">Weekly Request Decisions</h5>
+                        <div class="flex items-center justify-center">
+                            <canvas class="bg-white rounded-md p-4" style="height: 250px;" id="weeklyRequestsChart"></canvas>
+                        </div>
+                        <script>
+                            const weeklyRequestsData = @json($weeklyRequestsData);
+                        </script>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-2 mb-4">
+                    <div class="col-span-12 p-4 rounded-lg"
+                         style="background-color: var(--color-primary);">
+                        <h5 class="text-2xl text-white mb-4">Recent Unit Requests</h5>
+                        <div class="space-y-2 p-2 rounded bg-white">
+                            @foreach(App\Models\UnitsRequest::orderBy('requested_at', 'desc')->take(5)->get() as $request)
+                                <div class="flex items-center justify-between p-2 rounded ">
+                                    <div class="flex items-center space-x-2">
+                                        <span
+                                            class="text-gray-600">{{ \Carbon\Carbon::parse($request->requested_at)->format('M d, Y') }}</span>
+                                        <span class="text-gray-800">{{ $request->unit->name ?? 'Unknown Unit' }}</span>
+                                    </div>
+                                    <span class="px-2 py-1 text-xs rounded
+                                        @if($request->status === 'approved') bg-green-100 text-green-800
+                                        @elseif($request->status === 'rejected') bg-red-100 text-red-800
+                                        @else bg-yellow-100 text-yellow-800 @endif">
+                                        {{ ucfirst($request->status) }}
+                                    </span>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
                 </div>
             @endif
 
