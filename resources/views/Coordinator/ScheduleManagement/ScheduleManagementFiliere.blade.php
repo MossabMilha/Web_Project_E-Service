@@ -22,7 +22,7 @@
 
         <x-popup>
             <form id="schedule-import-form"
-                  action="{{ route('coordinator.ScheduleManagementFiliere.import', ['filiere' => $filiere->id]) }}"
+                  action="{{ route('Coordinator.ScheduleManagementFiliere.import', ['filiere' => $filiere->id]) }}"
                   method="POST" enctype="multipart/form-data">
                 @csrf
                 <h2>Importer un emploi du temps</h2>

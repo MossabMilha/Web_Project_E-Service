@@ -277,7 +277,7 @@
                     </x-card>
                 </div>
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/part-time.jpg'" :card_title="'Vacatire Management'" :card_link="'VacataireAccount'">
+                    <x-card :card_img="'png/part-time.jpg'" :card_title="'Vacatire Management'" :card_link="'Coordinator.VacataireAccount.index'">
                         Manage part-time instructors, their assignments, and teaching hours with ease.
                     </x-card>
                 </div>

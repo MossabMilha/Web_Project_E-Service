@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
             filiereIdInput.value = filiereId;
         if (filiereName) {
             const slug = filiereName.toLowerCase().replace(/\s+/g, '-');
-            form.action = `/coordinator/ScheduleManagement/${slug}`;
+            form.action = `/Coordinator/ScheduleManagement/${slug}`;
             console.log(form.action);
             form.submit();
         } else {

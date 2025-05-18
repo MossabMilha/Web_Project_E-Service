@@ -19,7 +19,7 @@
             </div>
         @endif
 
-        <form class="add-user-form" action="{{ route('VacataireAccount.addVacataireDB') }}" method="post">
+        <form class="add-user-form" action="{{ route('Coordinator.VacataireAccount.addVacataireDB') }}" method="post">
             @csrf
 
             <div class="name-wrapper wrapper">
@@ -63,7 +63,7 @@
             </div>
 
             <div class="btns-wrapper">
-                <a class="back-btn" href="{{ route('VacataireAccount') }}">back</a>
+                <a class="back-btn" href="{{ route('Coordinator.VacataireAccount.index') }}">back</a>
                 <input type="submit" value="Submit">
             </div>
         </form>

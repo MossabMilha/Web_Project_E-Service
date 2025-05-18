@@ -45,7 +45,7 @@
                     </x-nav-link>
                 </li>
                 <li>
-                    <x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">
+                    <x-nav-link href="{{route('Coordinator.VacataireAccount.index')}}" :active="request()->routeIs('Coordinator.VacataireAccount.index')">
                         Vacataires
                     </x-nav-link>
                 </li>
@@ -119,7 +119,7 @@
                     </x-nav-link>
                 </li>
                 <li>
-                    <x-nav-link href="{{route('VacataireAccount')}}" :active="request()->routeIs('VacataireAccount')">
+                    <x-nav-link href="{{route('Coordinator.VacataireAccount.index')}}" :active="request()->routeIs('Coordinator.VacataireAccount.index')">
                         Vacataires
                     </x-nav-link>
                 </li>

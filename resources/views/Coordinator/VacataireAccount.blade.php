@@ -16,12 +16,12 @@
     <div class="main-container">
         <div class="buttons-container">
             <div class="add-user-container">
-                <form class="add-user-form" method="GET" action="{{ route('VacataireAccount.addVacataire') }}">
+                <form class="add-user-form" method="GET" action="{{ route('Coordinator.VacataireAccount.addVacataire') }}">
                     <button class="add-btn" type="submit">Add New Vacataire</button>
                 </form>
             </div>
             <div class="export-users-container">
-                <form method="GET" action="{{ route('export.users') }}">
+                <form method="GET" action="{{ route('Coordinator.export.users') }}">
                     <input type="hidden" name="role" value="Vacataire">
                     <button type="submit">Export All Vacataires</button>
                 </form>
@@ -94,7 +94,7 @@
                                         <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em"
                                                     fill="var(--color-danger)"/>
                                     </button>
-                                    <a href="{{ route('export.users', ['id' => $user->id]) }}">
+                                    <a href="{{ route('Coordinator.export.users', ['id' => $user->id]) }}">
                                         <x-svg-icon src="svg/export-2-icon.svg" width="1.75em"
                                                     stroke="var(--color-success)"/>
                                     </a>
@@ -164,7 +164,7 @@
                                     <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em"
                                                 fill="var(--color-danger)"/>
                                 </button>
-                                <a href="{{ route('export.users', ['id' => $user->id]) }}">
+                                <a href="{{ route('Coordinator.export.users', ['id' => $user->id]) }}">
                                     <x-svg-icon src="svg/export-2-icon.svg" width="1.75em"
                                                 stroke="var(--color-success)"/>
                                 </a>
@@ -176,7 +176,7 @@
         </div>
 
         <x-popup>
-            <form id="deleteAssignmentForm" method="POST" action="{{ route('VacataireAccount.deleteVacataire') }}">
+            <form id="deleteAssignmentForm" method="POST" action="{{ route('Coordinator.VacataireAccount.deleteVacataire') }}">
                 @csrf
                 @method('DELETE')
                 <img src="{{asset('png/warning.jpg')}}" alt="alert image" class="popup-img-top">
