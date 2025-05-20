@@ -3,8 +3,14 @@ document.getElementById('vacataire').addEventListener('change', function() {
     const passwordGroup = document.getElementById('password-group');
 
     if (vacataireId) {
-        fetch(`/vacataire/${vacataireId}`)
-            .then(response => response.json())
+        console.log(vacataireId);
+        fetch(`/Coordinator/vacataire/${vacataireId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 document.getElementById('user-id').textContent = data.id;
                 document.getElementById('name').textContent = data.name;
@@ -20,8 +26,12 @@ document.getElementById('vacataire').addEventListener('change', function() {
                     passwordGroup.style.display = 'block';
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to load vacataire data. Please try again or contact support.');
+            });
     } else {
+        console.log(document.getElementById('vacataire-info'));
         document.getElementById('vacataire-info').style.display = 'none';
         if (passwordGroup) {
             passwordGroup.style.display = 'none';

@@ -82,6 +82,9 @@ Route::middleware(['coordinator'])
     ->prefix('Coordinator')
     ->name('Coordinator.')
     ->group(function () {
+        // Direct API endpoint for vacataire details
+        Route::get('/vacataire/{id}', [CoordinatorController::class, 'getVacataireDetails'])->name('vacataire.details');
+
         // Teaching Units Management
         Route::prefix('teachingUnits')->group(function () {
             Route::get('/', [CoordinatorController::class, 'teachingUnits'])->name('teachingUnits');
