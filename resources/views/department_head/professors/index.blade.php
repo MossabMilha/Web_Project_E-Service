@@ -4,45 +4,40 @@
         @vite([
         'resources/js/components/user-role-styling.js',
         'resources/css/DepartmentHead/professors/index.css',
-//        'resources/js/department-head/professors/index.js',
-//        'resources/css/components/popup.css',
-//        'resources/js/components/popup.js',
         'resources/css/components/chips.css',
         'resources/js/components/chips.js',
-//        'resources/css/DepartmentHead/professors/assign-units-popup.css',
-//        'resources/js/department-head/professors/assign-units-popup.js'
+        'resources/js/department-head/professors/index.js',
         ])
     </x-slot:head>
 
     <x-nav/>
 
     <div class="main-container">
-        {{--    <div class="search-wrapper">--}}
-        {{--        <form class="search-form" method="GET" action="">--}}
-        {{--            <div class="search-bar">--}}
-        {{--                <input type="text" id="search" name="search" placeholder="Search">--}}
-        {{--                <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}"--}}
-        {{--                                                              alt="Search Icon"></button>--}}
-        {{--            </div>--}}
-        {{--            <div class="dropdown">--}}
-        {{--                <button id="OptionButton" onclick="toggleDropdown()">Select an Option</button>--}}
-        {{--                <div class="dropdown-content">--}}
-        {{--                    <a href="#" onclick="selectOption('id')">id</a>--}}
-        {{--                    <a href="#" onclick="selectOption('name')">name</a>--}}
-        {{--                    <a href="#" onclick="selectOption('description')">description</a>--}}
-        {{--                    <a href="#" onclick="selectOption('hours')">hours</a>--}}
-        {{--                    <a href="#" onclick="selectOption('type')">type</a>--}}
-        {{--                    <a href="#" onclick="selectOption('semester')">semester</a>--}}
-        {{--                    <a href="#" onclick="selectOption('status')">status</a>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--            <input type="hidden" id="selectedOption" name="option" value="{{ request('option', 'id') }}">--}}
-        {{--        </form>--}}
-        {{--        --}}{{--        <form class="add-user-form" method="GET" action="{{ route('UserManagement.adduser') }}">--}}
-        {{--        --}}{{--            <button class="add-btn" type="submit">+ Add New User</button>--}}
-        {{--        --}}{{--        </form>--}}
-        {{--    </div>--}}
+
+        <div class="search-wrapper">
+            <form class="search-form" method="GET" action="{{route('department-head.professors.search')}}">
+                <div class="search-bar">
+                    <input type="text" id="search" name="search" placeholder="Search">
+                    <button class="submit-btn" type="submit"><img src="{{ asset('svg/search-icon.svg') }}" alt="Search Icon"></button>
+                </div>
+                <div class="dropdown">
+                    <button type="button" id="OptionButton">Select an Option</button>
+                    <div class="dropdown-content">
+                        <a onclick="selectOption('id'); return false;">id</a>
+                        <a onclick="selectOption('full name'); return false;">full name</a>
+                        <a onclick="selectOption('email'); return false;">email</a>
+                        <a onclick="selectOption('role'); return false;">role</a>
+                        <a onclick="selectOption('specialization'); return false;">specialization</a>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedOption" name="option" value="{{ request('option', 'id') }}">
+            </form>
+        </div>
+
+
         <div class="desktop">
+
+
             <x-table>
                 <table>
                     <thead>

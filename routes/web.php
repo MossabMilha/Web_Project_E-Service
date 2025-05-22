@@ -66,6 +66,7 @@ Route::middleware('departmenthead')
         // Professors Management
         Route::prefix('professors')->name('professors.')->group(function () {
             Route::get('/', [ProfessorController::class, 'index'])->name('index');
+            Route::get('/search', [ProfessorController::class, 'search'])->name('search');
             Route::post('/assign', [ProfessorController::class, 'storeAssignment'])->name('units.store');
             Route::delete('/units/{unit_id}', [ProfessorController::class, 'destroyAssignment'])->name('units.destroy');
             Route::get('/unit-requests', [ProfessorController::class, 'indexUnitRequests'])->name('unit.requests');

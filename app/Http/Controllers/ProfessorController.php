@@ -7,6 +7,7 @@ use App\Models\Assignment;
 use App\Models\Department;
 use App\Models\DepartmentMember;
 use App\Models\Filiere;
+use App\Models\LogModel;
 use App\Models\TeachingUnit;
 use App\Models\UnitsRequest;
 use App\Models\User;
@@ -30,6 +31,56 @@ class ProfessorController extends Controller
 
         return view('department_head.professors.index', compact('professors'));
     }
+    public function search(Request $request)
+    {
+        $authUser = Auth::user();
+
+        // Get department ID led by this department head
+        $department = Department::where('head_id', $authUser->id)->first();
+
+        if (!$department) {
+            abort(403, 'You are not assigned as head of any department.');
+        }
+
+        $departmentId = $department->id;
+
+        LogModel::track('search_users', "Department Head (ID: {$authUser->id}) searched users in department ID {$departmentId} with term '{$request->input('search')}' and option '{$request->input('option')}'");
+
+        $searchTerm = $request->input('search');
+        $searchOption = $request->input('option', 'id');
+
+        // Map frontend search options to database columns
+        $columnMap = [
+            'id' => 'users.id',
+            'full name' => 'users.name',
+            'email' => 'users.email',
+            'role' => 'users.role',
+            'specialization' => 'users.specialization',
+        ];
+
+        $searchOption = $columnMap[$searchOption] ?? 'users.id';
+
+        // Build query
+        $query = User::query()
+            ->select('users.*')
+            ->join('department_members', 'users.id', '=', 'department_members.professor_id')
+            ->where('department_members.department_id', $departmentId)
+            ->where('users.role', 'professor');
+
+        // Apply search if any
+        if ($searchTerm) {
+            if ($searchOption === 'users.id') {
+                $query->whereRaw("CAST(users.id AS CHAR) LIKE ?", ['%' . $searchTerm . '%']);
+            } else {
+                $query->where($searchOption, 'like', '%' . $searchTerm . '%');
+            }
+        }
+
+        $professors = $query->paginate(10)->appends(request()->query());
+
+        return view('department_head.professors.index', compact('professors'));
+    }
+
 
 //    public function assign($id)
 //    {
