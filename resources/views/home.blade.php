@@ -253,7 +253,12 @@
             {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "department_head")
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/units.jpg'" :card_title="'Professors Units'" :card_link="'department-head.professors.index'">
+                    <x-card :card_img="'png/units.jpg'" :card_title="'Professors Units'" :card_link="'department-head.teaching-units.index'">
+                        Oversee and assign academic units to professors, ensuring optimal distribution and alignment with their expertise.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/units.jpg'" :card_title="'Professors List'" :card_link="'department-head.professors.index'">
                         Oversee and assign academic units to professors, ensuring optimal distribution and alignment with their expertise.
                     </x-card>
                 </div>
@@ -263,7 +268,7 @@
                     </x-card>
                 </div>
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/workload.jpg'" :card_title="'workload'" :card_link="'department-head.workload.overview'">
+                    <x-card :card_img="'png/workload.jpg'" :card_title="'Workload'" :card_link="'department-head.workload.overview'">
                         Monitor and balance professors’ teaching workloads for fair distribution and effective academic planning.
                     </x-card>
                 </div>
