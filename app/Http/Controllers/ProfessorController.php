@@ -128,10 +128,10 @@ class ProfessorController extends Controller
 
         if ($assignment) { // Check if assignment exists
             $assignment->delete();
-            return redirect()->route('department-head.professors.index')->with('success', 'Unit assignment was deleted successfully.');
+            return redirect()->route('department-head.teaching-units')->with('success', 'Unit assignment was deleted successfully.');
         }
 
-        return redirect()->route('department-head.professors.index')->with('error', 'Unit assignment not found.');
+        return redirect()->route('department-head.teaching-units')->with('error', 'Unit assignment not found.');
     }
 
     //professor methods

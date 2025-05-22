@@ -31,7 +31,6 @@ document.getElementById('vacataire').addEventListener('change', function() {
                 alert('Failed to load vacataire data. Please try again or contact support.');
             });
     } else {
-        console.log(document.getElementById('vacataire-info'));
         document.getElementById('vacataire-info').style.display = 'none';
         if (passwordGroup) {
             passwordGroup.style.display = 'none';

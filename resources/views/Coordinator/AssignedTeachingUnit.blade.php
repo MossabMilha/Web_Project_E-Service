@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Assigned Teaching Unit">
     <x-slot:head>
         @vite([
             'resources/js/Coordinator/AssignedTeachingUnit.js',
@@ -10,56 +10,56 @@
 
     <x-nav/>
 
-    <div class="main-container">
-        <div class="unit-info-container">
-            <h1>Information About The Unit</h1>
-            <table class="info-table">
-                <tr>
-                    <th>UnitsId</th>
-                    <td>{{ $unit->id }}</td>
-                </tr>
-                <tr>
-                    <th>Name</th>
-                    <td>{{ $unit->name }}</td>
-                </tr>
-                <tr>
-                    <th>Description</th>
-                    <td>{{ $unit->description }}</td>
-                </tr>
-                <tr>
-                    <th>Hours</th>
-                    <td>{{ $unit->hours }}</td>
-                </tr>
-                <tr>
-                    <th>Type</th>
-                    <td>{{ $unit->type }}</td>
-                </tr>
-                <tr>
-                    <th>Credits</th>
-                    <td>{{ $unit->credits }}</td>
-                </tr>
-                <tr>
-                    <th>Filiere</th>
-                    <td>{{ $unit->filiere_id }}</td>
-                </tr>
-                <tr>
-                    <th>Semester</th>
-                    <td>{{ $unit->semester }}</td>
-                </tr>
-                <tr>
-                    <th>Status</th>
-                    <td>
-                        <span class="chip" data-status="<?php echo e($unit->assignmentStatus()); ?>">
-                            <?php echo e($unit->assignmentStatus()); ?>
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Units Created At</th>
-                    <td>{{ $unit->created_at }}</td>
-                </tr>
-            </table>
-        </div>
+        <div class="main-container">
+            <div class="unit-info-container">
+                <h1>Information About The Unit</h1>
+                <table class="info-table">
+                    <tr>
+                        <th>UnitsId</th>
+                        <td>{{ $unit->id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ $unit->name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ $unit->description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Hours</th>
+                        <td>{{ $unit->hours }}</td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ $unit->type }}</td>
+                    </tr>
+                    <tr>
+                        <th>Credits</th>
+                        <td>{{ $unit->credits }}</td>
+                    </tr>
+                    <tr>
+                        <th>Filiere</th>
+                        <td>{{ $unit->filiere_id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Semester</th>
+                        <td>{{ $unit->semester }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>
+                            <span class="chip" data-status="<?php echo e($unit->assignmentStatus()); ?>">
+                                <?php echo e($unit->assignmentStatus()); ?>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Units Created At</th>
+                        <td>{{ $unit->created_at }}</td>
+                    </tr>
+                </table>
+            </div>
 
         <div class="vacataire-section">
             <h1>Available Vacataire</h1>
