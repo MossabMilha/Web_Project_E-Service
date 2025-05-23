@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: start;
     gap: 8px;
-
     background-size: contain; /* Cover the entire nav area */
     background-position: right; /* Center the image */
     background-repeat: no-repeat; /* Prevent image repetition */
@@ -12,16 +11,27 @@
 }
 
 .header-user .path{
+    font-size: 10px;
     color: white;
 }
 
 .header-user h1{
-    font-size: 32px;
+    font-size: 2rem;
     color: white;
 }
 
 .header-user h2{
     font-size: 14px;
     /*margin: 0.25em;*/
+}
+
+@media (max-width: 768px){
+    .header-user h1{
+        font-size: 1rem;
+    }
+
+    .header-user h2{
+        font-size: 10px;
+    }
 }
 

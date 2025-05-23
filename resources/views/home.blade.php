@@ -140,6 +140,7 @@
                     ];
                 @endphp
 
+                {{-- Statistics cards showing teaching units and professors overview --}}
                 <div class="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 mb-2">
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
                         <div class="flex-3/4 flex flex-col justify-around text-blue-600">
@@ -147,6 +148,7 @@
                             <span class="text-4xl">{{$totalTUs}}</span>
                         </div>
                         <div class="flex-1/4 flex items-end justify-end">
+                            <img style="height: 48px;" src="{{asset('png/units.png')}}" alt="dead image">
                         </div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
@@ -155,7 +157,7 @@
                             <span class="text-4xl">{{$assignedTUs}}</span>
                         </div>
                         <div class="flex-1/4 flex items-end justify-end">
-                            {{--<img style="height: 48px;" src="{{asset('png/sessions.png')}}" alt="dead image">--}}
+                            <img style="height: 52px;" src="{{asset('png/assigned-unit.png')}}" alt="dead image">
                         </div>
                     </div>
                     <div class="flex p-4 rounded-lg" style="background-color: var(--color-secondary);">
@@ -173,39 +175,25 @@
                             <span class="text-4xl">{{$flaggedCount}}</span>
                         </div>
                         <div class="flex-1/4 flex items-end justify-end">
-                            {{-- <img style="height: 48px;" src="{{asset('png/log.png')}}" alt="dead image">--}}
+                             <img style="height: 48px;" src="{{asset('png/flagged-person.png')}}" alt="dead image">
                         </div>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-4 gap-2 mb-2">
-                    <div class="col-span-1 flex flex-col p-4 rounded-lg "
-                         style="background-color: var(--color-primary);">
-                        <h5 class="text-2xl text-white mb-4">Unit Request Status</h5>
+                    <div class="lg:col-span-1 md:col-span-2 sm:col-span-4 col-span-4 flex flex-col rounded-lg shadow-lg border border-blue-100">
+                        <h5 class="text-2xl text-white rounded-t-lg p-4 " style="background-color: var(--color-primary);">Unit Request Status</h5>
                         <div class="flex items-center justify-center">
-                            <canvas class="rounded-md p-4 bg-white" style="max-height: 250px;" id="requestsChart"></canvas>
+                            <canvas class="bg-white rounded-b-md p-4" id="requestsChart"></canvas>
                         </div>
                         <script>
                             const requestStats = @json($requestStats);
                         </script>
                     </div>
-                    <div class="col-span-3 flex flex-col p-4 rounded-lg"
-                         style="background-color: var(--color-secondary);">
-                        <h5 class="text-2xl text-blue-600 mb-4">Weekly Request Decisions</h5>
-                        <div class="flex items-center justify-center">
-                            <canvas class="bg-white rounded-md p-4" style="height: 250px;" id="weeklyRequestsChart"></canvas>
-                        </div>
-                        <script>
-                            const weeklyRequestsData = @json($weeklyRequestsData);
-                        </script>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 gap-2 mb-4">
-                    <div class="col-span-12 p-4 rounded-lg"
-                         style="background-color: var(--color-primary);">
-                        <h5 class="text-2xl text-white mb-4">Recent Unit Requests</h5>
-                        <div class="space-y-2 p-2 rounded bg-white">
-                            @foreach(App\Models\UnitsRequest::orderBy('requested_at', 'desc')->take(5)->get() as $request)
+                    <div class="lg:col-span-3 md:col-span-2 sm:col-span-4 col-span-4 flex flex-col rounded-lg shadow-lg border border-blue-100">
+                        <h5 class="text-2xl text-white rounded-t-lg p-4 " style="background-color: var(--color-primary);">Recent Unit Requests</h5>
+                        <div class="flex flex-col gap-y-2 p-2 justify-between rounded">
+                            @foreach(App\Models\UnitsRequest::orderBy('requested_at', 'desc')->take(7)->get() as $request)
                                 <div class="flex items-center justify-between p-2 rounded ">
                                     <div class="flex items-center space-x-2">
                                         <span

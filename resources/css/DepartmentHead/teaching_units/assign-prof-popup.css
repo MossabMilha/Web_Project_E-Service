@@ -53,6 +53,21 @@
     margin-bottom: 15px;
 }
 
+.form-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form-actions button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: .25rem .5rem;
+    border-radius: .25rem;
+    border: none;
+}
+
 .form-select {
     color: #0a0a0a;
     width: 100%;
