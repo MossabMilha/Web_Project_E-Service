@@ -90,8 +90,6 @@
                 </div>
             @elseif(auth()->user()->role == 'department_head')
                 @php
-                    // Existing queries...
-
                     // New query for weekly request trend data using reviewed_at column
                     $weeklyRequestsData = [];
                     $weeksToShow = 6; // Show data for last 6 weeks
@@ -214,10 +212,16 @@
                                             class="text-gray-600">{{ \Carbon\Carbon::parse($request->requested_at)->format('M d, Y') }}</span>
                                         <span class="text-gray-800">{{ $request->unit->name ?? 'Unknown Unit' }}</span>
                                     </div>
-                                    <span class="px-2 py-1 text-xs rounded
-                                        @if($request->status === 'approved') bg-green-100 text-green-800
-                                        @elseif($request->status === 'rejected') bg-red-100 text-red-800
-                                        @else bg-yellow-100 text-yellow-800 @endif">
+                                    <span class="px-2 py-1 text-xs rounded" style="background-color:
+                                        @if($request->status === 'approved') var(--color-success-lighter)
+                                        @elseif($request->status === 'rejected') var(--color-danger-lighter)
+                                        @else var(--color-warning-lighter)
+                                        @endif;
+                                        color:
+                                        @if($request->status === 'approved') var(--color-success-dark);
+                                        @elseif($request->status === 'rejected') var(--color-danger-dark);
+                                        @else var(--color-warning-dark);
+                                        @endif">
                                         {{ ucfirst($request->status) }}
                                     </span>
                                 </div>
