@@ -11,7 +11,7 @@
 }
 
 .header-user .path{
-    font-size: 10px;
+    font-size: 1rem;
     color: white;
 }
 
@@ -33,5 +33,10 @@
     .header-user h2{
         font-size: 10px;
     }
+
+    .header-user .path{
+        font-size: 10px;
+    }
+
 }
 

@@ -128,6 +128,7 @@ Route::prefix('professor')
     ->group(function () {
         Route::get('/{id}/request-units', [ProfessorController::class, 'unitRequestForm'])->name('units.request');
         Route::post('/{id}/request-units', [ProfessorController::class, 'storeRequest'])->name('units.request.store');
+        Route::get('/{id}/assigned-units', [ProfessorController::class, 'showAssignedUnits'])->name('units.assigned');
     });
 
 /*
@@ -135,7 +136,7 @@ Route::prefix('professor')
 | Teaching Staff Routes
 |--------------------------------------------------------------------------
 */
-Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
+//Route::get('/TeachingStuff/{id}/Assignments', [TeachingStaffController::class, 'ShowAssignments'])->name('TeachingStuff.Assignments');
 
 /*
 |--------------------------------------------------------------------------

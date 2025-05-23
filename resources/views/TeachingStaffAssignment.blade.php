@@ -22,12 +22,9 @@
             <th>hours</th>
             <th>credits</th>
             <th>semester</th>
-            <th>status</th>
-            <th>Edit</th>
         </tr>
-        @if($assignments->isNotEmpty())
             @foreach($assignments as $assignment)
-                @if($assignment->status == "pending")
+{{--                @if($assignment->status == "pending")--}}
                     @php
                         $unit = $assignment->teachingUnit;
                         $department = $unit->filiere->department;
@@ -40,18 +37,14 @@
                         <td>{{$unit->credits}}</td>
                         <td>{{$unit->semester}}</td>
                         <td>{{$unit->status}}</td>
-                        <td>
-                            <button class="add-btn" type="submit">Approve</button>
-                            <button class="add-btn" type="submit">Reject</button>
-                        </td>
                     </tr>
-                @endif
+{{--                @endif--}}
             @endforeach
-        @else
-            <tr>
-                <td colspan="8">No Pending Assignments</td>
-            </tr>
-        @endif
+{{--        @else--}}
+{{--            <tr>--}}
+{{--                <td colspan="8">No Pending Assignments</td>--}}
+{{--            </tr>--}}
+{{--        @endif--}}
     </table>
 </div>
 

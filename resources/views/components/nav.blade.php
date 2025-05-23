@@ -6,6 +6,7 @@
             <li>
                 <x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link>
             </li>
+            {{-- Admin Navigation Links --}}
             @if(auth()->user()->role == 'admin')
                 <li>
                     <x-nav-link href="{{route('UserManagement.search')}}"
@@ -16,6 +17,7 @@
                     <x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs
                     </x-nav-link>
                 </li>
+            {{-- Department Head Navigation Links --}}
             @elseif(auth()->user()->role == 'department_head')
                 <li>
                     <x-nav-link href="{{route('department-head.teaching-units.index')}}"
@@ -38,6 +40,7 @@
                                 :active="request()->routeIs('department-head.workload.overview')">Workload
                     </x-nav-link>
                 </li>
+            {{-- Coordinator Navigation Links --}}
             @elseif(auth()->user()->role == 'coordinator')
                 <li>
                     <x-nav-link href="{{route('Coordinator.teachingUnits')}}"
@@ -54,12 +57,19 @@
                                 :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules
                     </x-nav-link>
                 </li>
+            {{-- Professor Navigation Links --}}
             @elseif(auth()->user()->role == 'professor')
                 <li>
                     <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
                                 :active="request()->routeIs('professor.units.request')">Units Requests
                     </x-nav-link>
                 </li>
+                <li>
+                    <x-nav-link href="{{route('professor.units.assigned', auth()->user()->id)}}"
+                                :active="request()->routeIs('professor.units.assigned')">Assigned Units
+                    </x-nav-link>
+                </li>
+            {{-- Vacataire Navigation Links --}}
             @elseif(auth()->user()->role == 'vacataire')
                 <li>
                     <x-nav-link href="{{route('Vacataire.assignedUnit')}}"
@@ -81,6 +91,7 @@
             <li>
                 <x-nav-link href="{{route('home')}}" :active="request()->is('home')">Home</x-nav-link>
             </li>
+            {{-- Admin Mobile Navigation Links --}}
             @if(auth()->user()->role == 'admin')
                 <li>
                     <x-nav-link href="{{route('UserManagement.search')}}"
@@ -91,6 +102,7 @@
                     <x-nav-link href="{{route('logs.sort')}}" :active="request()->routeIs('logs.sort')">logs
                     </x-nav-link>
                 </li>
+            {{-- Department Head Mobile Navigation Links --}}
             @elseif(auth()->user()->role == 'department_head')
                 <li>
                     <x-nav-link href="{{route('department-head.teaching-units.index')}}"
@@ -112,6 +124,7 @@
                                 :active="request()->routeIs('department-head.workload.overview')">Workload
                     </x-nav-link>
                 </li>
+            {{-- Coordinator Mobile Navigation Links --}}
             @elseif(auth()->user()->role == 'coordinator')
                 <li>
                     <x-nav-link href="{{route('Coordinator.teachingUnits')}}"
@@ -128,12 +141,19 @@
                                 :active="request()->routeIs('Coordinator.ScheduleManagement')">Schedules
                     </x-nav-link>
                 </li>
+            {{-- Professor Mobile Navigation Links --}}
             @elseif(auth()->user()->role == 'professor')
                 <li>
                     <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
                                 :active="request()->routeIs('professor.units.request')">Units Requests
                     </x-nav-link>
                 </li>
+                <li>
+                    <x-nav-link href="{{route('professor.units.assigned', auth()->user()->id)}}"
+                                :active="request()->routeIs('professor.units.assigned')">Assigned Units
+                    </x-nav-link>
+                </li>
+            {{-- Vacataire Mobile Navigation Links --}}
             @elseif(auth()->user()->role == 'vacataire')
                 <li>
                     <x-nav-link href="{{route('Vacataire.assignedUnit')}}"

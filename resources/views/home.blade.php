@@ -250,8 +250,8 @@
                     </x-card>
                 </div>
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/units.jpg'" :card_title="'Professors List'" :card_link="'department-head.professors.index'">
-                        Oversee and assign academic units to professors, ensuring optimal distribution and alignment with their expertise.
+                    <x-card :card_img="'png/professors.jpg'" :card_title="'Professors List'" :card_link="'department-head.professors.index'">
+                        Browse and manage professor profiles, including their specializations.
                     </x-card>
                 </div>
                 <div class="flex justify-center">
@@ -302,8 +302,13 @@
                 {{--   ========================================================    --}}
             @elseif(auth()->user()->role == "professor")
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/request.jpg'" :card_title="'requests'" :card_link="'professor.units.request'" :link_param="['id' => auth()->user()->id]" >
+                    <x-card :card_img="'png/request.jpg'" :card_title="'Requests'" :card_link="'professor.units.request'" :link_param="['id' => auth()->user()->id]" >
                         Submit new requests and track the status of your existing ones with ease.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/units.jpg'" :card_title="'Units'" :card_link="'professor.units.assigned'" :link_param="['id' => auth()->user()->id]">
+
                     </x-card>
                 </div>
             @endif

@@ -205,6 +205,16 @@ class ProfessorController extends Controller
         }
     }
 
+    public function showAssignedUnits($id)
+    {
+        $approvedUnits = TeachingUnit::whereHas('assignments', function($query) use ($id) {
+            $query->where('professor_id', $id)
+                  ->where('status', 'approved');
+        })->get();
+
+        return view('professor.assigned-units', compact('approvedUnits'));
+    }
+
     public function indexUnitRequests()
     {
         $perPage = 10;
