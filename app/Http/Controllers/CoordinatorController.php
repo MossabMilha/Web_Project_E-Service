@@ -361,7 +361,7 @@ class CoordinatorController extends Controller
 
     public function DeleteAssignedTeachingUnit($id){
 
-        $assignment = Assignment::findOrFail($id);
+        $assignment = Assignment::where('unit_id',$id)->first();
         $assignment->delete();
 
         return redirect()->route('Coordinator.teachingUnits')->with('success', 'Assignment deleted successfully.');

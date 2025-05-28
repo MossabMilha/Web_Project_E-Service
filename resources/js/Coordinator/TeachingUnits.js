@@ -8,15 +8,10 @@
     5. If the form inputs are invalid, show an error message
  */
 const AddUnit = document.getElementById('add-unit-btn');
-const CancelAddUnit = document.getElementById('add-Unit-Cancel');
 const SaveUnit = document.getElementById('add-Unit');
 AddUnit.addEventListener("click",function (){
     document.getElementById('Add-modal-overlay').style.display = "block";
     AddUnit.style.display ="none";
-})
-CancelAddUnit.addEventListener("click",function (){
-    document.getElementById('Add-modal-overlay').style.display = "none";
-    AddUnit.style.display ="block";
 })
 
 SaveUnit.addEventListener("click", function (event) {

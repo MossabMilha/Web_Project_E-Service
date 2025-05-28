@@ -224,10 +224,17 @@
                                                 <x-svg-icon src="svg/re-assign-paper-icon.svg" width="1.75em"
                                                             stroke="var(--color-warning)"/>
                                             </a>
-                                            <a class="Delete-Assign-btn">
-                                                <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em"
-                                                            stroke="var(--color-danger)"/>
-                                            </a>
+                                            <div class="Delete-Assign-btn">
+                                                <form method="POST" action="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            style="display: flex; justify-content: center; align-items: center;">
+                                                        <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em"
+                                                                    stroke="var(--color-danger)"/>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     @elseif($unit->computedStatus == 'unassigned')
                                         <div class="td-wrapper">
@@ -306,10 +313,13 @@
                                         <x-svg-icon src="svg/re-assign-paper-icon.svg" width="1.75em"
                                                     stroke="var(--color-warning)"/>
                                     </a>
-                                    <a href="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Delete-Assign-btn">
-                                        <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em"
-                                                    stroke="var(--color-danger)"/>
-                                    </a>
+                                    <form class="Delete-Assign-btn" method="POST" action="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="Delete-Assign-btn" style="background: none; border: none; cursor: pointer; padding: 0;">
+                                            <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em" stroke="var(--color-danger)"/>
+                                        </button>
+                                    </form>
                                 @elseif($unit->computedStatus == 'unassigned')
                                     <a href="{{ route('Coordinator.AssignedTeachingUnit', ['id' => $unit->id]) }}" class="Assign-btn">
                                         <x-svg-icon src="svg/add-paper-icon.svg" width="1.75em"
