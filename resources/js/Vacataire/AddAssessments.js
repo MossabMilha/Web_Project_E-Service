@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 unitSelect.appendChild(option);
             });
 
-            unitWrapper.style.display = 'block';
+            unitWrapper.style.display = 'flex';
         }
     });
 
@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (selectedModule) {
             semesterInput.value = selectedModule.semester;
-            semesterWrapper.style.display = 'block';
-            document.querySelector(".submit-wrapper").style.display = 'block';
+            semesterWrapper.style.display = 'flex';
+            document.querySelector(".submit-wrapper").style.display = 'flex';
         } else {
             semesterInput.value = '';
             semesterWrapper.style.display = 'none';
