@@ -95,9 +95,10 @@ Route::middleware(['coordinator'])
             Route::post('/AssignedTeachingUnit', [CoordinatorController::class, 'AssignedTeachingUnitDB'])->name('AssignedTeachingUnitDB');
             Route::get('/ReAssignedTeachingUnit/{id}', [CoordinatorController::class, 'ReAssignedTeachingUnit'])->name('ReAssignedTeachingUnit');
             Route::post('/ReAssignedTeachingUnit', [CoordinatorController::class, 'ReAssignedTeachingUnitDB'])->name('ReAssignedTeachingUnitDB');
+            Route::delete('/DeleteTeachingUnit/{id}', [CoordinatorController::class, 'DeleteAssignedTeachingUnit'])->name('DeleteAssignedTeachingUnit');
         });
 
-        // Vacataire Management
+        // Vacataire ManagementVacataire
         Route::prefix('VacataireAccount')->name('VacataireAccount.')->group(function () {
             Route::get('/', [CoordinatorController::class, 'VacataireAccount'])->name('index');
             Route::get('/vacataire/{id}', [CoordinatorController::class, 'VacataireInformation'])->name('user');

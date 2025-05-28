@@ -289,7 +289,7 @@
                             </div>
 
                             <div class="info-row">
-                                <span class="label">Created:</span>
+                                teachingUnits  <span class="label">Created:</span>
                                 <span class="value">{{ \Carbon\Carbon::parse($unit->created_at)->format('Y-m-d H:i') }}</span>
                             </div>
 
@@ -306,7 +306,7 @@
                                         <x-svg-icon src="svg/re-assign-paper-icon.svg" width="1.75em"
                                                     stroke="var(--color-warning)"/>
                                     </a>
-                                    <a class="Delete-Assign-btn">
+                                    <a href="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}" class="Delete-Assign-btn">
                                         <x-svg-icon src="svg/remove-paper-icon.svg" width="1.75em"
                                                     stroke="var(--color-danger)"/>
                                     </a>
@@ -330,76 +330,5 @@
                 <a href="{{ $allTeachingUnits->nextPageUrl() }}" class="next-btn {{ $allTeachingUnits->hasMorePages() ? '' : 'disabled' }}">next →</a>
             </div>
         @endif
-
-        <div class="modal-overlay" id="modal-overlay" style="display: none">
-            <div class="Edit-Teaching-Unite" style="display: none;">
-                <form method="POST" action="{{ route('Coordinator.EditUnit')}}" id="editUnitForm">
-                    @csrf
-                    <h1 id="Unite-Title"></h1>
-                    <input type="text" name="UnitID" id="UnitID" style="display: none">
-
-                    <div class="unit-info">
-                        <label for="edit-name">Name: </label>
-                        <span id="unit-name"></span>
-                        <input type="text" name="name" id="edit-name">
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-description">Description: </label>
-                        <span id="unit-description"></span>
-                        <textarea name="description" id="edit-description"></textarea>
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-hours">Hours: </label>
-                        <span id="unit-hours"></span>
-                        <input type="number" name="hours" id="edit-hours">
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-type">Type: </label>
-                        <span id="unit-type">type</span>
-                        <div id="edit-type">
-                            <input type="radio" name="type" id="cm" value="CM">
-                            <label for="cm">CM</label>
-
-                            <input type="radio" name="type" id="td" value="TD">
-                            <label for="td">TD</label>
-
-                            <input type="radio" name="type" id="tp" value="TP">
-                            <label for="tp">TP</label>
-                        </div>
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-credits">Credits: </label>
-                        <span id="unit-credits"></span>
-                        <input type="number" name="credits" id="edit-credits">
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-filiere'">filiere: </label>
-                        <span id="unit-filiere"></span>
-                        <input type="text" name="filiere" id="edit-filiere">
-                    </div>
-
-                    <div class="unit-info">
-                        <label for="edit-semester">Semester: </label>
-                        <span id="unit-semester"></span>
-                        <input type="text" name="semester" id="edit-semester">
-                    </div>
-
-                    <div class="unit-info" id="password-confirmation" style="display: none">
-                        <label for="password-confirmation">Enter Your Password For Confirmation : </label>
-                        <input type="password" name="password" id="password">
-                    </div>
-
-                    <div>
-                        <button type="button" id="Edit-Unit-Cancel">Cancel</button>
-                        <button type="button" id="Edit-Unit">Edit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 </x-layout>

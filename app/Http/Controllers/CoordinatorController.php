@@ -8,10 +8,12 @@ use App\Models\Assignment;
 use App\Models\DepartmentMember;
 use App\Models\Filiere;
 use App\Models\Schedule;
+use App\Models\Specialization;
 use App\Models\TeachingUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
@@ -176,9 +178,13 @@ class CoordinatorController extends Controller
             ->with('success', 'Teaching unit added successfully!');
     }
     public function AddVacataire(){
-        LogModel::track('visit_add_vacataire', "Coordinator (ID: " . Auth::user()->id . ") visited Add Vacataire form.");
 
-        return view('/Coordinator/AddVacataire');
+        LogModel::track('visit_add_vacataire', "Coordinator (ID: " . Auth::user()->id . ") visited Add Vacataire form.");
+        $departmentId = Filiere::where('coordinator_id', Auth::id())->value('department_id');
+        $specializations = Specialization::where('department_id', $departmentId)->get();
+//        dd($specializations);
+
+        return view('/Coordinator/AddVacataire',compact('specializations'));
 
     }
     public function AddVacataireDb(Request $request){
@@ -188,6 +194,7 @@ class CoordinatorController extends Controller
             'phone' => 'required|string|max:255',
             'specialization' => 'required|string',
         ]);
+
 
         $valid = true;
         $errors = [];
@@ -220,15 +227,23 @@ class CoordinatorController extends Controller
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->phone = $request->input('phone');
         $user->role = 'vacataire';
         $user->specialization = $request->input('specialization');
         $user->password = Hash::make('password');
 
         $user->save();
+        $departmentId = Filiere::where('coordinator_id', Auth::id())->value('department_id');
+        DepartmentMember::create([
+            'professor_id' => $user->id,
+            'department_id' => $departmentId,
+        ]);
+
+
         LogModel::track('vacataire_created', "Coordinator (ID: " . Auth::user()->id . ") added vacataire: {$user->name} (ID: {$user->id})");
 
 
-        return redirect()->route('VacataireAccount')->with('success', 'User added successfully!');
+        return redirect()->route('Coordinator.VacataireAccount.index')->with('success', 'User added successfully!');
     }
     public function VacataireAccount(){
         $departmentId = Filiere::where('coordinator_id', Auth::id())->value('department_id');
@@ -342,6 +357,14 @@ class CoordinatorController extends Controller
 
 
         return redirect()->route('Coordinator.teachingUnits')->with('success', 'Vacataire Re-assigned successfully!');
+    }
+
+    public function DeleteAssignedTeachingUnit($id){
+
+        $assignment = Assignment::findOrFail($id);
+        $assignment->delete();
+
+        return redirect()->route('Coordinator.teachingUnits')->with('success', 'Assignment deleted successfully.');
     }
     //Schedule Management Section
 
