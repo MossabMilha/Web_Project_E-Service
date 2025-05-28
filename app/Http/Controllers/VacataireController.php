@@ -18,7 +18,7 @@ class VacataireController extends Controller
     public function assignedUnit()
     {
         $assignments = Assignment::with('filiere')->where('professor_id', auth()->user()->id)->get();
-        return view('/Vacataire/assignedUnit', compact('assignments'));
+        return view('Vacataire.assignedUnit', compact('assignments'));
     }
     public function assessments(){
         $userId = Auth::user()->id;
