@@ -67,10 +67,17 @@
 
                     <div class="info-item">
                         <label for="specialization">Specialization:</label>
-                        <span id="user-specialization">{{$user->specialization}}</span>
-                        <input type="text" id="edit-specialization" name="specialization"
-                               value="{{ old('specialization', $user->specialization) }}"
-                               style="display:none;" class="@error('specialization') is-invalid @enderror">
+                        <span id="user-specialization">{{$user->specialization_obj->name}}</span>
+                        {{-- Dropdown for editing (initially hidden) --}}
+                        <select id="edit-specialization" name="specialization"
+                                style="display: none;" class="form-control @error('specialization') is-invalid @enderror">
+                            @foreach($specializations as $specialization)
+                                <option value="{{ $specialization->id }}"
+                                    {{ old('specialization', $user->specialization_id) == $specialization->id ? 'selected' : '' }}>
+                                    {{ $specialization->name }}
+                                </option>
+                            @endforeach
+                        </select>
                         @error('specialization')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror

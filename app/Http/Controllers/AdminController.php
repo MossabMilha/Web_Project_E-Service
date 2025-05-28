@@ -29,9 +29,12 @@ class AdminController extends Controller
 
     public function UserInformation($id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('specialization')->findOrFail($id);
+        $userspecialization = Specialization::find($user->specialization);
+        $user->specialization_obj = $userspecialization;
+        $specializations = Specialization::all();
         LogModel::track('visit_user_information', "Admin (ID: " . Auth::user()->id . ") viewed information for User ID: {$id}");
-        return view('AdminUserInfo', compact('user'));
+        return view('AdminUserInfo', compact('user','specializations'));
     }
 
 
