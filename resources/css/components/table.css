@@ -109,7 +109,7 @@
 }
 
 /* Empty table styles */
-.table-container .empty-table {
+.empty-table {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -118,9 +118,21 @@
     padding: 2em;
 }
 
-.table-container .empty-table p {
+.empty-table p {
     color: var(--color-primary);
     font-size: 32px;
+}
+
+@media (max-width: 768px) {
+    .empty-table p {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 640px) {
+    .empty-table p {
+        font-size: 20px;
+    }
 }
 
 /* Pagination styles */

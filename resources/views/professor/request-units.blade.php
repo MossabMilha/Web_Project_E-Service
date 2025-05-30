@@ -74,6 +74,16 @@
                             </td>
                         </tr>
                     @endforeach
+                    @if(!$requests || $requests->isEmpty())
+                        <tr>
+                            <td class="colspan-all">
+                                <div class="empty-table">
+                                    <img src="{{asset('png/no-data-found.jpg')}}" alt="no data found img">
+                                    <p><span><strong>Oops,</strong></span><br>No Data Found!</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
                 </table>
             </x-table>
         </div>
@@ -114,6 +124,16 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="card">
+                    <div class="card-body">
+                        @if(!$requests || $requests->isEmpty())
+                            <div class="empty-table">
+                                <img src="{{asset('png/no-data-found.jpg')}}" alt="no data found img">
+                                <p><span><strong>Oops,</strong></span><br>No Data Found!</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 

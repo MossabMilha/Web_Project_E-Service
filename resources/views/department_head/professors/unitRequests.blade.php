@@ -50,15 +50,6 @@
                         </tr>
                         @foreach($unit_requests as $unit_request)
                             <tr @if($unit_request->underloaded) class="underloaded" @endif>
-                                {{--                            <td>--}}
-                                {{--                                <div class="td-wrapper">--}}
-                                {{--                                    @if($unit_request->underloaded)--}}
-                                {{--                                        <x-tooltip text="underloaded">--}}
-                                {{--                                            <img width="28px" src="{{asset('svg/warning.svg')}}" alt=""/>--}}
-                                {{--                                        </x-tooltip>--}}
-                                {{--                                    @endif--}}
-                                {{--                                </div>--}}
-                                {{--                            </td>--}}
                                 <td>
                                     <div class="td-wrapper">
                                         {{$unit_request->id}}

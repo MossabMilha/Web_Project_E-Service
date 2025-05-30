@@ -37,13 +37,13 @@
     background-color: var(--color-secondary);
     color: var(--color-primary);
 }
-/*TODO: fix the visibility of option in the options list*/
+
 .filter-dropdown .options {
     display: none;
     position: absolute;
     top: 110%;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: var(--color-white);
     border: 1px solid var(--color-primary);
     border-radius: 4px;
@@ -53,6 +53,7 @@
 
 .filter-dropdown .options.show {
     display: block;
+    min-width: 62px;
 }
 
 .filter-dropdown .option {

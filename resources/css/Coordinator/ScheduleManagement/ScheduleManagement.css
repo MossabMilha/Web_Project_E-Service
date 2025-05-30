@@ -49,7 +49,7 @@ body{
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    /*transition: all 0.2s ease;*/
+    transition: all 0.2s ease;
     width: 100%;
 }
 

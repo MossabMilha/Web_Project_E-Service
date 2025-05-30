@@ -176,6 +176,16 @@
                     </div>
                 </div>
             @endforeach
+            <div class="card">
+                <div class="card-body">
+                    @if(!$assessments || $assessments->isEmpty())
+                        <div class="empty-table">
+                            <img src="{{asset('png/no-data-found.jpg')}}" alt="no data found img">
+                            <p><span><strong>Oops,</strong></span><br>No Data Found!</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 
