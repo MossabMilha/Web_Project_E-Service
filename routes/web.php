@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     ProfessorController,
     TeachingStaffController,
     TeachingUnitController,
-    VacataireController
+    VacataireController,
+    NotificationController
 };
 use Illuminate\Support\Facades\{Auth, Route};
 
@@ -174,3 +175,12 @@ Route::get('/home', function () {
 Route::get('/profile', function () {
     return view('profile');
 })->name('Profile');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+    Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])
+        ->name('notifications.mark-as-read');
+    Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])
+        ->name('notifications.mark-all-as-read');
+});

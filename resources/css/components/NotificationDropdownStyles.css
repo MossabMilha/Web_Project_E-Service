@@ -1,0 +1,174 @@
+/* Notification Dropdown Component Styles */
+.notification-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-button {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0.5rem;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-button:hover {
+    background-color: rgba(42, 84, 255, 0.1);
+}
+
+.notification-button i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    /*background-color: #0a58ca;*/
+}
+
+.notification-badge {
+    /*display: none;*/
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: var(--color-danger);
+    color: white;
+    font-size: 0.7rem;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-dropdown .dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(42, 84, 255, 0.15);
+    width: 320px;
+    padding: 0;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.notification-dropdown .dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.notification-dropdown .dropdown-header {
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(42, 84, 255, 0.1);
+}
+
+.notification-dropdown .dropdown-header h6 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.notification-dropdown .mark-read-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.notification-dropdown .notification-list {
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.notification-dropdown .notification-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(42, 84, 255, 0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.notification-dropdown .notification-item.unread {
+    background-color: rgba(42, 84, 255, 0.05);
+}
+
+.notification-dropdown .notification-content {
+    flex: 1;
+}
+
+.notification-dropdown .notification-text {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.notification-dropdown .notification-time {
+    color: #6c757d;
+    font-size: 0.75rem;
+}
+
+.notification-dropdown .mark-read-single-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+.notification-dropdown .mark-read-single-btn:hover {
+    background-color: rgba(42, 84, 255, 0.1);
+}
+
+.notification-dropdown .mark-read-single-btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification-dropdown .empty-notifications {
+    padding: 1.5rem;
+    text-align: center;
+    color: #6c757d;
+}
+
+.notification-dropdown .dropdown-footer {
+    padding: 0.75rem 1rem;
+    text-align: center;
+    border-top: 1px solid rgba(42, 84, 255, 0.1);
+}
+
+.notification-dropdown .view-all-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .notification-dropdown .dropdown-menu {
+        width: 280px;
+        right: -70px;
+    }
+
+    .notification-dropdown .dropdown-menu:before {
+        right: 82px;
+    }
+}

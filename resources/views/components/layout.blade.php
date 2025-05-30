@@ -17,11 +17,13 @@
         'resources/css/components/nav.css',
         'resources/css/components/table.css',
         'resources/css/components/profile-dropdown.css',
+        'resources/css/components/NotificationDropdownStyles.css',
     // js files
         'resources/js/app.js',
         'resources/js/components/nav.js',
         'resources/js/components/table.js',
         'resources/js/components/profile-dropdown.js',
+        'resources/js/components/NotificationDropdownToggle.js',
 
         ])
 

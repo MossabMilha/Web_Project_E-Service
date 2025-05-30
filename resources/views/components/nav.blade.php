@@ -191,7 +191,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
         </button>
-        <a href=""><i class="flex justify-center items-center text-2xl text-blue-600 bi bi-bell"></i></a>
+
+        <x-notification-dropdown />
+
         <x-profile-dropdown
             name="{{auth()->user()->name}}"
             image="{{asset('png/dead.jpg')}}"
