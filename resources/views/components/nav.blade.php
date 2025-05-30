@@ -61,12 +61,17 @@
             @elseif(auth()->user()->role == 'professor')
                 <li>
                     <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
-                                :active="request()->routeIs('professor.units.request')">Units Requests
+                                :active="request()->routeIs('professor.units.request')">Requests
                     </x-nav-link>
                 </li>
                 <li>
                     <x-nav-link href="{{route('professor.units.assigned', auth()->user()->id)}}"
-                                :active="request()->routeIs('professor.units.assigned')">Assigned Units
+                                :active="request()->routeIs('professor.units.assigned')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assessments')}}"
+                                :active="request()->routeIs('Vacataire.assessments')">Assessments
                     </x-nav-link>
                 </li>
             {{-- Vacataire Navigation Links --}}
@@ -145,12 +150,17 @@
             @elseif(auth()->user()->role == 'professor')
                 <li>
                     <x-nav-link href="{{route('professor.units.request', auth()->user()->id)}}"
-                                :active="request()->routeIs('professor.units.request')">Units Requests
+                                :active="request()->routeIs('professor.units.request')">Requests
                     </x-nav-link>
                 </li>
                 <li>
                     <x-nav-link href="{{route('professor.units.assigned', auth()->user()->id)}}"
-                                :active="request()->routeIs('professor.units.assigned')">Assigned Units
+                                :active="request()->routeIs('professor.units.assigned')">Units
+                    </x-nav-link>
+                </li>
+                <li>
+                    <x-nav-link href="{{route('Vacataire.assessments')}}"
+                                :active="request()->routeIs('Vacataire.assessments')">Assessments
                     </x-nav-link>
                 </li>
             {{-- Vacataire Mobile Navigation Links --}}

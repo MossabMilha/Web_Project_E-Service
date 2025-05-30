@@ -29,7 +29,14 @@
                 @foreach($approvedUnits as $unit)
                     <tr>
                         <td><div class="td-wrapper"> {{ $unit->id }}</div></td>
-                        <td><div class="td-wrapper"> {{ $unit->filiere->name }}</div></td>
+
+                        <td>
+                            <div class="td-wrapper">
+                                <span class="chip" data-status="{{ explode(" ", strtolower($unit->filiere->name))[0] }}">
+                                    {{ $unit->filiere->name }}
+                                </span>
+                            </div>
+                        </td>
                         <td><div class="td-wrapper"> {{ $unit->name }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->hours }}</div></td>
                         <td><div class="td-wrapper"> {{ $unit->type }}</div></td>

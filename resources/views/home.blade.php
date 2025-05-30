@@ -294,7 +294,7 @@
                     </x-card>
                 </div>
                 <div class="flex justify-center">
-                    <x-card :card_img="'png/units.jpg'" :card_title="'Assessments '"
+                    <x-card :card_img="'png/units.jpg'" :card_title="'Assessments'"
                             :card_link="'Vacataire.assessments'">
                         Create and manage course assessments, including tests, quizzes and grading criteria.
                     </x-card>
@@ -312,6 +312,12 @@
                     <x-card :card_img="'png/units.jpg'" :card_title="'Units'" :card_link="'professor.units.assigned'"
                             :link_param="['id' => auth()->user()->id]">
                         View and manage your assigned teaching units, including course materials and schedules.
+                    </x-card>
+                </div>
+                <div class="flex justify-center">
+                    <x-card :card_img="'png/units.jpg'" :card_title="'Assessments'"
+                            :card_link="'Vacataire.assessments'">
+                        Create and manage course assessments, including tests, quizzes and grading criteria.
                     </x-card>
                 </div>
             @endif
