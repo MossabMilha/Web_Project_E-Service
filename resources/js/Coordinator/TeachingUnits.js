@@ -7,12 +7,7 @@
     4. If the form inputs are valid, submit the form
     5. If the form inputs are invalid, show an error message
  */
-const AddUnit = document.getElementById('add-unit-btn');
-const SaveUnit = document.getElementById('add-Unit');
-AddUnit.addEventListener("click",function (){
-    document.getElementById('Add-modal-overlay').style.display = "block";
-    AddUnit.style.display ="none";
-})
+const SaveUnit = document.getElementById('btnSubmit');
 
 SaveUnit.addEventListener("click", function (event) {
     let isValid = true;
@@ -158,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
-document.getElementById('Edit-Unit-Cancel').addEventListener("click", function (){
+document.getElementById('btnClose').addEventListener("click", function (){
     document.querySelector('.Edit-Teaching-Unite').style.display = "none";
     document.getElementById('modal-overlay').style.display = "none";
 })

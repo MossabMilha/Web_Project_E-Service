@@ -80,8 +80,8 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="close-popup-btn">Cancel</button>
-                    <button type="submit" class="btn-submit">Save</button>
+                    <button id="btnClose" type="button" class="close-popup-btn">Cancel</button>
+                    <button id="btnSubmit" type="submit" class="btn-submit">Save</button>
                 </div>
             </form>
         </x-popup>
@@ -225,7 +225,9 @@
                                                             stroke="var(--color-warning)"/>
                                             </a>
                                             <div class="Delete-Assign-btn">
-                                                <form method="POST" action="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}">
+                                                <form method="POST"
+                                                      action="{{ route('Coordinator.DeleteAssignedTeachingUnit', ['id' => $unit->id]) }}"
+                                                      onsubmit="return confirm('Are you sure you want to delete this assignment?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit"
