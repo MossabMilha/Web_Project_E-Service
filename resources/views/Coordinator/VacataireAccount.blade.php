@@ -3,6 +3,7 @@
     <x-slot:head>
         @vite([
         'resources/js/vacataire-account.js',
+        'resources/js/Coordinator/DeleteVacataire.js',
         'resources/css/Coordinator/vacataire-account.css',
         'resources/js/components/user-role-styling.js',
         'resources/css/components/popup.css',
@@ -90,8 +91,9 @@
                             </td>
                             <td>
                                 <div class="td-wrapper">
-                                    <button type="button" class="open-popup-btn">
-                                        <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em"
+                                    <button type="button" class="open-popup-btn" onclick="showDeletePopup({{ $user->id }}, '{{ addslashes($user->name) }}')">
+
+                                    <x-svg-icon src="svg/delete-profile-icon.svg" width="1.75em"
                                                     fill="var(--color-danger)"/>
                                     </button>
                                     <a href="{{ route('Coordinator.export.users', ['id' => $user->id]) }}">

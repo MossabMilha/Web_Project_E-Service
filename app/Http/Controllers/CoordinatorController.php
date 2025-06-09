@@ -419,8 +419,10 @@ class CoordinatorController extends Controller
 
             $rows = Excel::toCollection(null, $request->file('file'))[0];
             $rows = $rows->toArray();
+//            dd($rows);
             foreach ($rows as $index => $row) {
                 if ($index === 0) continue; // skip header row if needed
+
 
                 Schedule::create([
                     'jour' => $row[0],
@@ -493,7 +495,7 @@ class CoordinatorController extends Controller
 
         LogModel::track('vacataire_deleted', "Coordinator (ID: " . Auth::user()->id . ") deleted vacataire ID: {$user->id}");
 
-        return redirect()->route('VacataireAccount')->with('success', 'Vacataire deleted successfully!');
+        return redirect()->route('Coordinator.VacataireAccount.index')->with('success', 'Vacataire deleted successfully!');
     }
 
     public function exportSchedule($filiereId, $semester)

@@ -13,7 +13,7 @@ class Schedule extends Model
 
     protected $fillable = [
         'filiere_id',
-        'module_id', // Correct this as 'module_id' which refers to the TeachingUnit
+        'module_id',
         'enseignant_id',
         'jour',
         'time_slot',
