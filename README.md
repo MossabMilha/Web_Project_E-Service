@@ -95,22 +95,6 @@
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-
-### 🏠 Homepage
-![Homepage](https://via.placeholder.com/800x400/4F46E5/FFFFFF?text=Homepage+Screenshot)
-
-### 📊 Dashboard
-![Dashboard](https://via.placeholder.com/800x400/10B981/FFFFFF?text=Dashboard+Screenshot)
-
-### 📱 Mobile View
-<img src="https://via.placeholder.com/300x600/F59E0B/FFFFFF?text=Mobile+View" alt="Mobile View" width="300">
-
-</div>
-
----
 
 ## 🚀 Quick Start
 
